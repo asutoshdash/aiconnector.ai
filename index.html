@@ -6,29 +6,43 @@
     <title>AI Connector - Connect Your Enterprise Apps to AI</title>
     
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/carbon-components/css/carbon-components.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&display=swap">
     <style>
-        body {
-            font-family: 'IBM Plex Sans', sans-serif;
+        html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
-            background-color: #161616;
+            font-family: 'IBM Plex Sans', sans-serif;
+            background: linear-gradient(135deg, #2c3e50, #ff5733);
             color: #f4f4f4;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         header {
             background-color: #393939;
             color: white;
-            padding: 40px 20px;
-            text-align: center;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            margin: 0;
             font-size: 1.5em;
         }
         nav ul {
             list-style: none;
             padding: 0;
-            text-align: center;
+            margin: 0;
+            display: flex;
+            gap: 20px;
         }
         nav ul li {
             display: inline;
-            margin: 0 20px;
         }
         nav ul li a {
             color: #f4f4f4;
@@ -39,24 +53,63 @@
         nav ul li a:hover {
             color: #ff832b;
         }
-        section {
-            padding: 50px;
+        .hero {
+            background: url('hero-image.jpg') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+        .hero h2 {
+            font-size: 2.5em;
+            margin: 0 0 20px;
+        }
+        .hero p {
+            font-size: 1.2em;
+            margin: 0 0 40px;
+        }
+        .hero .bx--btn {
+            font-size: 1em;
+            background: linear-gradient(45deg, #ff832b, #ff5733);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+            animation: pulse 2s infinite;
+        }
+        .hero .bx--btn:hover {
+            background: linear-gradient(45deg, #ff5733, #ff832b);
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 40px 20px;
+            flex: 1;
+        }
+        .grid-item {
+            padding: 30px;
             background: #262626;
-            margin: 40px auto;
             border-radius: 12px;
             box-shadow: 0px 0px 15px rgba(255, 131, 43, 0.5);
-            max-width: 900px;
             text-align: center;
+            color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            height: 300px; /* Set a fixed height for alignment */
         }
         h2 {
             color: #ff832b;
-            opacity: 0;
-            transform: translateY(20px);
+            opacity: 1;
+            transform: translateY(0);
             animation: fadeInUp 1s forwards ease-in-out;
         }
         p, ul li {
-            opacity: 0;
-            transform: translateY(20px);
+            opacity: 1;
+            transform: translateY(0);
             animation: fadeInUp 1s forwards ease-in-out;
             animation-delay: 0.2s;
         }
@@ -65,15 +118,24 @@
             padding: 30px;
             background: #393939;
             color: #f4f4f4;
-            margin-top: 40px;
             font-size: 1.2em;
         }
         .bx--btn {
             margin-top: 20px;
-            opacity: 0;
-            transform: translateY(10px);
-            animation: fadeInUp 1s forwards ease-in-out;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 1s forwards ease-in-out, pulse 2s infinite;
             animation-delay: 0.4s;
+            background: linear-gradient(45deg, #ff832b, #ff5733);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .bx--btn:hover {
+            background: linear-gradient(45deg, #ff5733, #ff832b);
         }
         @keyframes fadeInUp {
             from {
@@ -85,13 +147,22 @@
                 transform: translateY(0);
             }
         }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
     </style>
-    <link rel="stylesheet" href="https://unpkg.com/carbon-components/css/carbon-components.min.css">
 </head>
 <body>
     <header>
         <h1>AI Connector</h1>
-        <p>Seamlessly integrate your enterprise applications with AI</p>
         <nav>
             <ul>
                 <li><a href="#about">About</a></li>
@@ -102,33 +173,41 @@
         </nav>
     </header>
     
-    <section id="about">
-        <h2>About AI Connector</h2>
-        <p>AI Connector enables seamless integration of enterprise applications with leading AI models such as OpenAI, Codium, and Deepseek.</p>
-        <button class="bx--btn bx--btn--primary">Learn More</button>
+    <section class="hero">
+        <h2>Connect Your Enterprise Apps to AI</h2>
+        <p>Seamlessly integrate your enterprise applications with leading AI models.</p>
+        <button class="bx--btn bx--btn--primary">Launching soon...</button>
     </section>
     
-    <section id="features">
-        <h2>Key Features</h2>
-        <ul class="bx--list--unordered">
-            <li>Easy integration with AI models</li>
-            <li>Enhance business workflows with AI-powered automation</li>
-            <li>Secure and scalable platform</li>
-        </ul>
-        <button class="bx--btn bx--btn--secondary">Get Started</button>
-    </section>
-    
-    <section id="blogs">
-        <h2>Latest AI Blogs</h2>
-        <p>Stay updated with the latest trends and innovations in AI technology.</p>
-        <button class="bx--btn bx--btn--tertiary">Read More</button>
-    </section>
-    
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Get in touch to learn more about AI Connector.</p>
-        <button class="bx--btn bx--btn--danger" onclick="window.location.href='mailto:contact@aiconnector.com'">Email Us</button>
-    </section>
+    <div class="grid-container">
+        <div class="grid-item" id="about">
+            <h2>About AI Connector</h2>
+            <p>AI Connector enables seamless integration of enterprise applications with leading AI models such as OpenAI, Codium, and Deepseek.</p>
+            <button class="bx--btn bx--btn--primary">Launching soon...</button>
+        </div>
+        
+        <div class="grid-item" id="features">
+            <h2>Key Features</h2>
+            <ul class="bx--list--unordered">
+                <li>Easy integration with AI models</li>
+                <li>Enhance business workflows with AI-powered automation</li>
+                <li>Secure and scalable platform</li>
+            </ul>
+            <button class="bx--btn bx--btn--secondary">Launching soon...</button>
+        </div>
+        
+        <div class="grid-item" id="blogs">
+            <h2>Latest AI Blogs</h2>
+            <p>Stay updated with the latest trends and innovations in AI technology.</p>
+            <button class="bx--btn bx--btn--tertiary">Launching soon...</button>
+        </div>
+        
+        <div class="grid-item" id="contact">
+            <h2>Contact Us</h2>
+            <p>Get in touch to learn more about AI Connector.</p>
+            <button class="bx--btn bx--btn--danger" onclick="window.location.href='mailto:contact@aiconnector.com'">Email Us</button>
+        </div>
+    </div>
     
     <footer>
         <p>&copy; 2025 AI Connector. All rights reserved.</p>
