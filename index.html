@@ -3,214 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Connector - Connect Your Enterprise Apps to AI</title>
-    
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://unpkg.com/carbon-components/css/carbon-components.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&display=swap">
+    <title>aiConnector.ai - Transform Enterprise Intelligence</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'IBM Plex Sans', sans-serif;
-            background: linear-gradient(135deg, #2c3e50, #ff5733);
-            color: #f4f4f4;
+        .gradient-bg {
+            background: linear-gradient(130deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
         }
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        .card-gradient {
+            background: linear-gradient(145deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+            backdrop-filter: blur(10px);
         }
-        header {
-            background-color: #393939;
-            color: white;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .glow {
+            box-shadow: 0 0 15px rgba(66, 153, 225, 0.3);
         }
-        header h1 {
-            margin: 0;
-            font-size: 1.5em;
+        .hover-glow:hover {
+            box-shadow: 0 0 25px rgba(66, 153, 225, 0.5);
         }
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            gap: 20px;
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
-        nav ul li {
-            display: inline;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
         }
-        nav ul li a {
-            color: #f4f4f4;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        nav ul li a:hover {
-            color: #ff832b;
-        }
-        .hero {
-            background: url('hero-image.jpg') no-repeat center center/cover;
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
-        }
-        .hero h2 {
-            font-size: 2.5em;
-            margin: 0 0 20px;
-        }
-        .hero p {
-            font-size: 1.2em;
-            margin: 0 0 40px;
-        }
-        .hero .bx--btn {
-            font-size: 1em;
-            background: linear-gradient(45deg, #ff832b, #ff5733);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-            animation: pulse 2s infinite;
-        }
-        .hero .bx--btn:hover {
-            background: linear-gradient(45deg, #ff5733, #ff832b);
-        }
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 40px 20px;
-            flex: 1;
-        }
-        .grid-item {
-            padding: 30px;
-            background: #262626;
-            border-radius: 12px;
-            box-shadow: 0px 0px 15px rgba(255, 131, 43, 0.5);
-            text-align: center;
-            color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            height: 300px; /* Set a fixed height for alignment */
-        }
-        h2 {
-            color: #ff832b;
-            opacity: 1;
-            transform: translateY(0);
-            animation: fadeInUp 1s forwards ease-in-out;
-        }
-        p, ul li {
-            opacity: 1;
-            transform: translateY(0);
-            animation: fadeInUp 1s forwards ease-in-out;
-            animation-delay: 0.2s;
-        }
-        footer {
-            text-align: center;
-            padding: 30px;
-            background: #393939;
-            color: #f4f4f4;
-            font-size: 1.2em;
-        }
-        .bx--btn {
-            margin-top: 20px;
-            opacity: 1;
-            transform: translateY(0);
-            animation: fadeInUp 1s forwards ease-in-out, pulse 2s infinite;
-            animation-delay: 0.4s;
-            background: linear-gradient(45deg, #ff832b, #ff5733);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .bx--btn:hover {
-            background: linear-gradient(45deg, #ff5733, #ff832b);
-        }
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .logo-pulse circle {
+            animation: pulse 3s infinite;
         }
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
+            0% { r: 15; opacity: 0.3; }
+            50% { r: 25; opacity: 0; }
+            100% { r: 15; opacity: 0.3; }
         }
     </style>
 </head>
-<body>
-    <header>
-        <h1>AI Connector</h1>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#blogs">Blogs</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <section class="hero">
-        <h2>Connect Your Enterprise Apps to AI</h2>
-        <p>Seamlessly integrate your enterprise applications with leading AI models.</p>
-        <button class="bx--btn bx--btn--primary">Launching soon...</button>
+<body class="gradient-bg min-h-screen text-gray-100">
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-opacity-90 bg-gray-900 backdrop-filter backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <!-- Logo SVG -->
+                    <svg class="h-8" viewBox="0 0 500 40" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#60A5FA"/>
+                                <stop offset="100%" style="stop-color:#A78BFA"/>
+                            </linearGradient>
+                            <linearGradient id="circuitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#3B82F6"/>
+                                <stop offset="100%" style="stop-color:#8B5CF6"/>
+                            </linearGradient>
+                            <linearGradient id="domainGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#A78BFA"/>
+                                <stop offset="100%" style="stop-color:#60A5FA"/>
+                            </linearGradient>
+                        </defs>
+                        <g transform="translate(0, 5)">
+                            <path d="M10 25 H25 L35 15 H45 L55 25 H65" 
+                                  stroke="url(#circuitGradient)" 
+                                  stroke-width="2" 
+                                  fill="none"
+                                  stroke-linecap="round"/>
+                            <circle cx="25" cy="25" r="3" fill="url(#circuitGradient)"/>
+                            <circle cx="45" cy="15" r="3" fill="url(#circuitGradient)"/>
+                            <circle cx="65" cy="25" r="3" fill="url(#circuitGradient)"/>
+                        </g>
+                        <text x="75" y="35" 
+                              font-family="Arial, sans-serif" 
+                              font-size="24">
+                            <tspan font-weight="normal" fill="url(#textGradient)">ai</tspan>
+                            <tspan font-weight="bold" fill="url(#textGradient)">Connector</tspan>
+                            <tspan font-weight="normal" fill="url(#domainGradient)" font-size="20">.ai</tspan>
+                        </text>
+                        <circle class="logo-pulse" cx="45" cy="20" r="20" 
+                                stroke="url(#circuitGradient)" 
+                                stroke-width="1" 
+                                fill="none" 
+                                opacity="0.3"/>
+                    </svg>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#about" class="hover:text-blue-400 transition-colors duration-200">About</a>
+                        <a href="#features" class="hover:text-blue-400 transition-colors duration-200">Features</a>
+                        <a href="#blogs" class="hover:text-blue-400 transition-colors duration-200">Blogs</a>
+                        <a href="#contact" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-24 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-5xl md:text-7xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                Cut Decision Time by 70%<br>with Enterprise AI
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">
+                Transform weeks of analysis into minutes. AI-powered insights that drive immediate business impact.
+            </p>
+            <button class="px-8 py-4 bg-blue-600 rounded-lg text-lg font-semibold hover:bg-blue-700 transition-all duration-200 transform hover:-translate-y-1 hover-glow">
+                Join the Waitlist
+            </button>
+        </div>
     </section>
-    
-    <div class="grid-container">
-        <div class="grid-item" id="about">
-            <h2>About AI Connector</h2>
-            <p>AI Connector enables seamless integration of enterprise applications with leading AI models such as OpenAI, Codium, and Deepseek.</p>
-            <button class="bx--btn bx--btn--primary">Launching soon...</button>
+
+    <!-- Rest of the sections remain the same -->
+    <!-- Features Grid -->
+    <section class="py-20 px-4" id="features">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Feature Cards -->
+            <div class="card-gradient p-8 rounded-xl hover-glow transition-all duration-300">
+                <div class="h-12 w-12 bg-blue-500 rounded-lg mb-6 animate-float"></div>
+                <h3 class="text-xl font-semibold mb-4">Easy Integration</h3>
+                <p class="text-gray-300">Connect with leading AI models like OpenAI, Codium, and Deepseek through our simple API.</p>
+            </div>
+            <div class="card-gradient p-8 rounded-xl hover-glow transition-all duration-300">
+                <div class="h-12 w-12 bg-purple-500 rounded-lg mb-6 animate-float"></div>
+                <h3 class="text-xl font-semibold mb-4">AI-Powered Automation</h3>
+                <p class="text-gray-300">Enhance your business workflows with intelligent automation and decision-making capabilities.</p>
+            </div>
+            <div class="card-gradient p-8 rounded-xl hover-glow transition-all duration-300">
+                <div class="h-12 w-12 bg-indigo-500 rounded-lg mb-6 animate-float"></div>
+                <h3 class="text-xl font-semibold mb-4">Enterprise Security</h3>
+                <p class="text-gray-300">Bank-grade security with end-to-end encryption and compliance with industry standards.</p>
+            </div>
         </div>
-        
-        <div class="grid-item" id="features">
-            <h2>Key Features</h2>
-            <ul class="bx--list--unordered">
-                <li>Easy integration with AI models</li>
-                <li>Enhance business workflows with AI-powered automation</li>
-                <li>Secure and scalable platform</li>
-            </ul>
-            <button class="bx--btn bx--btn--secondary">Launching soon...</button>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="py-20 px-4 bg-gray-900" id="contact">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-8">Ready to Transform Your Enterprise?</h2>
+            <p class="text-xl text-gray-300 mb-12">Get early access to aiConnector.ai and stay ahead of the competition.</p>
+            <form class="max-w-md mx-auto">
+                <input type="email" placeholder="Enter your email" class="w-full px-6 py-4 rounded-lg bg-gray-800 text-white mb-4">
+                <button class="w-full px-6 py-4 bg-blue-600 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
+                    Get Early Access
+                </button>
+            </form>
         </div>
-        
-        <div class="grid-item" id="blogs">
-            <h2>Latest AI Blogs</h2>
-            <p>Stay updated with the latest trends and innovations in AI technology.</p>
-            <button class="bx--btn bx--btn--tertiary">Launching soon...</button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-gray-400">&copy; 2025 aiConnector.ai. All rights reserved.</p>
         </div>
-        
-        <div class="grid-item" id="contact">
-            <h2>Contact Us</h2>
-            <p>Get in touch to learn more about AI Connector.</p>
-            <button class="bx--btn bx--btn--danger" onclick="window.location.href='mailto:contact@aiconnector.com'">Email Us</button>
-        </div>
-    </div>
-    
-    <footer>
-        <p>&copy; 2025 AI Connector. All rights reserved.</p>
     </footer>
 </body>
 </html>
