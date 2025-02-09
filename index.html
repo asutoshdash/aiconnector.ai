@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Connector - Transform Enterprise Intelligence</title>
+    <title>aiConnector.ai - Transform Enterprise Intelligence</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
     <style>
         .gradient-bg {
@@ -27,6 +27,14 @@
             50% { transform: translateY(-20px); }
             100% { transform: translateY(0px); }
         }
+        .logo-pulse circle {
+            animation: pulse 3s infinite;
+        }
+        @keyframes pulse {
+            0% { r: 15; opacity: 0.3; }
+            50% { r: 25; opacity: 0; }
+            100% { r: 15; opacity: 0.3; }
+        }
     </style>
 </head>
 <body class="gradient-bg min-h-screen text-gray-100">
@@ -35,9 +43,45 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
-                    <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-                        AI Connector
-                    </span>
+                    <!-- Logo SVG -->
+                    <svg class="h-8" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#60A5FA"/>
+                                <stop offset="100%" style="stop-color:#A78BFA"/>
+                            </linearGradient>
+                            <linearGradient id="circuitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#3B82F6"/>
+                                <stop offset="100%" style="stop-color:#8B5CF6"/>
+                            </linearGradient>
+                            <linearGradient id="domainGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#A78BFA"/>
+                                <stop offset="100%" style="stop-color:#60A5FA"/>
+                            </linearGradient>
+                        </defs>
+                        <g transform="translate(0, 5)">
+                            <path d="M10 25 H25 L35 15 H45 L55 25 H65" 
+                                  stroke="url(#circuitGradient)" 
+                                  stroke-width="2" 
+                                  fill="none"
+                                  stroke-linecap="round"/>
+                            <circle cx="25" cy="25" r="3" fill="url(#circuitGradient)"/>
+                            <circle cx="45" cy="15" r="3" fill="url(#circuitGradient)"/>
+                            <circle cx="65" cy="25" r="3" fill="url(#circuitGradient)"/>
+                        </g>
+                        <text x="75" y="35" 
+                              font-family="Arial, sans-serif" 
+                              font-size="24">
+                            <tspan font-weight="normal" fill="url(#textGradient)">ai</tspan>
+                            <tspan font-weight="bold" fill="url(#textGradient)">Connector</tspan>
+                            <tspan font-weight="normal" fill="url(#domainGradient)" font-size="20">.ai</tspan>
+                        </text>
+                        <circle class="logo-pulse" cx="45" cy="20" r="20" 
+                                stroke="url(#circuitGradient)" 
+                                stroke-width="1" 
+                                fill="none" 
+                                opacity="0.3"/>
+                    </svg>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
@@ -68,6 +112,7 @@
         </div>
     </section>
 
+    <!-- Rest of the sections remain the same -->
     <!-- Features Grid -->
     <section class="py-20 px-4" id="features">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -94,7 +139,7 @@
     <section class="py-20 px-4 bg-gray-900" id="contact">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-4xl font-bold mb-8">Ready to Transform Your Enterprise?</h2>
-            <p class="text-xl text-gray-300 mb-12">Get early access to AI Connector and stay ahead of the competition.</p>
+            <p class="text-xl text-gray-300 mb-12">Get early access to aiConnector.ai and stay ahead of the competition.</p>
             <form class="max-w-md mx-auto">
                 <input type="email" placeholder="Enter your email" class="w-full px-6 py-4 rounded-lg bg-gray-800 text-white mb-4">
                 <button class="w-full px-6 py-4 bg-blue-600 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
@@ -107,7 +152,7 @@
     <!-- Footer -->
     <footer class="bg-gray-900 py-12 px-4">
         <div class="max-w-7xl mx-auto text-center">
-            <p class="text-gray-400">&copy; 2025 AI Connector. All rights reserved.</p>
+            <p class="text-gray-400">&copy; 2025 aiConnector.ai. All rights reserved.</p>
         </div>
     </footer>
 </body>
