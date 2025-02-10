@@ -1,0 +1,67 @@
+<svg class="h-8" viewBox="0 0 500 40" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#60A5FA"/>
+            <stop offset="100%" style="stop-color:#A78BFA"/>
+        </linearGradient>
+        <linearGradient id="circuitGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#3B82F6"/>
+            <stop offset="100%" style="stop-color:#8B5CF6"/>
+        </linearGradient>
+        <linearGradient id="domainGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#A78BFA"/>
+            <stop offset="100%" style="stop-color:#60A5FA"/>
+        </linearGradient>
+        <linearGradient id="pulseGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#3B82F6"/>
+            <stop offset="100%" style="stop-color:#10B981"/>
+        </linearGradient>
+        <style>
+            @keyframes pulse {
+                0%, 100% { r: 3; fill: url(#pulseGradient); }
+                50% { r: 5; fill: url(#pulseGradient); }
+            }
+            @keyframes linePulse {
+                0%, 100% { stroke: url(#circuitGradient); }
+                50% { stroke: url(#pulseGradient); }
+            }
+            .pulse {
+                animation: pulse 2s infinite;
+            }
+            .line-pulse {
+                animation: linePulse 2s infinite;
+            }
+            .pulse:nth-child(1) {
+                animation-delay: 0s;
+            }
+            .pulse:nth-child(2) {
+                animation-delay: 0.5s;
+            }
+            .pulse:nth-child(3) {
+                animation-delay: 1s;
+            }
+        </style>
+    </defs>
+    <g transform="translate(0, 5)">
+        <path d="M10 25 H25 L35 15 H45 L55 25 H65" 
+              class="line-pulse"
+              stroke-width="2" 
+              fill="none"
+              stroke-linecap="round"/>
+        <circle cx="25" cy="25" r="3" class="pulse"/>
+        <circle cx="45" cy="15" r="3" class="pulse"/>
+        <circle cx="65" cy="25" r="3" class="pulse"/>
+    </g>
+    <text x="75" y="35" 
+          font-family="Arial, sans-serif" 
+          font-size="24">
+        <tspan font-weight="normal" fill="url(#textGradient)">ai</tspan>
+        <tspan font-weight="bold" fill="url(#textGradient)">Connector</tspan>
+        <tspan font-weight="normal" fill="url(#domainGradient)" font-size="20">.ai</tspan>
+    </text>
+    <circle class="logo-pulse" cx="45" cy="20" r="20" 
+            stroke="url(#circuitGradient)" 
+            stroke-width="1" 
+            fill="none" 
+            opacity="0.3"/>
+</svg>
