@@ -51,7 +51,7 @@
                     <div class="ml-10 flex items-baseline space-x-8">
                         <a href="#about" class="hover:text-blue-400 transition-colors duration-200">About</a>
                         <a href="#features" class="hover:text-blue-400 transition-colors duration-200">Features</a>
-                        <a href="#blogs" class="hover:text-blue-400 transition-colors duration-200">Blogs</a>
+                        <a href="blogs.html" class="hover:text-blue-400 transition-colors duration-200">Blogs</a>
                         <a href="#contact" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
                             Contact Us
                         </a>
@@ -104,12 +104,15 @@
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-4xl font-bold mb-8">Ready to Transform Your Enterprise?</h2>
             <p class="text-xl text-gray-300 mb-12">Get early access to aiConnector.ai and stay ahead of the competition.</p>
-            <form class="max-w-md mx-auto">
-                <input type="email" placeholder="Enter your email" class="w-full px-6 py-4 rounded-lg bg-gray-800 text-white mb-4">
-                <button class="w-full px-6 py-4 bg-blue-600 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
+            <form class="max-w-md mx-auto" action="mailto:aiconnectorai@gmail.com" method="POST" enctype="text/plain" onsubmit="return handleFormSubmit(event)">
+                <input type="text" name="name" placeholder="Enter your name" class="w-full px-6 py-4 rounded-lg bg-gray-800 text-white mb-4" required>
+                <input type="email" name="email" placeholder="Enter your email" class="w-full px-6 py-4 rounded-lg bg-gray-800 text-white mb-4" required>
+                <textarea name="query" placeholder="Enter your query" class="w-full px-6 py-4 rounded-lg bg-gray-800 text-white mb-4" required></textarea>
+                <button type="submit" class="w-full px-6 py-4 bg-blue-600 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200">
                     Get Early Access
                 </button>
             </form>
+            <div id="feedback" class="mt-4 text-green-500 hidden">Thank you for your interest! We will get back to you soon.</div>
         </div>
     </section>
 
@@ -119,5 +122,17 @@
             <p class="text-gray-400">&copy; 2025 aiConnector.ai. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const feedback = document.getElementById('feedback');
+            feedback.classList.remove('hidden');
+            setTimeout(() => {
+                form.submit();
+            }, 1000); // Delay to show the feedback message before opening the email client
+        }
+    </script>
 </body>
 </html>
