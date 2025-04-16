@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="400" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#1a1a2e"/>
+            <stop offset="100%" style="stop-color:#16213e"/>
+        </linearGradient>
+        <linearGradient id="flowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#60A5FA"/>
+            <stop offset="100%" style="stop-color:#7C3AED"/>
+        </linearGradient>
+    </defs>
+
+    <!-- Background -->
+    <rect width="800" height="400" fill="url(#bgGradient)"/>
+
+    <!-- Process Flow Diagram -->
+    <g transform="translate(100,100)">
+        <!-- Nodes -->
+        <circle cx="50" cy="100" r="30" fill="url(#flowGradient)" opacity="0.9"/>
+        <circle cx="200" cy="100" r="30" fill="url(#flowGradient)" opacity="0.9"/>
+        <circle cx="350" cy="100" r="30" fill="url(#flowGradient)" opacity="0.9"/>
+        <circle cx="500" cy="100" r="30" fill="url(#flowGradient)" opacity="0.9"/>
+        <circle cx="650" cy="100" r="30" fill="url(#flowGradient)" opacity="0.9"/>
+
+        <!-- Connecting Lines -->
+        <path d="M80,100 L170,100" stroke="url(#flowGradient)" stroke-width="3"/>
+        <path d="M230,100 L320,100" stroke="url(#flowGradient)" stroke-width="3"/>
+        <path d="M380,100 L470,100" stroke="url(#flowGradient)" stroke-width="3"/>
+        <path d="M530,100 L620,100" stroke="url(#flowGradient)" stroke-width="3"/>
+
+        <!-- AI Elements -->
+        <g transform="translate(50,100)">
+            <path d="M-15,-15 L15,15 M-15,15 L15,-15" stroke="white" stroke-width="2"/>
+        </g>
+        <g transform="translate(200,100)">
+            <rect x="-10" y="-10" width="20" height="20" stroke="white" fill="none" stroke-width="2"/>
+        </g>
+        <g transform="translate(350,100)">
+            <circle cx="0" cy="0" r="15" stroke="white" fill="none" stroke-width="2"/>
+        </g>
+        <g transform="translate(500,100)">
+            <path d="M-15,0 L0,-15 L15,0 L0,15 Z" stroke="white" fill="none" stroke-width="2"/>
+        </g>
+        <g transform="translate(650,100)">
+            <path d="M-15,-15 L15,15 M-15,15 L15,-15" stroke="white" stroke-width="2"/>
+        </g>
+    </g>
+
+    <!-- Animated Pulse Effect -->
+    <circle cx="400" cy="200" r="5" fill="white" opacity="0.5">
+        <animate attributeName="r" values="5;50;5" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;0;0.5" dur="2s" repeatCount="indefinite"/>
+    </circle>
+</svg>

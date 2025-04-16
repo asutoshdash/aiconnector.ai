@@ -55,8 +55,40 @@
         </div>
     </nav>
 
-    <!-- Blog Content -->
-    <div class="pt-32 pb-24 px-4">
+    <!-- Blog List Section -->
+    <section class="pt-32 pb-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                Latest Blog Posts
+            </h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Blog Post Cards -->
+                <a href="blogs/torque-clustering.html" class="card-gradient p-6 rounded-xl hover-glow transition-all duration-300">
+                    <div class="h-48 mb-4 overflow-hidden rounded-lg">
+                        <img src="images/torque-clustering-hero.png" alt="Torque Clustering" class="w-full h-full object-cover">
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Understanding Torque Clustering in AI</h3>
+                    <p class="text-gray-400 mb-4">Discover how Torque Clustering is revolutionizing data analysis with physics-inspired algorithms.</p>
+                    <span class="text-blue-400">Read More →</span>
+                </a>
+
+                <a href="blogs/process-optimization.html" class="card-gradient p-6 rounded-xl hover-glow transition-all duration-300">
+                    <div class="h-48 mb-4 overflow-hidden rounded-lg relative">
+                        <img src="images/process-optimization.png" alt="Process Optimization" class="w-full h-full object-cover">
+                        <div class="absolute top-4 right-4">
+                            <img src="images/process-optimization-logo.svg" alt="Process Optimization Logo" class="w-12 h-12 animate-pulse">
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">AI-Powered Process Optimization</h3>
+                    <p class="text-gray-400 mb-4">Learn how AI is transforming enterprise efficiency through intelligent process optimization.</p>
+                    <span class="text-blue-400">Read More →</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Content Sections -->
+    <section id="torque-clustering" class="py-20 px-4 border-t border-gray-800">
         <article class="max-w-4xl mx-auto">
             <header class="text-center mb-16">
                 <h1 class="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
@@ -89,8 +121,6 @@
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen>
                 </iframe>
-
-            
 
                 <h2 class="text-2xl font-semibold">What is Torque Clustering?</h2>
                 <p>
@@ -222,7 +252,8 @@ clusters = tc.fit_predict(data)
                 </ul>
             </div>
         </article>
-    </div>
+    </section>
+
 
     <!-- Footer -->
     <footer class="bg-gray-900 py-12 px-4">

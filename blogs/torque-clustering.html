@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Understanding Torque Clustering in AI - aiConnector.ai</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(130deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
+        }
+        .card-gradient {
+            background: linear-gradient(145deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
+            backdrop-filter: blur(10px);
+        }
+        .hover-glow:hover {
+            box-shadow: 0 0 25px rgba(66, 153, 225, 0.5);
+        }
+        .prose {
+            max-width: 65ch;
+            line-height: 1.75;
+        }
+        .prose h2 {
+            color: #60A5FA;
+            margin-top: 2em;
+            margin-bottom: 1em;
+        }
+        .prose p {
+            margin-bottom: 1.5em;
+        }
+        .prose pre {
+            background: rgba(17, 24, 39, 0.5);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1.5em 0;
+        }
+        .prose code {
+            color: #60A5FA;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen text-gray-100">
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 bg-opacity-90 bg-gray-900 backdrop-filter backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="../index.html">
+                        <img src="../logo.svg" alt="AI Connector Logo" class="h-8">
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="../index.html#about" class="hover:text-blue-400 transition-colors duration-200">About</a>
+                        <a href="../index.html#features" class="hover:text-blue-400 transition-colors duration-200">Features</a>
+                        <a href="../blogs.html" class="text-blue-400 transition-colors duration-200">Blogs</a>
+                        <a href="../index.html#contact" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
+                            Contact Us
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <article class="pt-32 pb-24 px-4">
+        <section id="torque-clustering" class="py-20 px-4 border-t border-gray-800">
+            <article class="max-w-4xl mx-auto">
+                <header class="text-center mb-16">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
+                        Understanding Torque Clustering in AI
+                    </h1>
+                    <div class="text-gray-400">
+                        <span>Published on April 6, 2025</span>
+                        <span class="mx-2">•</span>
+                        <span>10 min read</span>
+                    </div>
+                </header>
+
+                <div class="prose text-gray-300 mx-auto">
+                    <p class="text-xl leading-relaxed mb-8">
+                        Torque Clustering represents a breakthrough in unsupervised learning, combining rotational dynamics with traditional clustering methods to achieve more accurate and interpretable results.
+                    </p>
+
+                    <!-- Added hero image -->
+                    <div class="my-8">
+                        <img src="images/torque-clustering-hero.png" alt="Torque Clustering Visualization" class="w-full rounded-lg shadow-lg">
+                        <p class="text-sm text-gray-400 mt-2 text-center">Visualization of data points clustered using Torque Clustering algorithm</p>
+                    </div>
+
+                    <!-- Main featured video -->
+                    <iframe 
+                        class="w-full h-96 rounded-lg shadow-lg"
+                        src="https://www.youtube.com/embed/4b5d3muPQmA" 
+                        title="Understanding Torque Clustering"
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen>
+                    </iframe>
+
+                    <h2 class="text-2xl font-semibold">What is Torque Clustering?</h2>
+                    <p>
+                        Torque Clustering is an innovative approach that applies principles from physics, specifically rotational mechanics, to data clustering. Unlike traditional clustering methods that rely solely on distance metrics, Torque Clustering considers both the distance and the angular momentum of data points in the feature space.
+                    </p>
+
+                    <!-- Added comparison diagram -->
+                    <div class="grid grid-cols-2 gap-4 my-8">
+                        <div>
+                            <img src="images/traditional-clustering.png" alt="Traditional Clustering" class="w-full rounded-lg shadow-lg">
+                            <p class="text-sm text-gray-400 mt-2 text-center">Traditional K-means clustering</p>
+                        </div>
+                        <div>
+                            <img src="images/torque-clustering.png" alt="Torque Clustering" class="w-full rounded-lg shadow-lg">
+                            <p class="text-sm text-gray-400 mt-2 text-center">Torque Clustering result</p>
+                        </div>
+                    </div>
+
+                    <!-- Comparison videos section -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-12">
+                        <div>
+                            <iframe 
+                                class="w-full h-48 rounded-lg shadow-lg"
+                                src="https://www.youtube.com/embed/7QwTPYkNhJQ" 
+                                title="Traditional Clustering Methods"
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                            <p class="text-sm text-gray-400 mt-2 text-center">Traditional Clustering Methods</p>
+                        </div>
+                        <div>
+                            <iframe 
+                                class="w-full h-48 rounded-lg shadow-lg"
+                                src="https://www.youtube.com/embed/NEaUSP4YerM" 
+                                title="Advanced AI Clustering"
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                            <p class="text-sm text-gray-400 mt-2 text-center">Advanced AI Clustering Techniques</p>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-semibold">Key Components</h2>
+                    <ul class="list-disc pl-6 mb-8 space-y-2">
+                        <li>Rotational Dynamics: Incorporates angular momentum and torque calculations</li>
+                        <li>Adaptive Centroids: Cluster centers that evolve based on rotational forces</li>
+                        <li>Energy Conservation: Maintains system stability through energy balancing</li>
+                        <li>Multi-dimensional Analysis: Handles complex data in high-dimensional spaces</li>
+                    </ul>
+
+                    <!-- Video playlist section -->
+                    <div class="my-12 card-gradient p-8 rounded-xl">
+                        <h3 class="text-xl font-semibold mb-4">Related Videos</h3>
+                        <ul class="space-y-4">
+                            <li>
+                                <a href="https://youtube.com/watch?v=5I3Ei69I40s" 
+                                   class="flex items-center text-blue-400 hover:text-blue-300">
+                                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816z"/>
+                                    </svg>
+                                    StatQuest: K-means clustering
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://youtube.com/watch?v=_aWzGGNrcic" 
+                                   class="flex items-center text-blue-400 hover:text-blue-300">
+                                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816z"/>
+                                    </svg>
+                                    MIT: Introduction to Machine Learning
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://youtube.com/watch?v=Lx9UJAgYVZ4" 
+                                   class="flex items-center text-blue-400 hover:text-blue-300">
+                                    <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816z"/>
+                                    </svg>
+                                    Advanced Clustering Algorithms
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h2 class="text-2xl font-semibold">Business Applications</h2>
+                    <p>
+                        Torque Clustering excels in various business scenarios:
+                    </p>
+                    <ul class="list-disc pl-6 mb-8 space-y-2">
+                        <li>Customer Segmentation: More accurate identification of customer groups</li>
+                        <li>Market Analysis: Better understanding of market dynamics</li>
+                        <li>Risk Assessment: Improved detection of risk patterns</li>
+                        <li>Process Optimization: Enhanced workflow clustering</li>
+                    </ul>
+
+                    <h2 class="text-2xl font-semibold">Implementation with aiConnector.ai</h2>
+                    <p>
+                        Our platform provides seamless integration of Torque Clustering through our API:
+                    </p>
+                    <!-- Added architecture diagram -->
+                    <div class="my-8">
+                        <img src="images/torque-implementation.png" alt="Implementation Architecture" class="w-full rounded-lg shadow-lg">
+                        <p class="text-sm text-gray-400 mt-2 text-center">Torque Clustering implementation architecture</p>
+                    </div>
+
+                    <pre class="bg-gray-800 p-4 rounded-lg overflow-x-auto mb-8">
+<code class="text-blue-300">
+from aiconnector import TorqueCluster
+
+# Initialize the clustering model
+tc = TorqueCluster(n_clusters=5, torque_weight=0.7)
+
+# Fit the model to your data
+clusters = tc.fit_predict(data)
+</code>
+                    </pre>
+
+                    <h2 class="text-2xl font-semibold">Future Developments</h2>
+                    <p>
+                        We're continuously improving our Torque Clustering implementation with upcoming features:
+                    </p>
+                    <ul class="list-disc pl-6 mb-8 space-y-2">
+                        <li>Real-time cluster adaptation</li>
+                        <li>Enhanced visualization tools</li>
+                        <li>Integration with deep learning models</li>
+                        <li>Automated parameter optimization</li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+    </article>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 py-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-gray-400">&copy; 2025 aiConnector.ai. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
