@@ -1,265 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>aiConnector.ai - Blogs</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <style>
-        .gradient-bg {
-            background: linear-gradient(130deg, #1a1a2e 0%, #16213e 50%, #1a1a2e 100%);
-        }
-        .card-gradient {
-            background: linear-gradient(145deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9));
-            backdrop-filter: blur(10px);
-        }
-        .hover-glow:hover {
-            box-shadow: 0 0 25px rgba(66, 153, 225, 0.5);
-        }
-        .prose {
-            max-width: 65ch;
-            line-height: 1.75;
-        }
-        .prose h2 {
-            color: #60A5FA;
-            margin-top: 2em;
-            margin-bottom: 1em;
-        }
-        .prose p {
-            margin-bottom: 1.5em;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Writing by Asutosh Dash about applied AI, enterprise architecture, and intelligent systems.">
+  <meta name="theme-color" content="#07111f">
+  <link rel="canonical" href="https://www.aiconnector.ai/blogs.html">
+  <link rel="icon" href="logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>Writing | Asutosh Dash</title>
 </head>
-<body class="gradient-bg min-h-screen text-gray-100">
-    <!-- Navbar -->
-    <nav class="fixed w-full z-50 bg-opacity-90 bg-gray-900 backdrop-filter backdrop-blur-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <a href="index.html">
-                        <img src="logo.svg" alt="AI Connector Logo" class="h-8">
-                    </a>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="index.html#about" class="hover:text-blue-400 transition-colors duration-200">About</a>
-                        <a href="index.html#features" class="hover:text-blue-400 transition-colors duration-200">Features</a>
-                        <a href="#" class="text-blue-400 transition-colors duration-200">Blogs</a>
-                        <a href="index.html#contact" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
-                            Contact Us
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="index.html" aria-label="aiConnector.ai home"><img src="logo.svg" alt="" width="250" height="40"></a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="index.html#patterns">Patterns</a>
+        <a href="index.html#approach">Approach</a>
+        <a href="index.html#perspective">Perspective</a>
+        <a href="blogs.html" aria-current="page">Writing</a>
+        <a class="nav-cta" href="index.html#contact">Connect</a>
+      </nav>
+    </div>
+  </header>
 
-    <!-- Blog List Section -->
-    <section class="pt-32 pb-12 px-4">
-        <div class="max-w-7xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-                Latest Blog Posts
-            </h1>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Blog Post Cards -->
-                <a href="blogs/torque-clustering.html" class="card-gradient p-6 rounded-xl hover-glow transition-all duration-300">
-                    <div class="h-48 mb-4 overflow-hidden rounded-lg">
-                        <img src="images/torque-clustering-hero.png" alt="Torque Clustering" class="w-full h-full object-cover">
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">Understanding Torque Clustering in AI</h3>
-                    <p class="text-gray-400 mb-4">Discover how Torque Clustering is revolutionizing data analysis with physics-inspired algorithms.</p>
-                    <span class="text-blue-400">Read More →</span>
-                </a>
-
-                <a href="blogs/process-optimization.html" class="card-gradient p-6 rounded-xl hover-glow transition-all duration-300">
-                    <div class="h-48 mb-4 overflow-hidden rounded-lg relative">
-                        <img src="images/process-optimization.png" alt="Process Optimization" class="w-full h-full object-cover">
-                        <div class="absolute top-4 right-4">
-                            <img src="images/process-optimization-logo.svg" alt="Process Optimization Logo" class="w-12 h-12 animate-pulse">
-                        </div>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-2">AI-Powered Process Optimization</h3>
-                    <p class="text-gray-400 mb-4">Learn how AI is transforming enterprise efficiency through intelligent process optimization.</p>
-                    <span class="text-blue-400">Read More →</span>
-                </a>
-            </div>
-        </div>
+  <main id="main-content">
+    <section class="writing-hero">
+      <div class="shell">
+        <p class="eyebrow"><span></span> Writing and exploration</p>
+        <h1>Ideas at the edge of AI and enterprise systems.</h1>
+        <p class="hero-lede">Notes on applied AI, system design, and the techniques that turn emerging research into useful engineering practice.</p>
+      </div>
     </section>
 
-    <!-- Blog Content Sections -->
-    <section id="torque-clustering" class="py-20 px-4 border-t border-gray-800">
-        <article class="max-w-4xl mx-auto">
-            <header class="text-center mb-16">
-                <h1 class="text-4xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">
-                    Understanding Torque Clustering in AI
-                </h1>
-                <div class="text-gray-400">
-                    <span>Published on April 6, 2025</span>
-                    <span class="mx-2">•</span>
-                    <span>10 min read</span>
-                </div>
-            </header>
+    <section class="shell writing-section" aria-labelledby="field-guides-title">
+      <div class="writing-section-heading">
+        <p class="micro-label">Featured</p>
+        <h2 id="field-guides-title">Field guides</h2>
+        <p>Evidence-led comparisons for decisions that look similar on the surface but have materially different architecture, cost, and control implications.</p>
+      </div>
 
-            <div class="prose text-gray-300 mx-auto">
-                <p class="text-xl leading-relaxed mb-8">
-                    Torque Clustering represents a breakthrough in unsupervised learning, combining rotational dynamics with traditional clustering methods to achieve more accurate and interpretable results.
-                </p>
-
-                <!-- Added hero image -->
-                <div class="my-8">
-                    <img src="images/torque-clustering-hero.png" alt="Torque Clustering Visualization" class="w-full rounded-lg shadow-lg">
-                    <p class="text-sm text-gray-400 mt-2 text-center">Visualization of data points clustered using Torque Clustering algorithm</p>
-                </div>
-
-                <!-- Main featured video -->
-                <iframe 
-                    class="w-full h-96 rounded-lg shadow-lg"
-                    src="https://www.youtube.com/embed/4b5d3muPQmA" 
-                    title="Understanding Torque Clustering"
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                </iframe>
-
-                <h2 class="text-2xl font-semibold">What is Torque Clustering?</h2>
-                <p>
-                    Torque Clustering is an innovative approach that applies principles from physics, specifically rotational mechanics, to data clustering. Unlike traditional clustering methods that rely solely on distance metrics, Torque Clustering considers both the distance and the angular momentum of data points in the feature space.
-                </p>
-
-                <!-- Added comparison diagram -->
-                <div class="grid grid-cols-2 gap-4 my-8">
-                    <div>
-                        <img src="images/traditional-clustering.png" alt="Traditional Clustering" class="w-full rounded-lg shadow-lg">
-                        <p class="text-sm text-gray-400 mt-2 text-center">Traditional K-means clustering</p>
-                    </div>
-                    <div>
-                        <img src="images/torque-clustering.png" alt="Torque Clustering" class="w-full rounded-lg shadow-lg">
-                        <p class="text-sm text-gray-400 mt-2 text-center">Torque Clustering result</p>
-                    </div>
-                </div>
-
-                <!-- Comparison videos section -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-12">
-                    <div>
-                        <iframe 
-                            class="w-full h-48 rounded-lg shadow-lg"
-                            src="https://www.youtube.com/embed/7QwTPYkNhJQ" 
-                            title="Traditional Clustering Methods"
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
-                        <p class="text-sm text-gray-400 mt-2 text-center">Traditional Clustering Methods</p>
-                    </div>
-                    <div>
-                        <iframe 
-                            class="w-full h-48 rounded-lg shadow-lg"
-                            src="https://www.youtube.com/embed/NEaUSP4YerM" 
-                            title="Advanced AI Clustering"
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
-                        <p class="text-sm text-gray-400 mt-2 text-center">Advanced AI Clustering Techniques</p>
-                    </div>
-                </div>
-
-                <h2 class="text-2xl font-semibold">Key Components</h2>
-                <ul class="list-disc pl-6 mb-8 space-y-2">
-                    <li>Rotational Dynamics: Incorporates angular momentum and torque calculations</li>
-                    <li>Adaptive Centroids: Cluster centers that evolve based on rotational forces</li>
-                    <li>Energy Conservation: Maintains system stability through energy balancing</li>
-                    <li>Multi-dimensional Analysis: Handles complex data in high-dimensional spaces</li>
-                </ul>
-
-                <!-- Video playlist section -->
-                <div class="my-12 card-gradient p-8 rounded-xl">
-                    <h3 class="text-xl font-semibold mb-4">Related Videos</h3>
-                    <ul class="space-y-4">
-                        <li>
-                            <a href="https://youtube.com/watch?v=5I3Ei69I40s" 
-                               class="flex items-center text-blue-400 hover:text-blue-300">
-                                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816z"/>
-                                </svg>
-                                StatQuest: K-means clustering
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://youtube.com/watch?v=_aWzGGNrcic" 
-                               class="flex items-center text-blue-400 hover:text-blue-300">
-                                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816z"/>
-                                </svg>
-                                MIT: Introduction to Machine Learning
-                            </a>
-                        </li>
-                        <li>
-                            <a href="https://youtube.com/watch?v=Lx9UJAgYVZ4" 
-                               class="flex items-center text-blue-400 hover:text-blue-300">
-                                <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816z"/>
-                                </svg>
-                                Advanced Clustering Algorithms
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <h2 class="text-2xl font-semibold">Business Applications</h2>
-                <p>
-                    Torque Clustering excels in various business scenarios:
-                </p>
-                <ul class="list-disc pl-6 mb-8 space-y-2">
-                    <li>Customer Segmentation: More accurate identification of customer groups</li>
-                    <li>Market Analysis: Better understanding of market dynamics</li>
-                    <li>Risk Assessment: Improved detection of risk patterns</li>
-                    <li>Process Optimization: Enhanced workflow clustering</li>
-                </ul>
-
-                <h2 class="text-2xl font-semibold">Implementation with aiConnector.ai</h2>
-                <p>
-                    Our platform provides seamless integration of Torque Clustering through our API:
-                </p>
-                <!-- Added architecture diagram -->
-                <div class="my-8">
-                    <img src="images/torque-implementation.png" alt="Implementation Architecture" class="w-full rounded-lg shadow-lg">
-                    <p class="text-sm text-gray-400 mt-2 text-center">Torque Clustering implementation architecture</p>
-                </div>
-
-                <pre class="bg-gray-800 p-4 rounded-lg overflow-x-auto mb-8">
-<code class="text-blue-300">
-from aiconnector import TorqueCluster
-
-# Initialize the clustering model
-tc = TorqueCluster(n_clusters=5, torque_weight=0.7)
-
-# Fit the model to your data
-clusters = tc.fit_predict(data)
-</code>
-                </pre>
-
-                <h2 class="text-2xl font-semibold">Future Developments</h2>
-                <p>
-                    We're continuously improving our Torque Clustering implementation with upcoming features:
-                </p>
-                <ul class="list-disc pl-6 mb-8 space-y-2">
-                    <li>Real-time cluster adaptation</li>
-                    <li>Enhanced visualization tools</li>
-                    <li>Integration with deep learning models</li>
-                    <li>Automated parameter optimization</li>
-                </ul>
+      <div class="writing-grid featured-writing-grid">
+        <article class="article-card article-card-featured">
+          <div class="article-cover atlas-cover" role="img" aria-label="Abstract network of connected knowledge nodes">
+            <span class="cover-label">Project Atlas</span>
+            <strong>GraphRAG</strong>
+            <div class="node-map" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i>
             </div>
+          </div>
+          <div class="article-card-copy">
+            <p class="micro-label">Knowledge systems · Architecture landscape</p>
+            <h2>GraphRAG feature and pricing matrix</h2>
+            <p>A practical comparison of eight open-source graph-knowledge approaches, production reference architectures, deployment trade-offs, and the real cost model behind them.</p>
+            <a class="article-link" href="writing/project-atlas-graphrag.html">Explore Project Atlas <span aria-hidden="true">→</span></a>
+          </div>
         </article>
-    </section>
 
+        <article class="article-card article-card-featured">
+          <div class="article-cover continuation-cover" role="img" aria-label="Three agent continuation patterns shown as distinct control loops">
+            <span class="cover-label">Agent continuation</span>
+            <strong>Different clocks.</strong>
+            <div class="clock-patterns" aria-hidden="true">
+              <span>Autopilot</span><span>Loop</span><span>Goal</span>
+            </div>
+          </div>
+          <div class="article-card-copy">
+            <p class="micro-label">Agentic engineering · Control models</p>
+            <h2>Autopilot, Loop, and Goal</h2>
+            <p>A vendor-neutral field guide to three continuation mechanisms—what makes each agent continue, what makes it stop, and how to choose by the required stopping rule.</p>
+            <a class="article-link" href="writing/agent-continuation/index.html">Open the field guide <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 py-12 px-4">
-        <div class="max-w-7xl mx-auto text-center">
-            <p class="text-gray-400">&copy; 2025 aiConnector.ai. All rights reserved.</p>
+      <div class="writing-section-heading writing-section-heading-secondary">
+        <p class="micro-label">Archive</p>
+        <h2 id="explorations-title">Earlier explorations</h2>
+      </div>
+
+      <div class="writing-grid" aria-labelledby="explorations-title">
+      <article class="article-card">
+        <img src="images/process-optimization.png" alt="Abstract process optimization workflow" width="960" height="540">
+        <div class="article-card-copy">
+          <p class="micro-label">Applied AI · Enterprise operations</p>
+          <h2>AI-powered process optimization</h2>
+          <p>An exploration of how intelligent systems can identify bottlenecks, improve decisions, and make operational workflows more adaptive.</p>
+          <a class="article-link" href="blogs/process-optimization.html">Read article <span aria-hidden="true">→</span></a>
         </div>
-    </footer>
+      </article>
+
+      <article class="article-card">
+        <img src="images/torque-clustering-hero.png" alt="Abstract visualization of clustered data" width="960" height="540">
+        <div class="article-card-copy">
+          <p class="micro-label">Machine learning · Exploration</p>
+          <h2>Understanding torque clustering in AI</h2>
+          <p>A technical introduction to a physics-inspired approach to identifying structure in complex, multidimensional data.</p>
+          <a class="article-link" href="blogs/torque-clustering.html">Read article <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner"><p>© 2026 Asutosh Dash</p><p>Enterprise AI · Platform Engineering · Technical Leadership</p></div>
+  </footer>
 </body>
 </html>

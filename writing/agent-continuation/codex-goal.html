@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How Codex goal keeps long-running work focused on a durable objective and verifiable stopping condition.">
+  <title>Codex Goal | Agent Continuation Atlas</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2315201d'/%3E%3Ctext x='12' y='43' font-size='30' fill='white'%3EA%E2%86%92%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="detail-page page-accent-codex">
+  <a class="skip-link" href="#content">Skip to main content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">A→</span>
+        <span>Agent Continuation Atlas</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary">
+        <ul role="list">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="github-autopilot.html">Autopilot</a></li>
+          <li><a href="claude-loop.html">Loop</a></li>
+          <li><a href="codex-goal.html" aria-current="page">Goal</a></li>
+          <li><a href="../../blogs.html">All writing</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="page-shell" tabindex="-1">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="index.html">Overview</a></li>
+        <li aria-current="page">Codex Goal</li>
+      </ol>
+    </nav>
+
+    <section class="hero detail-hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Condition-driven persistence</p>
+        <span class="product-command">/goal &lt;objective&gt;</span>
+        <h1 id="page-title">Codex Goal</h1>
+        <p class="lede">Give Codex one durable objective with a verifiable stopping condition. It can keep making scoped progress across turns until the condition is achieved or the work becomes genuinely blocked.</p>
+      </div>
+      <aside class="hero-note" aria-label="Concept summary">
+        <span class="product-mark" aria-hidden="true">CX</span>
+        <p class="hero-note-label">Mental model</p>
+        <p>Define the finish line, the guardrails, and the proof—then let the agent keep running laps toward it.</p>
+      </aside>
+    </section>
+
+    <div class="detail-layout">
+      <article class="article-content">
+        <section id="definition" aria-labelledby="definition-title">
+          <h2 id="definition-title">What Goal controls</h2>
+          <p>A Codex goal makes an objective durable within a thread. Instead of treating one normal response as the natural boundary, Codex can continue across turns, validate progress, and keep working until the stated end condition is satisfied.</p>
+          <p>The goal is a contract, not just a topic. Strong goals say what to achieve, what remains out of scope, how progress is verified, and exactly when to stop.</p>
+
+          <div class="lifecycle" aria-label="Codex Goal lifecycle">
+            <div class="lifecycle-step"><span>01 / Contract</span><strong>Set objective, bounds, and proof</strong></div>
+            <div class="lifecycle-step"><span>02 / Progress</span><strong>Work through scoped checkpoints</strong></div>
+            <div class="lifecycle-step"><span>03 / Validate</span><strong>Run the defined evidence loop</strong></div>
+            <div class="lifecycle-step"><span>04 / Resolve</span><strong>Achieve the condition or report a blocker</strong></div>
+          </div>
+        </section>
+
+        <section id="write" aria-labelledby="write-title">
+          <h2 id="write-title">Write a goal that can finish</h2>
+          <p>A good goal is bigger than a single prompt and smaller than an open-ended backlog. Use four ingredients:</p>
+          <ol>
+            <li><strong>Objective:</strong> name one coherent outcome.</li>
+            <li><strong>Boundaries:</strong> identify what must not change.</li>
+            <li><strong>Evidence:</strong> name the commands or artifacts that prove progress.</li>
+            <li><strong>Stopping condition:</strong> describe the observable state that means “done.”</li>
+          </ol>
+
+          <figure>
+            <figcaption>A decision-complete migration goal</figcaption>
+            <pre tabindex="0"><code>/goal Migrate this project from the legacy router to the new router.
+Preserve every public URL and keep the legacy path available for rollback.
+After each checkpoint, run the contract and browser tests.
+Stop only when both suites pass and the migration notes are complete.</code></pre>
+          </figure>
+
+          <div class="callout warning">
+            <p class="callout-title">Avoid “make the whole codebase better”</p>
+            <p>Loose backlogs and subjective finish lines invite scope drift. If an objective cannot be verified, turn it into a normal exploratory conversation before creating a goal.</p>
+          </div>
+        </section>
+
+        <section id="control" aria-labelledby="control-title">
+          <h2 id="control-title">Inspect and control the run</h2>
+          <dl class="definition-list">
+            <dt><code>/goal &lt;objective&gt;</code></dt>
+            <dd>Sets the durable objective and begins goal-driven work.</dd>
+            <dt><code>/goal</code></dt>
+            <dd>Shows the current goal and its progress state.</dd>
+            <dt><code>/goal pause</code></dt>
+            <dd>Stops automatic progress while preserving the goal.</dd>
+            <dt><code>/goal resume</code></dt>
+            <dd>Restarts work toward the preserved objective.</dd>
+            <dt><code>/goal clear</code></dt>
+            <dd>Removes the goal when it is done or no longer valid.</dd>
+          </dl>
+          <p>Useful progress updates name the current checkpoint, what was verified, what remains, and whether external input is required. If progress becomes vague, tighten the contract or evidence—not the amount of motivational language.</p>
+        </section>
+
+        <section id="enable" aria-labelledby="enable-title">
+          <h2 id="enable-title">Feature availability</h2>
+          <p>If <code>/goal</code> does not appear in the command list, enable the goals feature in the Codex configuration or with the CLI.</p>
+
+          <figure>
+            <figcaption>Enable goals in <code>config.toml</code></figcaption>
+            <pre tabindex="0"><code>[features]
+goals = true</code></pre>
+          </figure>
+
+          <figure>
+            <figcaption>Enable goals from the command line</figcaption>
+            <pre tabindex="0"><code>codex features enable goals</code></pre>
+          </figure>
+        </section>
+
+        <section id="verification" aria-labelledby="verification-title">
+          <h2 id="verification-title">The validation loop matters</h2>
+          <p>Goal works best when the environment can produce trustworthy evidence. That could be a passing test suite, a benchmark threshold, a visual match, a deployment status, or a reviewable artifact.</p>
+          <div class="two-column">
+            <div class="content-panel">
+              <h3>Weak finish line</h3>
+              <p>“Finish the migration and make sure it looks good.”</p>
+            </div>
+            <div class="content-panel">
+              <h3>Verifiable finish line</h3>
+              <p>“All contract tests pass, Playwright matches the reference screens, and rollback instructions are documented.”</p>
+            </div>
+          </div>
+          <div class="callout">
+            <p class="callout-title">Permissions still apply</p>
+            <p>A durable objective does not erase sandboxing, approvals, repository scope, or destructive-action safeguards. Give the smallest authority that can complete the validated work.</p>
+          </div>
+        </section>
+
+        <section id="fit" aria-labelledby="fit-title">
+          <h2 id="fit-title">Where it fits</h2>
+          <div class="two-column">
+            <div class="content-panel">
+              <h3>Good fits</h3>
+              <ul class="fit-list">
+                <li>Large migrations with parity checks</li>
+                <li>Refactors with testable invariants</li>
+                <li>Prototypes with defined acceptance criteria</li>
+                <li>Prompt optimization against an eval target</li>
+              </ul>
+            </div>
+            <div class="content-panel">
+              <h3>Poor fits</h3>
+              <ul class="fit-list avoid">
+                <li>Unrelated backlog items</li>
+                <li>Subjective goals with no evidence</li>
+                <li>Work awaiting an unresolved product decision</li>
+                <li>Periodic checks where time is the real trigger</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="difference" aria-labelledby="difference-title">
+          <h2 id="difference-title">How it differs</h2>
+          <div class="callout">
+            <p class="callout-title">Goal is condition-driven</p>
+            <p>Claude Loop wakes because time passed. GitHub Autopilot continues a delegated task until the agent calls it complete. Codex Goal makes the user-defined objective and stopping condition durable across turns, with explicit status and lifecycle controls.</p>
+          </div>
+        </section>
+
+        <section id="sources" aria-labelledby="sources-title">
+          <h2 id="sources-title">First-party sources</h2>
+          <div class="source-grid">
+            <article class="source-card">
+              <h3>Follow a goal</h3>
+              <p>Purpose, controls, setup, example goals, and validation guidance.</p>
+              <a href="https://learn.chatgpt.com/use-cases/follow-goals" target="_blank" rel="noreferrer">Read OpenAI’s goal guide <span class="visually-hidden">(opens in a new tab)</span> ↗</a>
+            </article>
+            <article class="source-card">
+              <h3>Codex App Server</h3>
+              <p>Developer-level thread goal methods and lifecycle events.</p>
+              <a href="https://learn.chatgpt.com/docs/app-server#api-overview" target="_blank" rel="noreferrer">Read the App Server reference <span class="visually-hidden">(opens in a new tab)</span> ↗</a>
+            </article>
+          </div>
+        </section>
+
+        <nav class="next-pages" aria-label="Continue reading">
+          <a class="next-page" href="claude-loop.html"><span>Previous concept</span><strong>← Claude Loop</strong></a>
+          <a class="next-page" href="index.html"><span>Return</span><strong>Compare all three →</strong></a>
+        </nav>
+      </article>
+
+      <aside class="toc" aria-labelledby="toc-title">
+        <h2 id="toc-title">On this page</h2>
+        <ol>
+          <li><a href="#definition">What it controls</a></li>
+          <li><a href="#write">Write a goal</a></li>
+          <li><a href="#control">Control the run</a></li>
+          <li><a href="#enable">Enable the feature</a></li>
+          <li><a href="#verification">Validation</a></li>
+          <li><a href="#fit">Where it fits</a></li>
+          <li><a href="#difference">How it differs</a></li>
+          <li><a href="#sources">Sources</a></li>
+        </ol>
+      </aside>
+    </div>
+
+    <div class="verified-strip">
+      <span class="status">Verified against OpenAI documentation</span>
+      <time datetime="2026-08-05">05 Aug 2026</time>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p>Agent Continuation Atlas · A practical, vendor-neutral field guide.</p>
+      <nav aria-label="Footer">
+        <ul role="list">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="index.html#comparison-title">Compare</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

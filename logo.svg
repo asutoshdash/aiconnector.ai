@@ -1,4 +1,4 @@
-<svg class="h-8" viewBox="0 0 500 40" xmlns="http://www.w3.org/2000/svg">
+<svg class="h-8" viewBox="0 0 260 40" xmlns="http://www.w3.org/2000/svg">
     <defs>
         <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" style="stop-color:#60A5FA"/>
@@ -39,6 +39,9 @@
             }
             .pulse:nth-child(3) {
                 animation-delay: 1s;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .pulse, .line-pulse { animation: none; }
             }
         </style>
     </defs>

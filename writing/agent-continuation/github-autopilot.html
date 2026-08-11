@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How GitHub Copilot CLI Autopilot continues work, handles permissions, and decides when to stop.">
+  <title>GitHub Copilot CLI Autopilot | Agent Continuation Atlas</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2315201d'/%3E%3Ctext x='12' y='43' font-size='30' fill='white'%3EA%E2%86%92%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="detail-page page-accent-github">
+  <a class="skip-link" href="#content">Skip to main content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">A→</span>
+        <span>Agent Continuation Atlas</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary">
+        <ul role="list">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="github-autopilot.html" aria-current="page">Autopilot</a></li>
+          <li><a href="claude-loop.html">Loop</a></li>
+          <li><a href="codex-goal.html">Goal</a></li>
+          <li><a href="../../blogs.html">All writing</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="page-shell" tabindex="-1">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="index.html">Overview</a></li>
+        <li aria-current="page">GitHub Autopilot</li>
+      </ol>
+    </nav>
+
+    <section class="hero detail-hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Task-completion continuation</p>
+        <span class="product-command">copilot --autopilot</span>
+        <h1 id="page-title">GitHub Copilot CLI Autopilot</h1>
+        <p class="lede">Give Copilot a bounded task once. It keeps initiating the next agent step locally until it declares the task complete, hits a limit, encounters a blocker, or you interrupt it.</p>
+      </div>
+      <aside class="hero-note" aria-label="Concept summary">
+        <span class="product-mark" aria-hidden="true">GH</span>
+        <p class="hero-note-label">Mental model</p>
+        <p>Hand a detailed job to a colleague and say, “Work through it; come back when you are finished.”</p>
+      </aside>
+    </section>
+
+    <div class="detail-layout">
+      <article class="article-content">
+        <section id="definition" aria-labelledby="definition-title">
+          <h2 id="definition-title">What Autopilot controls</h2>
+          <p>In a normal interactive session, Copilot eventually returns control to you for the next instruction. Autopilot changes that outer conversation flow: it can start successive model interactions on its own while working through the same task.</p>
+          <p>It does <strong>not</strong> automatically grant every tool permission. Continuation and permission are separate controls, even though Autopilot works most smoothly when the required permissions are granted up front.</p>
+
+          <div class="lifecycle" aria-label="Autopilot lifecycle">
+            <div class="lifecycle-step"><span>01 / Assign</span><strong>Describe one bounded task</strong></div>
+            <div class="lifecycle-step"><span>02 / Act</span><strong>Copilot uses tools and makes progress</strong></div>
+            <div class="lifecycle-step"><span>03 / Decide</span><strong>More work needed?</strong></div>
+            <div class="lifecycle-step"><span>04 / End</span><strong>Complete, blocked, limited, or interrupted</strong></div>
+          </div>
+        </section>
+
+        <section id="start" aria-labelledby="start-title">
+          <h2 id="start-title">How to start it</h2>
+          <p>Inside an interactive Copilot CLI session, use <kbd>Shift</kbd> + <kbd>Tab</kbd> to cycle through standard, plan, and Autopilot modes. For a direct invocation, pass the task with the Autopilot flag.</p>
+
+          <figure>
+            <figcaption>Interactive workflow</figcaption>
+            <pre tabindex="0"><code># 1. Start Copilot CLI
+copilot
+
+# 2. Use Shift+Tab to enter plan mode and refine the plan
+# 3. Choose “Accept plan and build on autopilot”</code></pre>
+          </figure>
+
+          <figure>
+            <figcaption>Bounded programmatic run with full permissions</figcaption>
+            <pre tabindex="0"><code>copilot --autopilot --yolo \
+  --max-autopilot-continues 10 \
+  -p "Implement the approved plan and run the relevant checks"</code></pre>
+          </figure>
+
+          <div class="callout warning">
+            <p class="callout-title">Treat <code>--yolo</code> as a separate risk decision</p>
+            <p>It is an alias for full permissions. It can allow file changes, deletions, tool use, paths, and URLs without another approval prompt. Use a trusted repository and review the final diff.</p>
+          </div>
+        </section>
+
+        <section id="stopping" aria-labelledby="stopping-title">
+          <h2 id="stopping-title">How it stops</h2>
+          <p>Autopilot continues until one of four events occurs:</p>
+          <ol>
+            <li>Copilot determines the task is complete.</li>
+            <li>A problem prevents meaningful progress.</li>
+            <li>You press <kbd>Ctrl</kbd> + <kbd>C</kbd>.</li>
+            <li>The configured continuation limit is reached.</li>
+          </ol>
+          <p>By default, completion returns the CLI to standard interactive mode. The <code>stayInAutopilot</code> setting keeps the mode selected for your next prompt; it does not make the completed task continue indefinitely.</p>
+        </section>
+
+        <section id="permissions" aria-labelledby="permissions-title">
+          <h2 id="permissions-title">Autonomy is not permission</h2>
+          <dl class="definition-list">
+            <dt>Autopilot</dt>
+            <dd>Allows successive agent continuations until the task ends.</dd>
+            <dt><code>--allow-all</code></dt>
+            <dd>Approves tool, path, and URL access but leaves the normal interactive conversation flow in place.</dd>
+            <dt><code>--no-ask-user</code></dt>
+            <dd>Suppresses clarifying questions but does not provide Autopilot’s repeated model continuations.</dd>
+            <dt><code>--max-autopilot-continues</code></dt>
+            <dd>Caps how many continuation messages Autopilot may initiate.</dd>
+          </dl>
+        </section>
+
+        <section id="fit" aria-labelledby="fit-title">
+          <h2 id="fit-title">Where it fits</h2>
+          <div class="two-column">
+            <div class="content-panel">
+              <h3>Good fits</h3>
+              <ul class="fit-list">
+                <li>Implementing a detailed, reviewed plan</li>
+                <li>Writing or repairing test coverage</li>
+                <li>Bounded refactors with clear verification</li>
+                <li>Fixing a known CI failure locally</li>
+              </ul>
+            </div>
+            <div class="content-panel">
+              <h3>Poor fits</h3>
+              <ul class="fit-list avoid">
+                <li>Vague product discovery</li>
+                <li>Work requiring frequent judgment calls</li>
+                <li>Untrusted repositories with broad permissions</li>
+                <li>Periodic monitoring over hours or days</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="difference" aria-labelledby="difference-title">
+          <h2 id="difference-title">How it differs</h2>
+          <div class="callout">
+            <p class="callout-title">Autopilot is task-driven</p>
+            <p>Unlike Claude <code>/loop</code>, the next iteration is not scheduled by elapsed time. Unlike Codex <code>/goal</code>, the product description centers on autonomous completion of the assigned task rather than a durable, user-defined stopping condition evaluated across turns.</p>
+          </div>
+        </section>
+
+        <section id="sources" aria-labelledby="sources-title">
+          <h2 id="sources-title">First-party sources</h2>
+          <div class="source-grid">
+            <article class="source-card">
+              <h3>Autopilot concepts</h3>
+              <p>Behavior, permissions, stop conditions, and typical workflow.</p>
+              <a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/autopilot" target="_blank" rel="noreferrer">Read GitHub Docs <span class="visually-hidden">(opens in a new tab)</span> ↗</a>
+            </article>
+            <article class="source-card">
+              <h3>CLI command reference</h3>
+              <p>Flags, mode shortcuts, and continuation limits.</p>
+              <a href="https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference" target="_blank" rel="noreferrer">Read the reference <span class="visually-hidden">(opens in a new tab)</span> ↗</a>
+            </article>
+          </div>
+        </section>
+
+        <nav class="next-pages" aria-label="Continue reading">
+          <a class="next-page" href="index.html"><span>Back</span><strong>Compare all three</strong></a>
+          <a class="next-page" href="claude-loop.html"><span>Next concept</span><strong>Claude Code Loop →</strong></a>
+        </nav>
+      </article>
+
+      <aside class="toc" aria-labelledby="toc-title">
+        <h2 id="toc-title">On this page</h2>
+        <ol>
+          <li><a href="#definition">What it controls</a></li>
+          <li><a href="#start">How to start it</a></li>
+          <li><a href="#stopping">How it stops</a></li>
+          <li><a href="#permissions">Permissions</a></li>
+          <li><a href="#fit">Where it fits</a></li>
+          <li><a href="#difference">How it differs</a></li>
+          <li><a href="#sources">Sources</a></li>
+        </ol>
+      </aside>
+    </div>
+
+    <div class="verified-strip">
+      <span class="status">Verified against GitHub documentation</span>
+      <time datetime="2026-08-05">05 Aug 2026</time>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p>Agent Continuation Atlas · A practical, vendor-neutral field guide.</p>
+      <nav aria-label="Footer">
+        <ul role="list">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="index.html#comparison-title">Compare</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A practical comparison of GitHub Copilot CLI Autopilot, Claude Code loop, and Codex goal.">
+  <title>Autopilot, Loop, and Goal | Agent Continuation Atlas</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2315201d'/%3E%3Ctext x='12' y='43' font-size='30' fill='white'%3EA%E2%86%92%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to main content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">A→</span>
+        <span>Agent Continuation Atlas</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary">
+        <ul role="list">
+          <li><a href="index.html" aria-current="page">Overview</a></li>
+          <li><a href="github-autopilot.html">Autopilot</a></li>
+          <li><a href="claude-loop.html">Loop</a></li>
+          <li><a href="codex-goal.html">Goal</a></li>
+          <li><a href="../../blogs.html">All writing</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="page-shell" tabindex="-1">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">A field guide to agent persistence</p>
+        <h1 id="page-title">Same ambition.<br>Different clocks.</h1>
+        <p class="lede">Autopilot, loop, and goal all reduce the need to keep prompting an agent. The important difference is <strong>what makes each one continue—and what makes it stop.</strong></p>
+      </div>
+      <aside class="hero-note" aria-label="Quick conclusion">
+        <p class="hero-note-label">The short answer</p>
+        <p>They are related, not interchangeable. Think <strong>task completion</strong>, <strong>scheduled recurrence</strong>, and <strong>condition-driven persistence</strong>.</p>
+      </aside>
+    </section>
+
+    <section class="section" aria-labelledby="three-patterns">
+      <div class="section-heading">
+        <h2 id="three-patterns">Three continuation patterns</h2>
+        <p>Start with the sentence that best describes the work. Each pattern links to a deeper explanation, invocation examples, safety considerations, and failure modes.</p>
+      </div>
+
+      <div class="concept-grid">
+        <a class="concept-card github" href="github-autopilot.html">
+          <span class="card-index" aria-hidden="true">01</span>
+          <h3>Autopilot</h3>
+          <p class="product">GitHub Copilot CLI</p>
+          <p class="mechanism">“Take this well-defined task and keep taking the next step until you believe it is complete.”</p>
+          <span class="card-link">Explore Autopilot</span>
+        </a>
+
+        <a class="concept-card claude" href="claude-loop.html">
+          <span class="card-index" aria-hidden="true">02</span>
+          <h3>Loop</h3>
+          <p class="product">Claude Code</p>
+          <p class="mechanism">“Wake up on a cadence and run this prompt again while the session stays open.”</p>
+          <span class="card-link">Explore Loop</span>
+        </a>
+
+        <a class="concept-card codex" href="codex-goal.html">
+          <span class="card-index" aria-hidden="true">03</span>
+          <h3>Goal</h3>
+          <p class="product">Codex</p>
+          <p class="mechanism">“Keep making verified progress across turns until this explicit condition is satisfied.”</p>
+          <span class="card-link">Explore Goal</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="shared-model-title">
+      <div class="section-heading">
+        <h2 id="shared-model-title">The shared mental model</h2>
+        <p>All three wrap an ordinary agent turn in an outer continuation mechanism. The outer mechanism is where they diverge.</p>
+      </div>
+
+      <figure>
+        <div class="shared-model" aria-label="Prompt leads to agent work, evaluation, and either continuation or stopping">
+          <div class="model-step"><strong>Prompt</strong><span>Define the work</span></div>
+          <span class="model-arrow" aria-hidden="true">→</span>
+          <div class="model-step"><strong>Agent turn</strong><span>Observe and act</span></div>
+          <span class="model-arrow" aria-hidden="true">→</span>
+          <div class="model-step"><strong>Outer check</strong><span>Task, time, or condition</span></div>
+          <span class="model-arrow" aria-hidden="true">→</span>
+          <div class="model-step"><strong>Continue / stop</strong><span>Apply the product rule</span></div>
+        </div>
+        <figcaption class="visually-hidden">A common continuation flow: prompt, agent turn, outer check, then continue or stop.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section" aria-labelledby="comparison-title">
+      <div class="section-heading">
+        <h2 id="comparison-title">Compare the control models</h2>
+        <p>The deciding question is not “which agent is smartest?” It is “what event should cause the next turn?”</p>
+      </div>
+
+      <div class="comparison-wrap" tabindex="0">
+        <table class="comparison-table">
+          <caption>Operational comparison of the three continuation features</caption>
+          <thead>
+            <tr>
+              <th scope="col">Dimension</th>
+              <th scope="col"><span class="table-product"><span class="product-dot github" aria-hidden="true"></span>GitHub Autopilot</span></th>
+              <th scope="col"><span class="table-product"><span class="product-dot claude" aria-hidden="true"></span>Claude Loop</span></th>
+              <th scope="col"><span class="table-product"><span class="product-dot codex" aria-hidden="true"></span>Codex Goal</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Primary trigger</th>
+              <td>One initial task</td>
+              <td>A time interval or self-paced wake-up</td>
+              <td>One durable objective</td>
+            </tr>
+            <tr>
+              <th scope="row">Why it continues</th>
+              <td>The task still needs another agent continuation</td>
+              <td>The next scheduled iteration becomes due</td>
+              <td>The stopping condition has not been met</td>
+            </tr>
+            <tr>
+              <th scope="row">Normal stop</th>
+              <td>The agent declares the task complete</td>
+              <td>You cancel it, it expires, or the work is done</td>
+              <td>Codex is confident the goal condition is satisfied</td>
+            </tr>
+            <tr>
+              <th scope="row">Time model</th>
+              <td>Continuous multi-step run</td>
+              <td>Repeated, time-based runs</td>
+              <td>Continuous progress across turns</td>
+            </tr>
+            <tr>
+              <th scope="row">Local requirement</th>
+              <td>Runs in the local CLI session</td>
+              <td>Machine and session must remain available</td>
+              <td>Runs as long-running Codex work in the active environment</td>
+            </tr>
+            <tr>
+              <th scope="row">Best fit</th>
+              <td>Detailed implementation plans and bounded coding tasks</td>
+              <td>Polling deploys, PRs, builds, or recurring maintenance</td>
+              <td>Migrations, refactors, experiments, and measurable targets</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="decision-title">
+      <div class="section-heading">
+        <h2 id="decision-title">Choose by stopping rule</h2>
+        <p>Write down the event that should end the work. That usually reveals the right mechanism faster than comparing feature names.</p>
+      </div>
+
+      <div class="decision-grid">
+        <article class="decision-card">
+          <h3>“Stop when the implementation is done.”</h3>
+          <p>Use Autopilot when the task is bounded, the plan is detailed, and GitHub Copilot can decide when its work is complete.</p>
+          <a href="github-autopilot.html">See the Autopilot workflow →</a>
+        </article>
+        <article class="decision-card">
+          <h3>“Check again in five minutes.”</h3>
+          <p>Use Claude <code>/loop</code> when elapsed time—not unfinished reasoning—is what should trigger another check.</p>
+          <a href="claude-loop.html">See the Loop workflow →</a>
+        </article>
+        <article class="decision-card">
+          <h3>“Stop when this testable condition is true.”</h3>
+          <p>Use Codex <code>/goal</code> when success is explicit and the agent should keep iterating and validating across turns.</p>
+          <a href="codex-goal.html">See the Goal workflow →</a>
+        </article>
+        <article class="decision-card">
+          <h3>“Keep an eye on this for weeks.”</h3>
+          <p>Use a durable scheduler or cloud automation. An open local session is the wrong reliability boundary for long-lived monitoring.</p>
+          <a href="claude-loop.html#not-a-daemon">Understand session-scoped loops →</a>
+        </article>
+      </div>
+    </section>
+
+    <aside class="callout warning" aria-labelledby="similar-not-same">
+      <p id="similar-not-same" class="callout-title">Similar does not mean safely interchangeable</p>
+      <p>Continuation increases autonomy, tool usage, and potentially cost. A crisp scope, least-privilege permissions, observable checkpoints, and a clear stop rule matter in every product.</p>
+    </aside>
+
+    <div class="verified-strip">
+      <span class="status">Verified against first-party documentation</span>
+      <time datetime="2026-08-05">05 Aug 2026</time>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p>Agent Continuation Atlas · A practical, vendor-neutral field guide.</p>
+      <nav aria-label="Footer">
+        <ul role="list">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="index.html#comparison-title">Compare</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

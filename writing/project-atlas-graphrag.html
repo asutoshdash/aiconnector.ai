@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Project Atlas comparison of shortlisted open-source GraphRAG and knowledge-graph projects, plus Stripe and Cerebras production reference architectures.">
+  <title>GraphRAG Feature &amp; Pricing Matrix | Project Atlas</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --canvas: #f3f6fa;
+      --surface: #ffffff;
+      --surface-alt: #f7f9fc;
+      --ink: #172033;
+      --muted: #58657a;
+      --line: #d6deea;
+      --navy: #14233f;
+      --blue: #135ec4;
+      --blue-soft: #e9f2ff;
+      --teal: #087f72;
+      --teal-soft: #e5f6f3;
+      --amber: #9a5a00;
+      --amber-soft: #fff3db;
+      --shadow: 0 14px 38px rgb(21 35 62 / 9%);
+      --radius: 1rem;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--canvas);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1rem;
+      line-height: 1.55;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: var(--blue); text-underline-offset: 0.16em; }
+    a:hover { text-decoration-thickness: 0.14em; }
+    :where(a, [tabindex]):focus-visible { outline: 3px solid #ee7d00; outline-offset: 3px; }
+
+    .skip-link {
+      position: fixed;
+      inset-block-start: 0.75rem;
+      inset-inline-start: 0.75rem;
+      z-index: 20;
+      padding: 0.65rem 0.9rem;
+      border-radius: 0.5rem;
+      background: #ffffff;
+      color: #101827;
+      box-shadow: var(--shadow);
+      transform: translateY(-180%);
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .hero {
+      position: relative;
+      overflow: clip;
+      padding: clamp(2.5rem, 7vw, 5.5rem) 1.25rem clamp(3rem, 7vw, 5.75rem);
+      background:
+        radial-gradient(circle at 86% 8%, rgb(50 154 223 / 28%), transparent 31rem),
+        linear-gradient(135deg, #0b1428, #142f58 62%, #115b71);
+      color: #ffffff;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inline-size: 22rem;
+      block-size: 22rem;
+      inset-inline-end: -8rem;
+      inset-block-end: -13rem;
+      border: 1px solid rgb(255 255 255 / 20%);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3rem rgb(255 255 255 / 4%), 0 0 0 7rem rgb(255 255 255 / 3%);
+    }
+
+    .hero-inner,
+    .page-shell { inline-size: min(100%, 96rem); margin-inline: auto; }
+    .hero-inner { position: relative; z-index: 1; }
+
+    .eyebrow {
+      margin: 0 0 0.8rem;
+      color: #93d9f1;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-inline-size: 18ch;
+      margin: 0;
+      font-size: clamp(2.25rem, 5vw, 4.75rem);
+      line-height: 0.99;
+      letter-spacing: -0.045em;
+    }
+
+    .hero-copy {
+      max-inline-size: 70ch;
+      margin: 1.35rem 0 0;
+      color: #d6e6f5;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+    }
+
+    .meta-row { display: flex; flex-wrap: wrap; gap: 0.65rem; margin-block-start: 1.6rem; }
+    .meta-pill {
+      padding: 0.42rem 0.7rem;
+      border: 1px solid rgb(255 255 255 / 24%);
+      border-radius: 999px;
+      background: rgb(255 255 255 / 8%);
+      color: #f3f8fc;
+      font-size: 0.82rem;
+    }
+
+    .page-shell { padding: 1.25rem clamp(0.75rem, 2.5vw, 2rem) 4rem; }
+
+    .toc,
+    .panel,
+    .callout {
+      margin-block: 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .toc { padding: 1rem 1.15rem; }
+    .toc strong { display: block; margin-block-end: 0.45rem; color: var(--navy); }
+    .toc ul { display: flex; flex-wrap: wrap; gap: 0.45rem 1.15rem; margin: 0; padding: 0; list-style: none; }
+    .toc li { margin: 0; }
+    .toc a { font-size: 0.92rem; font-weight: 650; }
+
+    .panel { padding: clamp(1rem, 2.5vw, 1.8rem); }
+    .section-kicker {
+      margin: 0 0 0.25rem;
+      color: var(--teal);
+      font-size: 0.74rem;
+      font-weight: 850;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h2 { margin: 0; color: var(--navy); font-size: clamp(1.45rem, 2.4vw, 2rem); line-height: 1.15; letter-spacing: -0.025em; }
+    h3 { margin-block: 1.6rem 0.45rem; color: var(--navy); font-size: 1.12rem; }
+    p { max-inline-size: 80ch; }
+    .section-intro { margin: 0.5rem 0 1rem; color: var(--muted); }
+
+    .callout { padding: 1rem 1.1rem; border-inline-start: 0.38rem solid var(--amber); background: var(--amber-soft); color: #573600; }
+    .callout strong { color: #412600; }
+
+    .table-region {
+      max-inline-size: 100%;
+      margin-block-start: 1rem;
+      overflow: auto;
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+      background: var(--surface);
+    }
+
+    table { inline-size: 100%; border-collapse: collapse; font-size: 0.88rem; }
+    table.wide { min-inline-size: 84rem; }
+    table.medium { min-inline-size: 64rem; }
+    caption {
+      padding: 0.75rem 0.85rem;
+      background: var(--surface-alt);
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 650;
+      text-align: start;
+    }
+    th,
+    td { padding: 0.72rem 0.78rem; border-block-end: 1px solid var(--line); text-align: start; vertical-align: top; }
+    thead th { position: sticky; inset-block-start: 0; z-index: 2; background: var(--navy); color: #ffffff; font-size: 0.77rem; letter-spacing: 0.025em; }
+    tbody th[scope="row"] { background: var(--surface-alt); color: var(--navy); font-weight: 750; }
+    tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--surface-alt) 65%, transparent); }
+    tbody tr:last-child > * { border-block-end: 0; }
+    td.center { text-align: center; }
+    .yes { color: var(--teal); font-weight: 800; }
+    .partial { color: var(--amber); font-weight: 750; }
+    .no { color: var(--muted); }
+    .price { color: var(--blue); font-weight: 800; white-space: nowrap; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 0.9rem 0 0; }
+    .legend span { padding: 0.3rem 0.55rem; border-radius: 0.45rem; background: var(--surface-alt); font-size: 0.82rem; }
+
+    .insights,
+    .source-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 0.85rem; margin-block-start: 1rem; }
+    .insight {
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+      background: var(--surface-alt);
+    }
+    .insight h3 { margin: 0 0 0.3rem; font-size: 0.98rem; }
+    .insight p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+    pre {
+      max-inline-size: 100%;
+      overflow: auto;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      background: #10192c;
+      color: #e6effa;
+      font: 0.86rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace;
+      scrollbar-gutter: stable;
+    }
+
+    ol,
+    ul { padding-inline-start: 1.3rem; }
+    li + li { margin-block-start: 0.32rem; }
+    footer { margin-block-start: 2rem; color: var(--muted); font-size: 0.82rem; text-align: center; }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --canvas: #0e1420;
+        --surface: #151d2a;
+        --surface-alt: #1b2534;
+        --ink: #edf3fb;
+        --muted: #afbdd0;
+        --line: #344156;
+        --navy: #dceaff;
+        --blue: #7cb7ff;
+        --blue-soft: #153257;
+        --teal: #6ed7c8;
+        --teal-soft: #133a35;
+        --amber: #ffc36a;
+        --amber-soft: #3b2c16;
+        --shadow: 0 14px 38px rgb(0 0 0 / 26%);
+      }
+      .callout { color: #ffe5b2; }
+      .callout strong { color: #fff2d3; }
+      thead th { background: #273c5f; }
+    }
+
+    @media (max-width: 44rem) {
+      .hero { padding-inline: 1rem; }
+      .toc ul { display: block; }
+      .toc li + li { margin-block-start: 0.35rem; }
+      .panel { border-radius: 0.75rem; }
+    }
+
+    @media print {
+      @page { size: A4 landscape; margin: 10mm; }
+      :root {
+        color-scheme: light;
+        --canvas: #ffffff;
+        --surface: #ffffff;
+        --surface-alt: #f3f5f8;
+        --ink: #111827;
+        --muted: #4b5563;
+        --line: #c8d0dc;
+        --navy: #152747;
+        --blue: #174f9b;
+        --teal: #087267;
+        --amber: #805000;
+        --amber-soft: #fff7e5;
+        --shadow: none;
+      }
+      body { background: #ffffff; font-size: 9pt; }
+      .hero { padding: 14mm 10mm; background: #152747 !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .hero::after, .skip-link, .toc { display: none; }
+      .page-shell { inline-size: 100%; padding: 0; }
+      .panel, .callout { margin-block: 6mm; box-shadow: none; }
+      .panel { padding: 5mm; }
+      .table-region { overflow: visible; border-radius: 0; }
+      table, table.wide, table.medium { min-inline-size: 0; font-size: 7.4pt; }
+      th, td { padding: 3.2pt 4pt; }
+      thead { display: table-header-group; }
+      thead th { position: static; background: #152747 !important; color: #ffffff !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      tr { break-inside: avoid; }
+      .insight { break-inside: avoid; }
+      h2, h3 { break-after: avoid; }
+      a { color: inherit; text-decoration: none; }
+      footer { break-before: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to report</a>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Project Atlas · Technical Landscape</p>
+      <h1>GraphRAG feature &amp; pricing matrix</h1>
+      <p class="hero-copy">A README-based comparison of eight shortlisted open-source graph knowledge systems, complemented by Stripe and Cerebras production reference architectures.</p>
+      <div class="meta-row">
+        <span class="meta-pill">Snapshot: 11 August 2026</span>
+        <span class="meta-pill">8 OSS approaches + 2 references</span>
+        <span class="meta-pill">MIT / Apache-style OSS</span>
+        <span class="meta-pill">Prices in USD</span>
+      </div>
+    </div>
+  </header>
+
+  <main id="content" class="page-shell" tabindex="-1">
+    <nav class="toc" aria-label="Report sections">
+      <strong>Jump to</strong>
+      <ul role="list">
+        <li><a href="#positioning">Positioning</a></li>
+        <li><a href="#capabilities">Capabilities</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#references">Production references</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#selection">Selection</a></li>
+        <li><a href="#poc">Proof of concept</a></li>
+        <li><a href="#sources">Sources</a></li>
+      </ul>
+    </nav>
+
+    <aside class="callout">
+      <strong>Pricing principle:</strong> every shortlisted repository has a $0 software-license price, but none has a zero operating cost. Model calls, embeddings, databases, compute, observability and engineering dominate total cost. Public prices below are snapshots, not quotes.
+    </aside>
+
+    <section id="positioning" class="panel">
+      <p class="section-kicker">Matrix 01</p>
+      <h2>What each project is actually for</h2>
+      <p class="section-intro">Projects that share the “GraphRAG” label solve substantially different problems. This is the most important matrix in the report.</p>
+      <div class="table-region" role="region" aria-label="Project positioning comparison; scroll horizontally if needed" tabindex="0">
+        <table class="medium">
+          <caption>Shortlist positioning, best fit and boundary</caption>
+          <thead>
+            <tr><th scope="col">Shortlist</th><th scope="col">Designed to do</th><th scope="col">Best fit</th><th scope="col">Not primarily</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row"><a href="https://github.com/gusye1234/nano-graphrag">nano-graphrag</a></th><td>Small implementation of Microsoft-style GraphRAG</td><td>Learning, source study and controlled experiments</td><td>A complete multi-tenant production platform</td></tr>
+            <tr><th scope="row"><a href="https://github.com/microsoft/graphrag">Microsoft GraphRAG</a></th><td>Batch extraction, graph communities and hierarchical reports over documents</td><td>Whole-corpus themes plus entity-focused questions</td><td>A supported managed product or native graph database</td></tr>
+            <tr><th scope="row"><a href="https://github.com/HKUDS/LightRAG">LightRAG</a></th><td>Lighter graph/vector RAG server with several retrieval modes and storage adapters</td><td>General self-hosted GraphRAG, incremental documents and multimodal files</td><td>A formal ontology or symbolic-rule engine</td></tr>
+            <tr><th scope="row"><a href="https://github.com/OSU-NLP-Group/HippoRAG">HippoRAG</a></th><td>Long-term memory retrieval using a KG and Personalized PageRank</td><td>Associative, multi-hop and continual-learning research</td><td>A turnkey enterprise knowledge platform</td></tr>
+            <tr><th scope="row"><a href="https://github.com/getzep/graphiti">Graphiti</a></th><td>Bi-temporal context graph that evolves episode by episode</td><td>Agent memory, changing facts and historical questions</td><td>Static whole-corpus community summarization</td></tr>
+            <tr><th scope="row"><a href="https://github.com/OpenSPG/KAG">KAG</a> + <a href="https://github.com/OpenSPG/openspg">OpenSPG</a></th><td>Schema-constrained domain knowledge plus logical-form-guided reasoning</td><td>Professional domains with rules, terminology and factual multi-hop questions</td><td>A minimal plug-and-play RAG library</td></tr>
+            <tr><th scope="row"><a href="https://github.com/neo4j/neo4j-graphrag-python">Neo4j GraphRAG</a> + <a href="https://github.com/neo4j-labs/llm-graph-builder">Graph Builder</a></th><td>Practical KG construction and multiple retrieval patterns on Neo4j</td><td>Property-graph applications, Cypher and managed graph infrastructure</td><td>Database-neutral GraphRAG</td></tr>
+            <tr><th scope="row"><a href="https://github.com/trustgraph-ai/trustgraph">TrustGraph</a></th><td>Full context-engineering and agent backend using ontology, graph/vector retrieval and provenance</td><td>Sovereign, explainable, multi-tenant context infrastructure</td><td>A small embeddable library</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="capabilities" class="panel">
+      <p class="section-kicker">Matrix 02</p>
+      <h2>Capability comparison</h2>
+      <div class="legend" aria-label="Capability legend">
+        <span><strong class="yes">✓</strong> explicit core capability</span>
+        <span><strong class="partial">◐</strong> limited, indirect or secondary</span>
+        <span><strong class="no">—</strong> not explicit in reviewed README</span>
+      </div>
+      <div class="table-region" role="region" aria-label="Capability comparison; scroll horizontally if needed" tabindex="0">
+        <table class="wide">
+          <caption>Capabilities explicitly described by current project documentation</caption>
+          <thead>
+            <tr><th scope="col">Capability</th><th scope="col">nano</th><th scope="col">Microsoft</th><th scope="col">LightRAG</th><th scope="col">HippoRAG</th><th scope="col">Graphiti</th><th scope="col">KAG / OpenSPG</th><th scope="col">Neo4j</th><th scope="col">TrustGraph</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Automatic entity/relation extraction</th><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+            <tr><th scope="row">Formal schema/ontology</th><td class="center no">—</td><td class="center partial">◐</td><td class="center partial">◐</td><td class="center no">—</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+            <tr><th scope="row">Vector + graph retrieval</th><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td><td class="center yes">✓</td></tr>
+            <tr><th scope="row">Lexical/keyword retrieval</th><td class="center no">—</td><td class="center no">—</td><td class="center partial">◐</td><td class="center partial">◐</td><td>✓ BM25</td><td>✓ exact/text</td><td>✓ full-text</td><td class="center partial">◐</td></tr>
+            <tr><th scope="row">Whole-corpus global summary</th><td>✓ top communities</td><td>✓ map-reduce reports</td><td>✓ global/mix</td><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td><td>◐ global-vector</td><td class="center no">—</td></tr>
+            <tr><th scope="row">Incremental ingestion</th><td>✓ report rebuild</td><td>◐ batch-biased</td><td class="center yes">✓</td><td>✓ continual</td><td>✓ real-time episodes</td><td>✓ iterative</td><td>◐ pipeline-driven</td><td>✓ flows</td></tr>
+            <tr><th scope="row">Selective deletion/retraction</th><td class="center partial">◐</td><td class="center partial">◐</td><td>✓ affected-KG rebuild</td><td class="center partial">◐</td><td>✓ temporal invalidation</td><td class="center partial">◐</td><td>◐ app logic</td><td>◐ version/flow</td></tr>
+            <tr><th scope="row">Explicit temporal validity/history</th><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td><td>✓ bi-temporal</td><td class="center no">—</td><td class="center no">—</td><td>◐ freshness/version</td></tr>
+            <tr><th scope="row">Symbolic rules/logical reasoning</th><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td><td class="center no">—</td><td>✓ KGDSL/reasoner</td><td>◐ Cypher traversal</td><td>◐ ontology policy</td></tr>
+            <tr><th scope="row">Multi-hop/associative retrieval</th><td class="center partial">◐</td><td>◐ DRIFT/local</td><td>◐ relationship chains</td><td>✓ PPR</td><td>✓ graph search</td><td class="center yes">✓</td><td>✓ graph/Cypher</td><td>✓ traceable paths</td></tr>
+            <tr><th scope="row">Multimodal document reasoning</th><td class="center no">—</td><td class="center no">—</td><td>✓ VLM + parsers</td><td class="center no">—</td><td class="center no">—</td><td>◐ processing</td><td>◐ varied sources</td><td>◐ media stack</td></tr>
+            <tr><th scope="row">Built-in web UI</th><td class="center no">—</td><td class="center no">—</td><td class="center yes">✓</td><td class="center no">—</td><td class="center no">— core</td><td class="center partial">◐</td><td>✓ Graph Builder</td><td class="center yes">✓</td></tr>
+            <tr><th scope="row">REST API / MCP</th><td>Library</td><td>CLI/Python</td><td>✓ REST</td><td>Library</td><td>✓ REST/MCP</td><td>SDK/server</td><td>Python + app API</td><td>✓ API/MCP</td></tr>
+            <tr><th scope="row">Built-in multi-tenancy/isolation</th><td class="center no">—</td><td class="center no">—</td><td>◐ workspaces/auth</td><td class="center no">—</td><td>◐ groups</td><td>◐ project/domain</td><td>App/database dependent</td><td>✓ workspace/collection/flow</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="insights">
+        <article class="insight"><h3>Whole-corpus specialist</h3><p>Microsoft global search uses community reports in a map-reduce query. It is distinctive—and resource intensive.</p></article>
+        <article class="insight"><h3>Temporal specialist</h3><p>Graphiti uniquely models fact-validity windows and preserves superseded facts as history.</p></article>
+        <article class="insight"><h3>Semantic-control specialist</h3><p>KAG/OpenSPG provides the strongest schema, normalization and rule model, with the highest up-front modeling work.</p></article>
+        <article class="insight"><h3>Full-stack specialist</h3><p>TrustGraph supplies orchestration, storage, ingestion, retrieval, MCP and UI—along with the largest operations surface.</p></article>
+      </div>
+    </section>
+
+    <section id="architecture" class="panel">
+      <p class="section-kicker">Matrix 03</p>
+      <h2>Architecture, storage and deployment</h2>
+      <div class="table-region" role="region" aria-label="Architecture comparison; scroll horizontally if needed" tabindex="0">
+        <table class="wide">
+          <caption>Storage, model integration, deployment shape and principal operational concern</caption>
+          <thead>
+            <tr><th scope="col">Shortlist</th><th scope="col">Storage</th><th scope="col">Model choices</th><th scope="col">Deployment</th><th scope="col">Main operational concern</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">nano</th><td>Disk KV, nano-vectordb, NetworkX; Neo4j/HNSW/Milvus/FAISS options</td><td>OpenAI, Bedrock; examples for Ollama, DeepSeek and sentence-transformers</td><td>Python package, single host by default</td><td>Incremental inserts avoid duplicate chunks but recompute communities and reports</td></tr>
+            <tr><th scope="row">Microsoft</th><td>Parquet tables plus configured vector store; no graph DB required</td><td>Configurable model providers and LiteLLM</td><td>CLI or Python index/query pipelines</td><td>Many standard-index LLM passes; version/config changes can require migration or re-indexing</td></tr>
+            <tr><th scope="row">LightRAG</th><td>KV, vector, graph and document-status roles; unified or specialized production backends</td><td>Separate extraction, query, keyword and VLM roles; hosted or local providers</td><td>REST server/Web UI via Docker, or Python core</td><td>Storage tuning; embedding-dimension changes require vector-state rebuilding</td></tr>
+            <tr><th scope="row">HippoRAG</th><td>Local output/index artifacts in packaged workflow</td><td>OpenAI-compatible, Bedrock and local vLLM</td><td>Python research/library workflow</td><td>GPU/model capacity and independent validation of research results</td></tr>
+            <tr><th scope="row">Graphiti</th><td>Neo4j, FalkorDB or Neptune; Neptune also uses OpenSearch Serverless</td><td>OpenAI default; Anthropic, Gemini, Groq and compatible/local servers</td><td>Python core, FastAPI and MCP</td><td>Structured-output reliability, graph operations and ongoing extraction/deduplication</td></tr>
+            <tr><th scope="row">KAG/OpenSPG</th><td>OpenSPG engine with pluggable graph and algorithm services</td><td>LLMs plus NLP/deep-learning operators</td><td>Engine, builder, reasoner, SDK/server and domain solution</td><td>Schema governance, entity alignment, custom operators and integration complexity</td></tr>
+            <tr><th scope="row">Neo4j</th><td>Neo4j 5.x + APOC; vectors in Neo4j or external Weaviate/Pinecone/Qdrant</td><td>Ollama, OpenAI/Azure, Google, Cohere, Anthropic, Mistral and Bedrock</td><td>Python package, Graph Builder UI/backend, self-managed or Aura</td><td>Neo4j capacity and production caution around experimental KG-builder APIs</td></tr>
+            <tr><th scope="row">TrustGraph</th><td>Cassandra, Qdrant, Garage object storage and Pulsar or RabbitMQ</td><td>Hosted providers or local vLLM, Ollama, TGI, LM Studio and Llamafiles</td><td>Multi-container Docker/Podman or Kubernetes</td><td>Largest platform-operations footprint, though fewer mandatory external services</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="references" class="panel">
+      <p class="section-kicker">Matrix 04</p>
+      <h2>Production reference architectures</h2>
+      <p class="section-intro">Stripe and Cerebras demonstrate production patterns, but neither publishes a reusable end-to-end knowledge-base implementation. They are references, not additional open-source shortlist candidates.</p>
+      <div class="table-region" role="region" aria-label="Production knowledge-base reference comparison; scroll horizontally if needed" tabindex="0">
+        <table class="wide">
+          <caption>Stripe and Cerebras compared as production reference architectures</caption>
+          <thead>
+            <tr><th scope="col">Reference</th><th scope="col">Scope and interface</th><th scope="col">Retrieval and storage</th><th scope="col">Graph / Tree-sitter</th><th scope="col">Security</th><th scope="col">Openness and price</th><th scope="col">Atlas lesson</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><a href="https://docs.stripe.com/mcp">Stripe AI knowledge base</a></th>
+              <td>Hosted MCP for searching Stripe documentation and support material, alongside narrowly scoped API discovery, planning, read and write tools</td>
+              <td>Backend retrieval, ranking and storage are not publicly disclosed</td>
+              <td>No public evidence of a knowledge graph or Tree-sitter</td>
+              <td>OAuth or restricted API keys, account scope, constrained tools and confirmation for consequential actions</td>
+              <td><a href="https://github.com/stripe/ai">Client and agent tooling</a> is MIT; hosted KB backend is proprietary. No separate public KB/MCP list price found.</td>
+              <td>Expose knowledge and actions as safe, task-oriented tools—not storage or a generally privileged agent</td>
+            </tr>
+            <tr>
+              <th scope="row"><a href="https://www.cerebras.ai/blog/how-we-built-our-knowledge-base">Cerebras Knowledge</a></th>
+              <td>Internal enterprise knowledge across Slack, code, documents and operational systems, delivered through web, automation and simple MCP retrieval primitives</td>
+              <td>PostgreSQL text, embeddings and metadata; full-text/vector retrieval with source signals, freshness, rank fusion, reranking and context restoration</td>
+              <td>Not GraphRAG. Cerebras names CocoIndex; <a href="https://cocoindex.io/docs/examples/index-codebase/">current CocoIndex code indexing</a> uses Tree-sitter, making this an indirect connection rather than proof of Cerebras's exact deployed splitter version.</td>
+              <td>Authentication, authorization, auditing, analytics and project/source scoping; exact row-level ACL mechanics are not public</td>
+              <td>Internal system with no public price; individual infrastructure components are independently available</td>
+              <td>Build an ACL-aware hybrid baseline first; add graphs only for measured multi-hop, temporal or ontology gains</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="insights">
+        <article class="insight"><h3>Stripe: control-plane reference</h3><p>Narrow MCP tools, scoped credentials and human confirmation establish a strong boundary around knowledge and actions.</p></article>
+        <article class="insight"><h3>Cerebras: retrieval reference</h3><p>Incremental ingestion, source-specific processing, hybrid ranking and evidence packaging create a strong non-graph baseline.</p></article>
+        <article class="insight"><h3>Tree-sitter's role</h3><p>Tree-sitter preserves code structure before embedding or graph extraction; it is an ingestion technique, not a graph engine.</p></article>
+      </div>
+    </section>
+
+    <section id="pricing" class="panel">
+      <p class="section-kicker">Matrix 05</p>
+      <h2>Pricing and cost tendency</h2>
+      <p class="section-intro">Relative cost is an architectural judgment, not an equal-corpus price benchmark. A fair comparison fixes corpus, model quality, schema, update rate, query mix, latency SLO and evaluation target.</p>
+      <div class="table-region" role="region" aria-label="Pricing comparison; scroll horizontally if needed" tabindex="0">
+        <table class="wide">
+          <caption>Repository cost, managed options, public list price and self-hosted cost drivers</caption>
+          <thead>
+            <tr><th scope="col">Shortlist</th><th scope="col">Repository</th><th scope="col">Managed option</th><th scope="col">Public list price</th><th scope="col">Self-hosted cost drivers</th><th scope="col">Cost tendency</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">nano</th><td>MIT · <span class="price">$0</span></td><td>None published</td><td>Not applicable</td><td>Extraction/summary models, embeddings, optional graph/vector DB</td><td>Low lab infrastructure; medium–high indexing tokens</td></tr>
+            <tr><th scope="row">Microsoft</th><td>MIT · <span class="price">$0</span></td><td>Repository is not an officially supported offering</td><td>No GraphRAG product price</td><td>LLM extraction and summaries, community reports, query model, embeddings, vector storage</td><td><strong>High</strong> standard indexing/global search; FastGraphRAG is cheaper</td></tr>
+            <tr><th scope="row">LightRAG</th><td>MIT · <span class="price">$0</span></td><td>None published</td><td>Not applicable</td><td>Four storage roles, four model roles, embeddings, reranker and parsers</td><td><strong>Medium</strong> with local models; rises with multimodal/production backends</td></tr>
+            <tr><th scope="row">HippoRAG</th><td>MIT · <span class="price">$0</span></td><td>None published</td><td>Not applicable</td><td>LLM/embedding APIs or GPU-hosted vLLM, index storage</td><td><strong>Low–medium offline</strong> per README; verify independently</td></tr>
+            <tr><th scope="row">Graphiti</th><td>Apache-2.0 · <span class="price">$0</span> self-hosted</td><td><a href="https://www.getzep.com/pricing/">Zep</a></td><td>Free: 10k credits/month. Flex: <span class="price">$125/month</span> or $1,250/year. Flex Plus: <span class="price">$375/month</span> or $3,750/year. Enterprise: negotiated.</td><td>Models, embeddings/reranker, graph DB and continuous episode processing</td><td><strong>Medium–high</strong> self-hosted; managed scales with episode bytes</td></tr>
+            <tr><th scope="row">KAG/OpenSPG</th><td>Apache-2.0 · <span class="price">$0</span></td><td>No public managed price found</td><td>Not published</td><td>Graph engine, compute, LLMs, NLP operators, modeling team and operations</td><td><strong>High engineering/fixed cost</strong></td></tr>
+            <tr><th scope="row">Neo4j</th><td>GraphRAG/Builder · <span class="price">$0</span></td><td><a href="https://neo4j.com/pricing/">AuraDB</a></td><td>Free: <span class="price">$0</span>. Professional: $65/GB/month; 1 GB example $65.70/month. Business Critical: $146/GB/month, 2 GB minimum; 2 GB example <span class="price">$292/month</span>.</td><td>Database capacity, extraction/generation, embeddings, app compute, optional vector DB</td><td><strong>Low prototype cost</strong>; predictable DB + variable models</td></tr>
+            <tr><th scope="row">TrustGraph</th><td>Apache-2.0 · <span class="price">$0</span></td><td>Optional support; no fixed public support price</td><td>Vendor illustration for 1M docs/10M queries: <span class="price">$5k–$9k/month</span> ($3k–$5k infrastructure + $2k–$4k LLM). Not a quote.</td><td>Multi-container storage/messaging, compute/GPU, models, OCR and operations</td><td><strong>High fixed platform cost</strong>; improves economically at scale</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Why Microsoft-style indexing is usually expensive</h3>
+      <p>Standard GraphRAG uses models for entity and relationship extraction, entity and relationship summaries, optional claims and community reports. FastGraphRAG replaces much extraction with NLP while retaining model-generated community reports. Microsoft estimates graph extraction at roughly 75% of standard indexing cost.</p>
+      <pre aria-label="GraphRAG monthly cost formula">monthly total = ingestion model calls
+              + embedding and reranking calls
+              + query-generation calls
+              + graph, vector and object storage
+              + compute or GPU
+              + observability, backups and network
+              + engineering and on-call operations</pre>
+    </section>
+
+    <section id="selection" class="panel">
+      <p class="section-kicker">Matrix 06</p>
+      <h2>Select by requirement, not popularity</h2>
+      <div class="table-region" role="region" aria-label="Project selection matrix; scroll horizontally if needed" tabindex="0">
+        <table class="medium">
+          <caption>First and second project to evaluate for each architectural priority</caption>
+          <thead><tr><th scope="col">Priority</th><th scope="col">Evaluate first</th><th scope="col">Compare against</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Learn internals</th><td>nano</td><td>Microsoft GraphRAG</td></tr>
+            <tr><th scope="row">Whole-corpus themes</th><td>Microsoft GraphRAG</td><td>LightRAG global/mix</td></tr>
+            <tr><th scope="row">General self-hosted document GraphRAG</th><td>LightRAG</td><td>Neo4j ecosystem</td></tr>
+            <tr><th scope="row">Multi-hop retrieval research</th><td>HippoRAG</td><td>KAG</td></tr>
+            <tr><th scope="row">Changing agent memory</th><td>Graphiti</td><td>TrustGraph</td></tr>
+            <tr><th scope="row">Formal ontology and deterministic rules</th><td>KAG/OpenSPG</td><td>TrustGraph</td></tr>
+            <tr><th scope="row">Managed property graph</th><td>Neo4j/Aura</td><td>Graphiti/Zep for agent memory</td></tr>
+            <tr><th scope="row">Sovereign full context platform</th><td>TrustGraph</td><td>LightRAG + selected infrastructure</td></tr>
+            <tr><th scope="row">Lowest-cost learning prototype</th><td>nano + local models</td><td>Graph Builder + AuraDB Free</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="poc" class="panel">
+      <p class="section-kicker">Decision method</p>
+      <h2>Recommended four-hypothesis proof of concept</h2>
+      <ol>
+        <li><strong>Baseline:</strong> lexical + vector RAG without a graph.</li>
+        <li><strong>Document GraphRAG:</strong> LightRAG and Microsoft on whole-corpus and entity questions.</li>
+        <li><strong>Temporal memory:</strong> Graphiti on corrections, superseded facts and historical questions.</li>
+        <li><strong>Controlled domain graph:</strong> Neo4j or KAG/OpenSPG on schema-constrained multi-hop questions.</li>
+      </ol>
+      <p>Hold the generator model constant where possible. Measure retrieval precision/recall, multi-hop accuracy, faithfulness, provenance correctness, ACL leakage, indexing and query cost, update/deletion latency, P50/P95 latency, failure rate and engineer-days to production.</p>
+      <aside class="callout"><strong>Decision rule:</strong> choose the simplest architecture that produces a statistically meaningful gain over the lexical-plus-vector baseline while meeting security and latency requirements.</aside>
+    </section>
+
+    <section id="sources" class="panel">
+      <p class="section-kicker">Evidence</p>
+      <h2>Official sources reviewed</h2>
+      <div class="source-grid">
+        <div class="insight"><h3>Core GraphRAG</h3><p><a href="https://github.com/gusye1234/nano-graphrag">nano</a> · <a href="https://github.com/microsoft/graphrag">Microsoft</a> · <a href="https://github.com/HKUDS/LightRAG">LightRAG</a> · <a href="https://github.com/OSU-NLP-Group/HippoRAG">HippoRAG</a></p></div>
+        <div class="insight"><h3>Memory &amp; semantics</h3><p><a href="https://github.com/getzep/graphiti">Graphiti</a> · <a href="https://github.com/OpenSPG/KAG">KAG</a> · <a href="https://github.com/OpenSPG/openspg">OpenSPG</a> · <a href="https://github.com/trustgraph-ai/trustgraph">TrustGraph</a></p></div>
+        <div class="insight"><h3>Neo4j</h3><p><a href="https://github.com/neo4j/neo4j-graphrag-python">GraphRAG Python</a> · <a href="https://github.com/neo4j-labs/llm-graph-builder">LLM Graph Builder</a> · <a href="https://neo4j.com/pricing/">Aura pricing</a></p></div>
+        <div class="insight"><h3>Pricing</h3><p><a href="https://www.getzep.com/pricing/">Zep pricing</a> · <a href="https://neo4j.com/pricing/">Neo4j pricing</a> · <a href="https://trustgraph.ai/guides/comparisons/trustgraph-vs-neoclouds">TrustGraph cost illustration</a></p></div>
+        <div class="insight"><h3>Production references</h3><p><a href="https://docs.stripe.com/mcp">Stripe MCP</a> · <a href="https://github.com/stripe/ai">Stripe AI toolkit</a> · <a href="https://www.cerebras.ai/blog/how-we-built-our-knowledge-base">Cerebras Knowledge</a> · <a href="https://cocoindex.io/docs/examples/index-codebase/">CocoIndex code indexing</a></p></div>
+      </div>
+    </section>
+
+    <footer>
+      Project Atlas · Employer-neutral technical learning material · <a href="../blogs.html">All writing</a>
+    </footer>
+  </main>
+</body>
+</html>

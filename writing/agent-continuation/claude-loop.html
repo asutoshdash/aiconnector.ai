@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How Claude Code loop schedules repeated prompts, inherits session permissions, and differs from completion-driven agents.">
+  <title>Claude Code Loop | Agent Continuation Atlas</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2315201d'/%3E%3Ctext x='12' y='43' font-size='30' fill='white'%3EA%E2%86%92%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="detail-page page-accent-claude">
+  <a class="skip-link" href="#content">Skip to main content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html">
+        <span class="brand-mark" aria-hidden="true">A→</span>
+        <span>Agent Continuation Atlas</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary">
+        <ul role="list">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="github-autopilot.html">Autopilot</a></li>
+          <li><a href="claude-loop.html" aria-current="page">Loop</a></li>
+          <li><a href="codex-goal.html">Goal</a></li>
+          <li><a href="../../blogs.html">All writing</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content" class="page-shell" tabindex="-1">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="index.html">Overview</a></li>
+        <li aria-current="page">Claude Loop</li>
+      </ol>
+    </nav>
+
+    <section class="hero detail-hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Cadence-driven recurrence</p>
+        <span class="product-command">/loop [interval] [prompt]</span>
+        <h1 id="page-title">Claude Code Loop</h1>
+        <p class="lede">Schedule a prompt to run repeatedly inside the current Claude Code session. The clock—or Claude’s chosen wake-up cadence—causes the next iteration.</p>
+      </div>
+      <aside class="hero-note" aria-label="Concept summary">
+        <span class="product-mark" aria-hidden="true">CL</span>
+        <p class="hero-note-label">Mental model</p>
+        <p>Ask a colleague to check the deploy every five minutes and report when something changes.</p>
+      </aside>
+    </section>
+
+    <div class="detail-layout">
+      <article class="article-content">
+        <section id="definition" aria-labelledby="definition-title">
+          <h2 id="definition-title">What Loop controls</h2>
+          <p><code>/loop</code> is a bundled Claude Code skill for in-session scheduling. It registers a recurring prompt, waits, and enqueues that prompt again when the next iteration is due. Each iteration runs between turns rather than interrupting a response already in progress.</p>
+          <p>This makes Loop especially useful when the external world needs time to change: a build must finish, a deployment must settle, or new review feedback may arrive.</p>
+
+          <div class="lifecycle" aria-label="Claude Loop lifecycle">
+            <div class="lifecycle-step"><span>01 / Schedule</span><strong>Set a prompt and optional interval</strong></div>
+            <div class="lifecycle-step"><span>02 / Wait</span><strong>Keep the session available</strong></div>
+            <div class="lifecycle-step"><span>03 / Run</span><strong>Claude executes the prompt</strong></div>
+            <div class="lifecycle-step"><span>04 / Repeat</span><strong>Wait again, finish, cancel, or expire</strong></div>
+          </div>
+        </section>
+
+        <section id="forms" aria-labelledby="forms-title">
+          <h2 id="forms-title">Three useful forms</h2>
+          <dl class="definition-list">
+            <dt>Interval + prompt</dt>
+            <dd><code>/loop 5m check if the deploy finished</code> runs the prompt on a fixed cadence.</dd>
+            <dt>Prompt only</dt>
+            <dd><code>/loop check the deploy</code> lets Claude select the interval for each iteration.</dd>
+            <dt>Interval only or bare</dt>
+            <dd><code>/loop 15m</code> or <code>/loop</code> runs the built-in maintenance prompt, or the configured <code>loop.md</code> prompt.</dd>
+          </dl>
+
+          <figure>
+            <figcaption>Poll a deployment every five minutes</figcaption>
+            <pre tabindex="0"><code>/loop 5m check whether the deployment finished.
+If it failed, inspect the logs and summarize the likely cause.
+If it succeeded, report the release version and stop.</code></pre>
+          </figure>
+
+          <figure>
+            <figcaption>Repeat a packaged workflow</figcaption>
+            <pre tabindex="0"><code>/loop 20m /review-pr 1234</code></pre>
+          </figure>
+        </section>
+
+        <section id="scheduling" aria-labelledby="scheduling-title">
+          <h2 id="scheduling-title">Scheduling behavior</h2>
+          <ul>
+            <li>The minimum interval is one minute.</li>
+            <li>All times use the machine’s local timezone.</li>
+            <li>Scheduled prompts wait if Claude is already working and run after the current turn.</li>
+            <li>Recurring tasks expire seven days after creation.</li>
+            <li>A session can hold up to 50 scheduled tasks.</li>
+            <li>Fixed schedules include deterministic timing jitter in common cases.</li>
+          </ul>
+          <div class="callout">
+            <p class="callout-title">Dynamic loops may avoid polling</p>
+            <p>For a prompt without a fixed interval, Claude may use its Monitor tool to stream a background process instead. This can be more responsive and token-efficient than repeatedly rerunning a prompt.</p>
+          </div>
+        </section>
+
+        <section id="not-a-daemon" aria-labelledby="daemon-title">
+          <h2 id="daemon-title">It is not a durable daemon</h2>
+          <p><code>/loop</code> runs on your machine and depends on an open Claude Code session. An unexpired task can be restored when you resume the conversation, but Loop is not the right boundary for automation that must survive independently of that session.</p>
+          <div class="comparison-wrap" tabindex="0">
+            <table class="comparison-table">
+              <caption>Claude scheduling options by runtime boundary</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Option</th>
+                  <th scope="col">Runs on</th>
+                  <th scope="col">Open session needed?</th>
+                  <th scope="col">Use when</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row"><code>/loop</code></th>
+                  <td>Your machine</td>
+                  <td>Yes</td>
+                  <td>Quick polling during active work</td>
+                </tr>
+                <tr>
+                  <th scope="row">Desktop scheduled task</th>
+                  <td>Your machine</td>
+                  <td>No</td>
+                  <td>Persistent local work with file access</td>
+                </tr>
+                <tr>
+                  <th scope="row">Cloud routine</th>
+                  <td>Anthropic cloud</td>
+                  <td>No</td>
+                  <td>Reliable recurring work without your machine</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="control" aria-labelledby="control-title">
+          <h2 id="control-title">Permissions and stopping</h2>
+          <p>Each loop iteration inherits the tools and permission policy of the session. Loop does not grant broader authority merely because a prompt repeats.</p>
+          <ul>
+            <li>Press <kbd>Esc</kbd> while a Loop is waiting to clear its pending wake-up.</li>
+            <li>Ask Claude to list or cancel scheduled tasks when multiple jobs exist.</li>
+            <li>Set <code>CLAUDE_CODE_DISABLE_CRON=1</code> to disable scheduled tasks entirely.</li>
+            <li>Use an explicit “if complete, stop” instruction when the polling job has a natural end.</li>
+          </ul>
+        </section>
+
+        <section id="fit" aria-labelledby="fit-title">
+          <h2 id="fit-title">Where it fits</h2>
+          <div class="two-column">
+            <div class="content-panel">
+              <h3>Good fits</h3>
+              <ul class="fit-list">
+                <li>Waiting for a deployment</li>
+                <li>Babysitting a pull request or CI run</li>
+                <li>Periodic checks during a work session</li>
+                <li>Repeating a packaged review skill</li>
+              </ul>
+            </div>
+            <div class="content-panel">
+              <h3>Poor fits</h3>
+              <ul class="fit-list avoid">
+                <li>One continuous implementation task</li>
+                <li>Automation that must survive shutdown</li>
+                <li>Exact wall-clock scheduling</li>
+                <li>An objective with a measurable target but no time dependency</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="difference" aria-labelledby="difference-title">
+          <h2 id="difference-title">How it differs</h2>
+          <div class="callout warning">
+            <p class="callout-title">Loop is time-driven</p>
+            <p>Elapsed time triggers the next prompt. That is different from GitHub Autopilot’s continuous task completion and Codex Goal’s condition-driven persistence.</p>
+          </div>
+          <p><strong>Terminology note:</strong> Claude Code also documents its own <code>/goal</code> command. This guide deliberately compares Claude’s <code>/loop</code> scheduling feature because that is the named concept in this atlas—not because Loop is Claude’s only long-running-work mechanism.</p>
+        </section>
+
+        <section id="sources" aria-labelledby="sources-title">
+          <h2 id="sources-title">First-party sources</h2>
+          <div class="source-grid">
+            <article class="source-card">
+              <h3>Scheduled tasks</h3>
+              <p>Loop syntax, cadence, expiry, cancellation, permissions, and scheduling options.</p>
+              <a href="https://code.claude.com/docs/en/scheduled-tasks" target="_blank" rel="noreferrer">Read Claude Code Docs <span class="visually-hidden">(opens in a new tab)</span> ↗</a>
+            </article>
+            <article class="source-card">
+              <h3>Commands</h3>
+              <p>Reference entry for the bundled <code>/loop</code> skill.</p>
+              <a href="https://code.claude.com/docs/en/commands" target="_blank" rel="noreferrer">Read the command reference <span class="visually-hidden">(opens in a new tab)</span> ↗</a>
+            </article>
+          </div>
+        </section>
+
+        <nav class="next-pages" aria-label="Continue reading">
+          <a class="next-page" href="github-autopilot.html"><span>Previous concept</span><strong>← GitHub Autopilot</strong></a>
+          <a class="next-page" href="codex-goal.html"><span>Next concept</span><strong>Codex Goal →</strong></a>
+        </nav>
+      </article>
+
+      <aside class="toc" aria-labelledby="toc-title">
+        <h2 id="toc-title">On this page</h2>
+        <ol>
+          <li><a href="#definition">What it controls</a></li>
+          <li><a href="#forms">Three forms</a></li>
+          <li><a href="#scheduling">Scheduling</a></li>
+          <li><a href="#not-a-daemon">Runtime boundary</a></li>
+          <li><a href="#control">Control</a></li>
+          <li><a href="#fit">Where it fits</a></li>
+          <li><a href="#difference">How it differs</a></li>
+          <li><a href="#sources">Sources</a></li>
+        </ol>
+      </aside>
+    </div>
+
+    <div class="verified-strip">
+      <span class="status">Verified against Anthropic documentation</span>
+      <time datetime="2026-08-05">05 Aug 2026</time>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <p>Agent Continuation Atlas · A practical, vendor-neutral field guide.</p>
+      <nav aria-label="Footer">
+        <ul role="list">
+          <li><a href="index.html">Overview</a></li>
+          <li><a href="index.html#comparison-title">Compare</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
