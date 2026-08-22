@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -38,10 +38,20 @@
       <div class="writing-section-heading">
         <p class="micro-label">Featured</p>
         <h2 id="field-guides-title">Field guides</h2>
-        <p>Evidence-led comparisons for decisions that look similar on the surface but have materially different architecture, cost, and control implications.</p>
+        <p>Evidence-led comparisons and explainers for decisions that look simple on the surface but have materially different architecture, cost, and control implications.</p>
       </div>
 
       <div class="writing-grid featured-writing-grid">
+        <article class="article-card article-card-featured">
+          <img src="images/agent-turn-context.svg" alt="Diagram showing how a turn moves through an agent harness" width="1200" height="675">
+          <div class="article-card-copy">
+            <p class="micro-label">Agent architecture · Context engineering</p>
+            <h2>How a turn works in an agent harness</h2>
+            <p>Why model calls are stateless, why context and token usage grow, how tools create request loops, and what compaction changes.</p>
+            <a class="article-link" href="blogs/how-agent-turns-work.html">Read the explainer <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+
         <article class="article-card article-card-featured">
           <div class="article-cover atlas-cover" role="img" aria-label="Abstract network of connected knowledge nodes">
             <span class="cover-label">Project Atlas</span>
@@ -75,32 +85,34 @@
         </article>
       </div>
 
-      <div class="writing-section-heading writing-section-heading-secondary">
-        <p class="micro-label">Archive</p>
-        <h2 id="explorations-title">Earlier explorations</h2>
-      </div>
-
-      <div class="writing-grid" aria-labelledby="explorations-title">
-      <article class="article-card">
-        <img src="images/process-optimization.png" alt="Abstract process optimization workflow" width="960" height="540">
-        <div class="article-card-copy">
-          <p class="micro-label">Applied AI · Enterprise operations</p>
-          <h2>AI-powered process optimization</h2>
-          <p>An exploration of how intelligent systems can identify bottlenecks, improve decisions, and make operational workflows more adaptive.</p>
-          <a class="article-link" href="blogs/process-optimization.html">Read article <span aria-hidden="true">→</span></a>
+      <section aria-labelledby="explorations-title">
+        <div class="writing-section-heading writing-section-heading-secondary">
+          <p class="micro-label">Archive</p>
+          <h2 id="explorations-title">Earlier explorations</h2>
         </div>
-      </article>
 
-      <article class="article-card">
-        <img src="images/torque-clustering-hero.png" alt="Abstract visualization of clustered data" width="960" height="540">
-        <div class="article-card-copy">
-          <p class="micro-label">Machine learning · Exploration</p>
-          <h2>Understanding torque clustering in AI</h2>
-          <p>A technical introduction to a physics-inspired approach to identifying structure in complex, multidimensional data.</p>
-          <a class="article-link" href="blogs/torque-clustering.html">Read article <span aria-hidden="true">→</span></a>
+        <div class="writing-grid">
+          <article class="article-card">
+            <img src="images/process-optimization.png" alt="Abstract process optimization workflow" width="960" height="540">
+            <div class="article-card-copy">
+              <p class="micro-label">Applied AI · Enterprise operations</p>
+              <h2>AI-powered process optimization</h2>
+              <p>An exploration of how intelligent systems can identify bottlenecks, improve decisions, and make operational workflows more adaptive.</p>
+              <a class="article-link" href="blogs/process-optimization.html">Read article <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <img src="images/torque-clustering-hero.png" alt="Abstract visualization of clustered data" width="960" height="540">
+            <div class="article-card-copy">
+              <p class="micro-label">Machine learning · Exploration</p>
+              <h2>Understanding torque clustering in AI</h2>
+              <p>A technical introduction to a physics-inspired approach to identifying structure in complex, multidimensional data.</p>
+              <a class="article-link" href="blogs/torque-clustering.html">Read article <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
         </div>
-      </article>
-      </div>
+      </section>
     </section>
   </main>
 

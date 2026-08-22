@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Learn how an AI agent harness assembles context, counts input and output tokens, runs tools, and compacts long conversations.">
+  <meta name="theme-color" content="#07111f">
+  <link rel="canonical" href="https://www.aiconnector.ai/blogs/how-agent-turns-work.html">
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <title>How a Turn Works in an Agent Harness | Asutosh Dash</title>
+  <style>
+    .turn-hero {
+      position: relative;
+      overflow: hidden;
+      padding-block: clamp(4.5rem, 9vw, 7.5rem) clamp(3rem, 7vw, 5rem);
+      border-block-end: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 86% 12%, rgb(172 156 255 / 15%), transparent 27rem),
+        radial-gradient(circle at 10% 88%, rgb(100 230 197 / 9%), transparent 24rem),
+        var(--surface-soft);
+    }
+
+    .turn-shell {
+      width: min(calc(100% - 2rem), 58rem);
+      margin-inline: auto;
+    }
+
+    .turn-hero h1 {
+      max-width: 15ch;
+      margin-block-end: 1.35rem;
+      font-size: clamp(2.6rem, 7vw, 5.7rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .turn-lede {
+      max-width: 62ch;
+      margin-block-end: 1.5rem;
+      color: var(--muted-strong);
+      font-size: clamp(1.05rem, 2.3vw, 1.3rem);
+    }
+
+    .turn-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .turn-meta span:not(:last-child)::after {
+      margin-inline-start: 0.55rem;
+      color: var(--accent);
+      content: "·";
+    }
+
+    .turn-main {
+      padding-block: 2rem clamp(5rem, 10vw, 8rem);
+    }
+
+    .turn-back {
+      display: inline-flex;
+      margin-block-end: 1.5rem;
+      color: var(--accent);
+      font-size: 0.86rem;
+      font-weight: 760;
+    }
+
+    .turn-figure {
+      margin: 0 0 clamp(3rem, 7vw, 5rem);
+    }
+
+    .turn-figure img {
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .turn-figure figcaption {
+      margin-block-start: 0.7rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-align: center;
+    }
+
+    .turn-copy {
+      color: var(--muted-strong);
+      font-size: 1.04rem;
+      line-height: 1.78;
+    }
+
+    .turn-copy > p:first-child {
+      color: var(--ink);
+      font-size: clamp(1.15rem, 2.3vw, 1.35rem);
+      line-height: 1.65;
+    }
+
+    .turn-copy h2 {
+      margin-block: clamp(3.4rem, 8vw, 5.5rem) 1rem;
+      color: var(--ink);
+      font-size: clamp(1.75rem, 4vw, 2.65rem);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .turn-copy h3 {
+      margin-block: 2rem 0.65rem;
+      color: var(--accent);
+      font-size: 1.15rem;
+    }
+
+    .turn-copy p {
+      margin-block-end: 1.45rem;
+    }
+
+    .turn-copy strong {
+      color: var(--ink);
+    }
+
+    .turn-copy ol,
+    .turn-copy ul {
+      margin-block: 0 1.7rem;
+      padding-inline-start: 1.35rem;
+    }
+
+    .turn-copy li + li {
+      margin-block-start: 0.55rem;
+    }
+
+    .turn-callout {
+      margin-block: 2rem;
+      padding: 1.25rem 1.4rem;
+      border: 1px solid var(--line-strong);
+      border-inline-start: 0.35rem solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      background: var(--accent-soft);
+    }
+
+    .turn-callout p {
+      margin: 0;
+    }
+
+    .token-region {
+      max-width: 100%;
+      margin-block: 2rem;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface-soft);
+      scrollbar-gutter: stable;
+    }
+
+    .token-table {
+      width: 100%;
+      min-width: 42rem;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .token-table caption {
+      padding: 0.9rem 1rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-align: start;
+    }
+
+    .token-table th,
+    .token-table td {
+      padding: 0.85rem 1rem;
+      border-block-start: 1px solid var(--line);
+      text-align: start;
+      vertical-align: top;
+    }
+
+    .token-table thead th {
+      color: var(--ink);
+      background: var(--surface-raised);
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .token-table tbody th {
+      color: var(--accent);
+    }
+
+    .compaction-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-block: 2rem;
+    }
+
+    .compaction-panel {
+      padding: 1.35rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface-soft);
+    }
+
+    .compaction-panel h3 {
+      margin-block-start: 0;
+    }
+
+    .compaction-panel ul {
+      margin-block-end: 0;
+    }
+
+    .turn-end {
+      margin-block-start: 4rem;
+      padding-block-start: 2rem;
+      border-block-start: 1px solid var(--line);
+    }
+
+    @media (max-width: 42rem) {
+      .turn-hero {
+        padding-block-start: 3.5rem;
+      }
+
+      .turn-hero h1 {
+        font-size: clamp(2.45rem, 14vw, 4rem);
+      }
+
+      .turn-meta {
+        display: block;
+      }
+
+      .turn-meta span {
+        display: block;
+      }
+
+      .turn-meta span:not(:last-child)::after {
+        content: none;
+      }
+
+      .compaction-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      .turn-hero {
+        padding-block: 2rem;
+        background: #fff;
+      }
+
+      .turn-main {
+        padding-block: 1rem;
+      }
+
+      .turn-back,
+      .site-footer {
+        display: none;
+      }
+
+      .turn-figure img,
+      .turn-callout,
+      .compaction-panel,
+      .token-region {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to article</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../index.html" aria-label="aiConnector.ai home"><img src="../logo.svg" alt="" width="250" height="40"></a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="../index.html#patterns">Patterns</a>
+        <a href="../index.html#approach">Approach</a>
+        <a href="../index.html#perspective">Perspective</a>
+        <a href="../blogs.html" aria-current="page">Writing</a>
+        <a class="nav-cta" href="../index.html#contact">Connect</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" tabindex="-1">
+    <article>
+      <header class="turn-hero">
+        <div class="turn-shell">
+          <p class="eyebrow"><span></span> Agent architecture · Context engineering</p>
+          <h1>How a turn works in an agent harness</h1>
+          <p class="turn-lede">Why the model is stateless, why context grows, where input and output tokens go, and what changes when the harness compacts a long conversation.</p>
+          <div class="turn-meta">
+            <span><time datetime="2026-08-22">22 August 2026</time></span>
+            <span>7 minute read</span>
+            <span>Provider-neutral explainer</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="turn-shell turn-main">
+        <a class="turn-back" href="../blogs.html">← All writing</a>
+
+        <figure class="turn-figure">
+          <img src="../images/agent-turn-context.svg" alt="Flow of one agent turn from user message through context assembly, model calls, an optional tool loop, and the final response" width="1200" height="675">
+          <figcaption>The harness creates continuity around otherwise independent model calls.</figcaption>
+        </figure>
+
+        <div class="turn-copy">
+          <p>An AI agent can feel as if it is following one continuous train of thought. Underneath, the experience is usually built from a sequence of separate model requests. The agent harness—the software around the model—does the work of turning those requests into a coherent session.</p>
+
+          <h2>First, what counts as a turn?</h2>
+          <p>A <strong>user-visible turn</strong> begins when you send a message and ends when the agent gives control back to you. A <strong>model call</strong> is one request from the harness to the model. They are not always the same thing.</p>
+          <p>A simple question may need one model call. A coding task may need several: the model asks to read a file, the harness runs that tool, the tool result is added to the context, and the model is called again. All of that can happen inside one turn from your perspective.</p>
+
+          <h3>A typical turn</h3>
+          <ol>
+            <li>You send a new message.</li>
+            <li>The harness gathers its instructions, relevant conversation history, available tool definitions, tool results, and your message.</li>
+            <li>It serializes that material into the input for a model request.</li>
+            <li>The model returns either a final response or an intermediate action such as a tool call.</li>
+            <li>If a tool is requested, the harness runs it, appends the result, and calls the model again.</li>
+            <li>The final response is stored in the transcript so it can be included in a future turn.</li>
+          </ol>
+
+          <h2>Stateless model, stateful experience</h2>
+          <p>In the common request-response design, the model does not retain a private copy of your previous turn that it can recall automatically on the next call. Each call is evaluated from the input supplied for that call. If the old conversation is absent, the model cannot rely on it.</p>
+          <p>The harness creates the appearance of memory by storing session state outside the model and sending the useful parts again. That state might live in process memory, a local session file, a database, or a provider-managed conversation object. Even when an API lets the client reference a conversation by ID, the effective context still has to be made available to the model by the surrounding system.</p>
+
+          <aside class="turn-callout">
+            <p><strong>The useful mental model:</strong> the model handles the current request; the harness owns the continuity between requests.</p>
+          </aside>
+
+          <h2>What gets sent as input?</h2>
+          <p>The exact envelope varies, but an agent request commonly includes some combination of:</p>
+          <ul>
+            <li>system and developer instructions that define behavior;</li>
+            <li>workspace or project instructions;</li>
+            <li>the conversation transcript or a compacted version of it;</li>
+            <li>tool descriptions and schemas;</li>
+            <li>tool calls and their returned results;</li>
+            <li>retrieved files, search results, images, or other task context; and</li>
+            <li>your newest message.</li>
+          </ul>
+          <p>The context is therefore larger than the text visible in the chat. A short message such as “continue” can sit on top of thousands of tokens of instructions, history, and tool output.</p>
+
+          <h2>Why the token count grows</h2>
+          <p>Tokens are the units the model processes. <strong>Input tokens</strong> are in the request sent to the model. <strong>Output tokens</strong> are generated by the model for that request. Once an output is saved into the transcript, it can become part of the input on later calls.</p>
+          <p>Here is a deliberately simplified session. It assumes 800 tokens of fixed instructions and ignores small formatting overheads.</p>
+
+          <section class="token-region" aria-label="Simplified token growth example" tabindex="0">
+            <table class="token-table">
+              <caption>Illustrative per-request token usage</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Turn</th>
+                  <th scope="col">What is added</th>
+                  <th scope="col">Input</th>
+                  <th scope="col">Output</th>
+                  <th scope="col">Request total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">1</th><td>100-token user message</td><td>900</td><td>200</td><td>1,100</td></tr>
+                <tr><th scope="row">2</th><td>120-token user message</td><td>1,220</td><td>180</td><td>1,400</td></tr>
+                <tr><th scope="row">3</th><td>100-token user message</td><td>1,500</td><td>220</td><td>1,720</td></tr>
+              </tbody>
+            </table>
+          </section>
+
+          <p>Turn 2 has 1,220 input tokens: 800 fixed instructions, the earlier 100-token message, the earlier 200-token answer, and the new 120-token message. Turn 3 carries those items plus the 180-token answer and its new message. Across all three requests, the model processes 3,620 input tokens and generates 600 output tokens—a cumulative 4,220 tokens.</p>
+          <p>This is why session usage can grow faster than the visible size of the newest message. It is also why “output tokens” should not be read as a permanently separate bucket: they are output now, but may be input later.</p>
+
+          <h2>Tool loops add more model calls</h2>
+          <p>Suppose the model responds by asking the harness to search the repository. That tool-call response uses output tokens. The harness then sends another request containing the previous context, the tool call, and the search result. The result consumes input tokens, and the model’s next response consumes output tokens again.</p>
+          <p>Large command output, file contents, or search results can therefore increase a turn’s token usage substantially. Well-designed harnesses limit noisy results, select only relevant files, and avoid repeatedly injecting material the model no longer needs.</p>
+
+          <h2>Caching can change cost and latency</h2>
+          <p>Resending context does not always mean that every repeated token is processed or billed identically. Some providers can recognize a stable prompt prefix and apply prompt caching, reducing latency or price for the cached portion. The request still has a logical input length, but usage reports may separate cached from uncached input.</p>
+          <p>Caching rules, retention periods, eligibility, and prices vary. It is safer to distinguish three ideas: the number of tokens in the effective context, the number newly processed, and the amount ultimately billed.</p>
+
+          <h2>The context window is finite</h2>
+          <p>Every model has a maximum context window shared by the request input and the output it must still generate. As a session grows, the harness cannot keep adding history forever. Before the limit is reached, it must drop low-value material, retrieve only what is relevant, start a fresh context, or compact the existing conversation.</p>
+
+          <h2>What compaction does</h2>
+          <p>Compaction replaces a larger portion of older context with a smaller representation. A harness might summarize earlier messages, preserve important decisions in structured state, remove redundant tool output, or combine these techniques. The fixed instructions and recent working context usually remain separate from the compacted history.</p>
+          <p>For example, if 500 tokens of old conversation are replaced by a 160-token summary, the next request can be 340 tokens smaller than it otherwise would have been. Future turns grow again from this smaller baseline.</p>
+
+          <div class="compaction-grid">
+            <section class="compaction-panel">
+              <h3>A useful summary preserves</h3>
+              <ul>
+                <li>the user’s goal and constraints;</li>
+                <li>decisions and their rationale;</li>
+                <li>work already completed;</li>
+                <li>important identifiers and file paths; and</li>
+                <li>open questions and next actions.</li>
+              </ul>
+            </section>
+            <section class="compaction-panel">
+              <h3>Compaction may lose</h3>
+              <ul>
+                <li>exact wording and subtle preferences;</li>
+                <li>details judged unimportant at the time;</li>
+                <li>fine-grained tool output; and</li>
+                <li>connections that were never made explicit.</li>
+              </ul>
+            </section>
+          </div>
+
+          <p>Compaction does not give the model a larger memory. It trades detail for space. That is why durable requirements belong in clear instructions or structured project files rather than being mentioned once and left deep in a long transcript.</p>
+
+          <div class="turn-end">
+            <h2>The whole picture</h2>
+            <p>An agent session is best understood as a loop: the harness reconstructs context, the model chooses the next action, tools may add new evidence, and the resulting transcript becomes raw material for the next request. Input grows because history is carried forward. Output contributes both to the current request’s usage and to future input. Compaction periodically shortens that history so useful work can continue inside a finite window.</p>
+            <p>Once you see the loop, agent behavior becomes easier to reason about. Context is not invisible memory—it is a resource the harness assembles, spends, and eventually compresses.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner"><p>© 2026 Asutosh Dash</p><p>Enterprise AI · Platform Engineering · Technical Leadership</p></div>
+  </footer>
+</body>
+</html>
