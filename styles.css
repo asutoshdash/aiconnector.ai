@@ -978,6 +978,115 @@ h1 em {
   font-weight: 780;
 }
 
+.home-writing {
+  overflow: clip;
+  padding-block: clamp(4.5rem, 8vw, 6.5rem);
+}
+
+.home-writing-heading {
+  margin-block-end: 2rem;
+}
+
+.home-writing-heading h2 {
+  max-width: 17ch;
+}
+
+.home-writing-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.home-writing-intro p {
+  max-width: 42ch;
+  margin: 0;
+}
+
+.home-writing-intro .article-link {
+  flex: 0 0 auto;
+  margin: 0 0 0.25rem;
+}
+
+.writing-rail-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-end: 0.8rem;
+}
+
+.writing-rail-controls[hidden] {
+  display: none;
+}
+
+.writing-rail-controls p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.writing-rail-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.writing-rail-buttons button {
+  display: grid;
+  width: 2.7rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.writing-rail-buttons button:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.writing-rail-buttons button:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.home-writing-rail {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding: 0.2rem 0.2rem 1rem;
+  scroll-padding-inline: 0.2rem;
+  scroll-snap-type: inline proximity;
+  scrollbar-color: var(--line-strong) transparent;
+  scrollbar-width: thin;
+}
+
+.home-writing-rail:focus-visible {
+  border-radius: var(--radius-sm);
+}
+
+.home-writing-rail > .article-card {
+  flex: 0 0 clamp(18rem, 29vw, 23rem);
+  min-height: 26rem;
+  scroll-snap-align: start;
+}
+
+.home-writing-rail .article-card h3 {
+  margin-block-end: 0.7rem;
+  font-size: 1.3rem;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.home-writing-rail .article-card-copy p {
+  margin-block-end: 1.3rem;
+}
+
 @media (max-width: 62rem) {
   .hero-grid,
   .approach-layout {
@@ -1090,6 +1199,20 @@ h1 em {
   .expertise-panel,
   .writing-grid {
     grid-template-columns: 1fr;
+  }
+
+  .home-writing-heading {
+    gap: 0.8rem;
+  }
+
+  .home-writing-intro {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .home-writing-rail > .article-card {
+    flex-basis: min(84vw, 23rem);
   }
 
   .writing-section-heading,

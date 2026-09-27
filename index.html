@@ -43,7 +43,7 @@
         <a href="#patterns">Patterns</a>
         <a href="#approach">Approach</a>
         <a href="#perspective">Perspective</a>
-        <a href="blogs.html">Writing</a>
+        <a href="#writing">Writing</a>
         <a class="nav-cta" href="#contact">Connect</a>
       </nav>
     </div>
@@ -107,6 +107,100 @@
         <div><strong>Govern</strong><span>bound autonomy with policy and evidence</span></div>
         <div><strong>Measure</strong><span>connect technical signals to outcomes</span></div>
         <div><strong>Scale</strong><span>convert experiments into shared capability</span></div>
+      </div>
+    </section>
+
+    <section class="section section-contrast home-writing" id="writing" aria-labelledby="home-writing-title">
+      <div class="shell">
+        <div class="section-heading split-heading home-writing-heading">
+          <div>
+            <p class="eyebrow"><span></span> Writing and exploration</p>
+            <h2 id="home-writing-title">Ideas for building better AI systems.</h2>
+          </div>
+          <div class="home-writing-intro">
+            <p>Field guides and explainers on agent systems, model evaluation, knowledge architecture, and applied AI.</p>
+            <a class="article-link" href="blogs.html">Browse all writing <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+
+        <div class="writing-rail-controls" hidden>
+          <p id="writing-rail-help">Scroll to explore all six articles, or use the arrow buttons.</p>
+          <div class="writing-rail-buttons">
+            <button type="button" data-writing-step="-1" aria-label="Scroll to previous articles" aria-controls="home-writing-rail">←</button>
+            <button type="button" data-writing-step="1" aria-label="Scroll to next articles" aria-controls="home-writing-rail">→</button>
+          </div>
+        </div>
+
+        <div class="home-writing-rail" id="home-writing-rail" role="region" aria-label="Writing articles" tabindex="0" aria-describedby="writing-rail-help">
+          <article class="article-card">
+            <img src="images/agent-turn-context.svg" alt="Diagram showing how a turn moves through an agent harness" width="1200" height="675" loading="lazy">
+            <div class="article-card-copy">
+              <p class="micro-label">Agent architecture · Context engineering</p>
+              <h3>How a turn works in an agent harness</h3>
+              <p>Why model calls are stateless, how tools create request loops, and what happens as context grows.</p>
+              <a class="article-link" href="blogs/how-agent-turns-work.html">Read the explainer <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div class="article-cover atlas-cover" role="img" aria-label="Abstract network of connected knowledge nodes">
+              <span class="cover-label">Project Atlas</span><strong>GraphRAG</strong>
+              <div class="node-map" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+            </div>
+            <div class="article-card-copy">
+              <p class="micro-label">Knowledge systems · Architecture landscape</p>
+              <h3>GraphRAG feature and pricing matrix</h3>
+              <p>A practical comparison of graph knowledge approaches, production architectures, and deployment trade-offs.</p>
+              <a class="article-link" href="writing/project-atlas-graphrag.html">Explore Project Atlas <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div class="article-cover continuation-cover" role="img" aria-label="Three agent continuation patterns shown as distinct control loops">
+              <span class="cover-label">Agent continuation</span><strong>Different clocks.</strong>
+              <div class="clock-patterns" aria-hidden="true"><span>Autopilot</span><span>Loop</span><span>Goal</span></div>
+            </div>
+            <div class="article-card-copy">
+              <p class="micro-label">Agentic engineering · Control models</p>
+              <h3>Autopilot, Loop, and Goal</h3>
+              <p>What makes each agent continue, what makes it stop, and how to choose the right stopping rule.</p>
+              <a class="article-link" href="writing/agent-continuation/index.html">Open the field guide <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <div class="article-cover continuation-cover" role="img" aria-label="Jev, AUROC, and RLCD research explainer">
+              <span class="cover-label">AI research · Plain-language guide</span><strong>Jev, explained.</strong>
+              <div class="clock-patterns" aria-hidden="true"><span>Jev</span><span>AUROC</span><span>RLCD</span></div>
+            </div>
+            <div class="article-card-copy">
+              <p class="micro-label">AI research · Model evaluation</p>
+              <h3>What are Jev, AUROC, and RLCD?</h3>
+              <p>How Jev checks AI responses, what AUROC measures, and what is known about RLCD.</p>
+              <a class="article-link" href="writing/jev-auroc-rlcd.html">Read the explainer <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <img src="images/process-optimization.png" alt="Abstract process optimization workflow" width="960" height="540" loading="lazy">
+            <div class="article-card-copy">
+              <p class="micro-label">Applied AI · Enterprise operations</p>
+              <h3>AI-powered process optimization</h3>
+              <p>How intelligent systems can identify bottlenecks and make operational workflows more adaptive.</p>
+              <a class="article-link" href="blogs/process-optimization.html">Read article <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+
+          <article class="article-card">
+            <img src="images/torque-clustering-hero.png" alt="Abstract visualization of clustered data" width="960" height="540" loading="lazy">
+            <div class="article-card-copy">
+              <p class="micro-label">Machine learning · Exploration</p>
+              <h3>Understanding torque clustering in AI</h3>
+              <p>A technical introduction to a physics-inspired way to identify structure in complex data.</p>
+              <a class="article-link" href="blogs/torque-clustering.html">Read article <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -260,5 +354,36 @@
       <p>Enterprise AI · Platform Engineering · Technical Leadership</p>
     </div>
   </footer>
+
+  <script>
+    const writingRail = document.querySelector("#home-writing-rail");
+    const writingControls = document.querySelector(".writing-rail-controls");
+
+    if (writingRail && writingControls) {
+      const writingButtons = [...writingControls.querySelectorAll("[data-writing-step]")];
+      const updateWritingButtons = () => {
+        const maxScroll = writingRail.scrollWidth - writingRail.clientWidth;
+        writingButtons.forEach((button) => {
+          const direction = Number(button.dataset.writingStep);
+          button.disabled = direction < 0
+            ? writingRail.scrollLeft <= 1
+            : writingRail.scrollLeft >= maxScroll - 1;
+        });
+      };
+
+      writingControls.hidden = false;
+      writingButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const direction = Number(button.dataset.writingStep);
+          const distance = writingRail.clientWidth * 0.85 * direction;
+          const behavior = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+          writingRail.scrollBy({ left: distance, behavior });
+        });
+      });
+      writingRail.addEventListener("scroll", updateWritingButtons, { passive: true });
+      window.addEventListener("resize", updateWritingButtons);
+      updateWritingButtons();
+    }
+  </script>
 </body>
 </html>
