@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A beginner-friendly explanation of Jev, AUROC, and RLCD, based on the paper Just Ask Jev.">
+  <meta name="theme-color" content="#07111f">
+  <link rel="canonical" href="https://www.aiconnector.ai/writing/jev-auroc-rlcd.html">
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <title>Jev, AUROC, and RLCD Explained | Asutosh Dash</title>
+  <style>
+    .jev-hero { padding: clamp(4rem, 9vw, 7rem) 1rem 3rem; border-block-end: 1px solid var(--line); background: radial-gradient(circle at 85% 10%, rgb(172 156 255 / 15%), transparent 28rem), var(--surface-soft); }
+    .jev-shell { width: min(100%, 48rem); margin-inline: auto; }
+    .jev-hero h1 { max-width: 16ch; margin: 0 0 1rem; font-size: clamp(2.5rem, 7vw, 5rem); line-height: 1; letter-spacing: -0.05em; }
+    .jev-hero p { max-width: 65ch; color: var(--muted-strong); font-size: 1.15rem; }
+    .jev-meta { color: var(--muted); font-size: 0.82rem !important; }
+    .jev-article { padding-block: 2.5rem 6rem; color: var(--muted-strong); font-size: 1.04rem; line-height: 1.8; }
+    .jev-article h2 { margin-block: 3rem 0.8rem; color: var(--ink); font-size: clamp(1.7rem, 4vw, 2.3rem); line-height: 1.15; letter-spacing: -0.03em; }
+    .jev-article h3 { margin-block: 1.7rem 0.5rem; color: var(--ink); }
+    .jev-article strong { color: var(--ink); }
+    .jev-article a { color: var(--accent); }
+    .jev-article li + li { margin-block-start: 0.55rem; }
+    .jev-callout { margin-block: 1.5rem; padding: 1rem 1.2rem; border-inline-start: 0.3rem solid var(--accent); background: var(--accent-soft); }
+    .jev-back { display: inline-block; margin-block-end: 1.5rem; font-size: 0.86rem; font-weight: 750; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../index.html" aria-label="aiConnector.ai home"><img src="../logo.svg" alt="" width="250" height="40"></a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="../index.html#patterns">Patterns</a>
+        <a href="../index.html#approach">Approach</a>
+        <a href="../index.html#perspective">Perspective</a>
+        <a href="../blogs.html" aria-current="page">Writing</a>
+        <a class="nav-cta" href="../index.html#contact">Connect</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content">
+    <section class="jev-hero">
+      <div class="jev-shell">
+        <p class="micro-label">AI research · Plain-language guide</p>
+        <h1>What are Jev, AUROC, and RLCD?</h1>
+        <p>A simple guide to a paper about using one AI model to check another AI model’s responses—and what its results do and don’t tell us.</p>
+        <p class="jev-meta">Based on “Just Ask Jev” · September 2026</p>
+      </div>
+    </section>
+    <article class="jev-shell jev-article">
+      <a class="jev-back" href="../blogs.html">← Back to Writing</a>
+      <p>Imagine an AI answers a user’s request. Did it give dangerous advice? Did it simply agree with a mistaken claim? Did it make something up? Researchers need ways to check for these kinds of failures. In the paper <a href="https://arxiv.org/abs/2609.29429">“Just Ask Jev”</a>, they test whether Jev, a decision-focused AI model, can help.</p>
+
+      <h2>What does Jev do?</h2>
+      <p>Jev is given a conversation and a specific question, such as: “Does this answer provide harmful help?” It returns a score, for example 0.9, which means it estimates a high likelihood that the answer is “yes.”</p>
+      <p>The researchers repeated this over thousands of examples. A benchmark supplied labels saying whether each example counted as a failure. The researchers then checked whether Jev gave higher scores to failures than to non-failures.</p>
+      <div class="jev-callout"><strong>Jev isn’t comparing which AI is better overall.</strong> It is checking individual responses for particular behaviors.</div>
+
+      <h2>AUROC: how good is the ranking?</h2>
+      <p>AUROC is a measure of how well a detector ranks failures above non-failures. Here’s an example. Pick one response that really is a failure and one that is safe. If Jev gives the failure the higher score in three out of four such pairs, its AUROC is 0.75.</p>
+      <ul>
+        <li><strong>1.0</strong> means the ranking is perfect.</li>
+        <li><strong>0.5</strong> means the ranking is no better than chance.</li>
+      </ul>
+      <p>AUROC measures ranking across possible cutoffs. It doesn’t tell you which cutoff to use for alerts. A detector can rank cases well and still send too many false alarms if the alert threshold is poorly chosen.</p>
+
+      <h2>RLCD: training for decisions and probabilities</h2>
+      <p>RLCD stands for <strong>Reinforcement Learning for Calibrated Decisions</strong>. TypeSafe AI describes it as Jev’s training approach, intended to make its probabilities match how often its decisions are correct across many examples.</p>
+      <p>For instance, if Jev assigns probabilities near 80% to 100 decisions, good calibration means roughly 80 of those decisions should be correct. That is a pattern across a group; it does not guarantee that any one answer with an 80% score is right.</p>
+      <p>The public descriptions explain RLCD’s goal, but not the exact training recipe. The company has not published the specific reward formula, training data, or detailed training procedure. We can describe what RLCD is intended to achieve, but not exactly how Jev learns to produce a score.</p>
+
+      <h2>What did the paper find?</h2>
+      <p>Across 31 benchmarks, a generic yes/no question to Jev reached a median AUROC of 0.886. That means Jev often ranked labelled failures above non-failures. More elaborate question wording added little when the researchers measured it on separate examples.</p>
+      <p>The information Jev received mattered more. Some failures are defined by a relationship: to judge whether a response leaked a secret, for example, the detector needs to know which information is secret. Supplying that reference could substantially improve detection. Without it, Jev may not have enough evidence to make the judgment.</p>
+      <p>Jev’s scores also didn’t provide a reliable universal alert threshold. The researchers found that choosing a threshold using a small set of labelled examples improved results. They also found apparent mistakes in some benchmark labels, showing that detector disagreements can help researchers audit their tests.</p>
+
+      <h2>How should we read the result?</h2>
+      <p>The study suggests Jev could be a low-cost tool for screening responses or reviewing benchmarks. It does not show that Jev is a complete, universally reliable safety monitor. The evaluation covers one Jev version, English benchmarks, and relatively small target models. Its scores and thresholds should be checked on the data where they will actually be used.</p>
+      <p><strong>In short:</strong> Jev produces the scores, AUROC measures how well it ranks examples, and RLCD is the name for the training approach intended to make its probabilities useful. The goal of RLCD is public; its exact internal recipe is not.</p>
+      <p class="jev-meta">Source: Ruoqi Guo et al., “Just Ask Jev: Reinforcement Learning for Calibrated Decisions as a Zero-Shot Detector of AI Alignment Failures,” arXiv:2609.29429 (September 2026; under review for ICLR 2027). <a href="https://arxiv.org/abs/2609.29429">Read the paper</a>.</p>
+    </article>
+  </main>
+  <footer class="site-footer">
+    <div class="shell footer-inner"><p>© 2026 Asutosh Dash</p><p>Enterprise AI · Platform Engineering · Technical Leadership</p></div>
+  </footer>
+</body>
+</html>
