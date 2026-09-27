@@ -800,7 +800,7 @@ h1 em {
 
 .writing-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -1118,6 +1118,16 @@ h1 em {
     grid-template-columns: 1fr 1fr;
   }
 
+  .writing-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .writing-grid > .article-card:nth-child(3) {
+    grid-column: 1 / -1;
+    width: calc(50% - 0.5rem);
+    justify-self: center;
+  }
+
   .writing-section-heading > p:last-child {
     grid-column: 1 / -1;
   }
@@ -1199,6 +1209,12 @@ h1 em {
   .expertise-panel,
   .writing-grid {
     grid-template-columns: 1fr;
+  }
+
+  .writing-grid > .article-card:nth-child(3) {
+    grid-column: auto;
+    width: auto;
+    justify-self: stretch;
   }
 
   .home-writing-heading {
