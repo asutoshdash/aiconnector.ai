@@ -1,0 +1,104 @@
+/* A quiet, paper-like reading surface for long-form articles. */
+body.reading-page {
+  color-scheme: light;
+  --canvas: #ffffff;
+  --canvas-deep: #f8f8f7;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-soft: #faf9f6;
+  --ink: #242424;
+  --muted: #6b6b6b;
+  --muted-strong: #3f3f3f;
+  --line: #e8e8e8;
+  --line-strong: #d5d5d5;
+  --accent: #167d62;
+  --accent-strong: #11634e;
+  --accent-soft: #f4f7f5;
+  --blue: #245f8f;
+  --blue-soft: #f3f6f8;
+  background: #fff;
+  color: var(--ink);
+}
+
+body.reading-page::before { display: none; }
+body.reading-page .site-header {
+  border-color: #eeeeec;
+  background: rgb(255 255 255 / 94%);
+  backdrop-filter: blur(0.75rem);
+}
+body.reading-page .site-nav { color: #555; }
+body.reading-page .site-nav a:hover { color: var(--accent-strong); }
+body.reading-page .nav-cta { border-color: #d8d8d5; }
+body.reading-page .eyebrow,
+body.reading-page .turn-copy h3,
+body.reading-page .eval-copy h3 { color: var(--accent-strong); }
+body.reading-page :where(.turn-hero, .eval-hero, .jev-hero) {
+  border-color: #ededeb;
+  background: #fbfaf8;
+}
+body.reading-page :where(.turn-lede, .eval-lede, .jev-hero > div > p:not(.micro-label), .turn-meta, .eval-meta, .jev-meta) { color: #6b6b6b; }
+body.reading-page :where(.turn-shell, .eval-shell, .jev-shell) { width: min(calc(100% - 2rem), 43rem); }
+body.reading-page :where(.turn-copy, .eval-copy, .jev-article, .prose) {
+  color: #3f3f3f;
+  font-family: Charter, "Bitstream Charter", "Iowan Old Style", "Sitka Text", Georgia, serif;
+  font-size: 1.2rem;
+  line-height: 1.78;
+  text-wrap: pretty;
+}
+body.reading-page :where(.turn-copy, .eval-copy, .jev-article, .prose) p,
+body.reading-page :where(.turn-copy, .eval-copy, .jev-article, .prose) li { max-width: 68ch; }
+body.reading-page :where(.turn-copy, .eval-copy, .jev-article, .prose) > p:first-child {
+  color: #303030;
+  font-size: 1.28rem;
+  line-height: 1.75;
+}
+body.reading-page :where(.turn-copy, .eval-copy, .jev-article, .prose) :where(h2, h3) {
+  color: #242424;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+body.reading-page :where(.turn-copy, .eval-copy, .jev-article) a,
+body.reading-page .prose a { color: #147d62; text-decoration: underline; text-underline-offset: 0.16em; }
+body.reading-page :where(.turn-copy, .eval-copy, .jev-article) strong,
+body.reading-page .prose strong { color: #242424; }
+body.reading-page :where(.turn-callout, .eval-callout, .jev-callout, .card-gradient) {
+  border-color: #e8e8e5;
+  background: #f7f7f5;
+  color: #3f3f3f;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+body.reading-page .turn-callout,
+body.reading-page .eval-callout,
+body.reading-page .jev-callout { border-inline-start-color: #167d62; }
+body.reading-page :where(.token-region, .comparison-wrap) { border-color: #e6e6e4; background: #fff; }
+body.reading-page :where(.token-table, .comparison-table) { color: #3f3f3f; }
+body.reading-page :where(.token-table thead th, .comparison-table thead th) { background: #f7f7f5; color: #242424; }
+body.reading-page :where(.token-table th, .token-table td, .comparison-table th, .comparison-table td) { border-color: #e8e8e8; }
+body.reading-page .turn-figure img { border-color: #e8e8e8; box-shadow: 0 0.5rem 2rem rgb(0 0 0 / 7%); }
+/* The older posts use Tailwind utilities; normalize their dark surfaces to the same paper theme. */
+body.reading-page.gradient-bg { min-height: 100vh; background: #fff; color: #242424; }
+body.reading-page.gradient-bg > nav.fixed { background: rgb(255 255 255 / 95%); border-bottom: 1px solid #eeeeec; }
+body.reading-page.gradient-bg > nav a { color: #444; }
+body.reading-page.gradient-bg > nav a:hover { color: #147d62; }
+body.reading-page.gradient-bg article > header h1 { background: none; color: #242424; -webkit-text-fill-color: currentColor; }
+body.reading-page.gradient-bg .text-gray-100,
+body.reading-page.gradient-bg .text-gray-300,
+body.reading-page.gradient-bg .text-gray-400 { color: #555; }
+body.reading-page.gradient-bg .prose { max-width: 43rem; margin-inline: auto; }
+body.reading-page.gradient-bg .prose h2 { margin-block: 3.4rem 1rem; color: #242424; font-size: clamp(1.65rem, 4vw, 2.2rem); line-height: 1.2; }
+body.reading-page.gradient-bg .prose h3 { color: #242424; }
+body.reading-page.gradient-bg .prose p { margin-block-end: 1.6rem; }
+body.reading-page.gradient-bg .prose :where(ul, ol) { margin-block: 1rem 1.6rem; }
+body.reading-page.gradient-bg .prose img { border-radius: 0.25rem; }
+body.reading-page.gradient-bg .prose iframe { border: 0; }
+body.reading-page.gradient-bg .prose code { color: #176b56; }
+@media (max-width: 42rem) {
+  body.reading-page :where(.turn-copy, .eval-copy, .jev-article, .prose) { font-size: 1.1rem; line-height: 1.75; }
+  body.reading-page :where(.turn-copy, .eval-copy, .jev-article, .prose) > p:first-child { font-size: 1.18rem; }
+}
+@media print {
+  body.reading-page .site-header { background: #fff; }
+}

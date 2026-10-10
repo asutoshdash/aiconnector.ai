@@ -656,6 +656,19 @@ h3 {
 .article-content {
   min-width: 0;
   max-width: var(--reading-width);
+  color: #34413c;
+  font-family: Charter, "Bitstream Charter", "Iowan Old Style", "Sitka Text", Georgia, serif;
+  font-size: 1.08rem;
+  line-height: 1.8;
+  text-wrap: pretty;
+}
+
+.article-content h2,
+.article-content h3 {
+  color: #15201d;
+  font-family: var(--gds-font-body);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 .article-content > section {
