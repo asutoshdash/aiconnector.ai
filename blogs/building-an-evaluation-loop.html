@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A practical guide to building an evaluation loop for AI agents, improving agent skills, writing rubrics, and monitoring bias in customer support.">
+  <meta name="theme-color" content="#07111f">
+  <link rel="canonical" href="https://www.aiconnector.ai/blogs/building-an-evaluation-loop.html">
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <title>Build an Evaluation Loop for AI Agents | Asutosh Dash</title>
+  <style>
+    .eval-hero { position:relative; overflow:hidden; padding-block:clamp(4.5rem,9vw,7.5rem) clamp(3rem,7vw,5rem); border-block-end:1px solid var(--line); background:radial-gradient(circle at 86% 12%,rgb(172 156 255 / 15%),transparent 27rem),radial-gradient(circle at 10% 88%,rgb(100 230 197 / 9%),transparent 24rem),var(--surface-soft); }
+    .eval-shell { width:min(calc(100% - 2rem),58rem); margin-inline:auto; }
+    .eval-hero h1 { max-width:17ch; margin-block-end:1.35rem; font-size:clamp(2.6rem,7vw,5.7rem); line-height:.98; letter-spacing:-.055em; }
+    .eval-lede { max-width:62ch; margin-block-end:1.5rem; color:var(--muted-strong); font-size:clamp(1.05rem,2.3vw,1.3rem); }
+    .eval-meta { display:flex; flex-wrap:wrap; gap:.55rem; color:var(--muted); font-size:.82rem; }
+    .eval-meta span:not(:last-child)::after { margin-inline-start:.55rem; color:var(--accent); content:"·"; }
+    .eval-main { padding-block:2rem clamp(5rem,10vw,8rem); }
+    .eval-back { display:inline-flex; margin-block-end:1.5rem; color:var(--accent); font-size:.86rem; font-weight:760; }
+    .eval-copy { color:var(--muted-strong); font-size:1.04rem; line-height:1.78; }
+    .eval-copy > p:first-child { color:var(--ink); font-size:clamp(1.15rem,2.3vw,1.35rem); line-height:1.65; }
+    .eval-copy h2 { margin-block:clamp(3.4rem,8vw,5.5rem) 1rem; color:var(--ink); font-size:clamp(1.75rem,4vw,2.65rem); line-height:1.12; letter-spacing:-.035em; }
+    .eval-copy h3 { margin-block:2rem .65rem; color:var(--accent); font-size:1.15rem; }
+    .eval-copy p { margin-block-end:1.45rem; }
+    .eval-copy strong { color:var(--ink); }
+    .eval-copy ol,.eval-copy ul { margin-block:0 1.7rem; padding-inline-start:1.35rem; }
+    .eval-copy li + li { margin-block-start:.55rem; }
+    .eval-callout { margin-block:2rem; padding:1.25rem 1.4rem; border:1px solid var(--line-strong); border-inline-start:.35rem solid var(--accent); border-radius:0 var(--radius-sm) var(--radius-sm) 0; background:var(--accent-soft); }
+    .eval-callout p { margin:0; }
+    .eval-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin-block:2rem; }
+    .eval-panel { padding:1.35rem; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface-soft); }
+    .eval-panel h3 { margin-block-start:0; }
+    .eval-panel ul { margin-block-end:0; }
+    .eval-end { margin-block-start:4rem; padding-block-start:2rem; border-block-start:1px solid var(--line); }
+    .eval-copy a { color:var(--accent); text-underline-offset:.18em; }
+    @media (max-width:42rem) { .eval-hero { padding-block-start:3.5rem; } .eval-hero h1 { font-size:clamp(2.45rem,14vw,4rem); } .eval-meta { display:block; } .eval-meta span { display:block; } .eval-meta span:not(:last-child)::after { content:none; } .eval-grid { grid-template-columns:1fr; } }
+    @media print { .eval-hero { padding-block:2rem; background:#fff; } .eval-main { padding-block:1rem; } .eval-back,.site-footer { display:none; } .eval-callout,.eval-panel { box-shadow:none; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to article</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../index.html" aria-label="aiConnector.ai home"><img src="../logo.svg" alt="" width="250" height="40"></a>
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a href="../index.html#patterns">Patterns</a><a href="../index.html#approach">Approach</a><a href="../index.html#perspective">Perspective</a><a href="../blogs.html" aria-current="page">Writing</a><a class="nav-cta" href="../index.html#contact">Connect</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content" tabindex="-1">
+    <article>
+      <header class="eval-hero"><div class="eval-shell">
+        <p class="eyebrow"><span></span> Applied AI · Evaluation practice</p>
+        <h1>Build an evaluation loop for your AI agent</h1>
+        <p class="eval-lede">A practical guide to defining success, writing rubrics, improving an agent’s skill, and checking for bias—from a refund support bot to an enterprise rollout.</p>
+        <div class="eval-meta"><span><time datetime="2026-10-11">11 October 2026</time></span><span>9 minute read</span><span>Practical field guide</span></div>
+      </div></header>
+      <div class="eval-shell eval-main">
+        <a class="eval-back" href="../blogs.html">← All writing</a>
+        <div class="eval-copy">
+          <p>An AI agent can sound capable in a demo and still fail in ways that matter: it may invent a policy, promise a refund before checking an order, or handle equivalent customers differently. An <strong>evaluation loop</strong> gives a team a repeatable way to find these failures, improve the system, and check whether a change helped.</p>
+          <p>The basic cycle is simple: define success, test the agent, grade its behavior, inspect failures, change one thing, and run the tests again. A useful evaluation does not prove an agent will never fail. It provides evidence about how it behaves in the situations you have tested, and helps you monitor it as real use reveals new cases.</p>
+
+          <h2>Start with one task and a clear goal</h2>
+          <p>Choose a specific job the agent performs. “Be a better support agent” is too broad to evaluate. “Answer refund questions using the current policy, verify order details before judging eligibility, and escalate exceptions” is testable.</p>
+          <p>Write success criteria in observable terms. For a refund assistant, success could mean that it:</p>
+          <ul><li>states the return window correctly from the approved policy;</li><li>checks the order before claiming a customer is eligible;</li><li>does not promise a refund before the eligibility check;</li><li>explains the next step clearly; and</li><li>routes unclear or conflicting cases to a human.</li></ul>
+          <p>Decide which failures are critical. A slightly awkward phrase may be tolerable; falsely confirming that money has been refunded may not be.</p>
+
+          <h2>Build a realistic test set</h2>
+          <p>Collect representative requests and the context needed to judge them: policy excerpts, mock order records, expected outcomes, and tool behavior. Include routine questions, edge cases, missing information, and situations where the agent should say it cannot determine the answer.</p>
+          <ul>
+            <li><strong>Routine:</strong> “Can I return an item bought 10 days ago?” The policy allows 30 days and the mock order is eligible.</li>
+            <li><strong>Status:</strong> “Where’s my refund?” The order system says a refund was issued five days ago.</li>
+            <li><strong>Outside policy:</strong> The purchase was 45 days ago; the agent should explain the policy and offer the approved escalation path.</li>
+            <li><strong>Conflicting evidence:</strong> A prior message promised a refund, but the order system says ineligible; the agent should not guess.</li>
+            <li><strong>Missing information:</strong> The customer demands a refund but has not supplied an order identifier; the agent should ask for what is needed.</li>
+          </ul>
+          <p>Check that test cases and expected outcomes are correct. A flawed reference answer can make a good response look wrong—or reward an unsafe one. Keep a stable set for version comparisons, then add verified examples when real failures surface.</p>
+
+          <h2>Write a rubric that people can apply consistently</h2>
+          <p>A <strong>rubric</strong> is a set of criteria and score descriptions used to judge an output. It turns “Was this a good answer?” into checks that reviewers can interpret similarly.</p>
+          <p>For example, a correctness rubric for the policy statement might be:</p>
+          <ul><li><strong>0 — Incorrect:</strong> gives the wrong return window or makes an unsupported promise.</li><li><strong>1 — Partly correct:</strong> gives the right window but leaves out an important condition.</li><li><strong>2 — Correct:</strong> states the policy accurately and only makes customer-specific claims supported by the order lookup.</li></ul>
+          <p>Score other dimensions separately: policy accuracy, required tool use, completeness, appropriate uncertainty, escalation, and clarity. Use code for objective checks such as valid JSON, required fields, or whether the lookup tool was called. For open-ended quality, use trained human reviewers or a model grader with an explicit rubric. Check a sample of automated grades with humans, especially for consequential criteria.</p>
+          <aside class="eval-callout"><p><strong>Separate the dimensions.</strong> A polite answer can still be wrong. A correct answer can still omit a required escalation. One blended “quality” score can hide both failures.</p></aside>
+
+          <h2>Run each evaluation in a controlled environment</h2>
+          <p>For comparisons, give each test a known starting state. Reset the conversation and mock order data between cases, and hold the model version, skill instructions, tools, prompt, and settings constant. This prevents one case from contaminating another and makes run-to-run comparisons more meaningful.</p>
+          <p>A test environment is a measurement setup; it does not mean production needs a separate agent for every customer. In production, one service can handle many conversations while keeping each customer’s session and data properly separated. For multi-step tasks, reset the environment before each full workflow, then let that workflow retain the state it needs internally.</p>
+          <p>Record what ran: model and version, skill or prompt revision, tools, test data, grader version, and scores. If outputs vary, repeat runs or report the variation rather than treating one run as conclusive.</p>
+
+          <h2>Use failures to improve the skill</h2>
+          <p>A skill is the agent’s task-specific instructions, knowledge, and workflow. Evaluation can improve it through the same loop:</p>
+          <ol><li>Run the current skill on the fixed test set.</li><li>Inspect failed outputs, tool calls, and relevant context.</li><li>Identify the cause: unclear instructions, missing policy, faulty tool behavior, model limitation, or an evaluation problem.</li><li>Make a targeted change. For instance: “Check the order record and confirm eligibility before stating that a refund will be issued.”</li><li>Add the verified failure to the regression set.</li><li>Rerun the full set and compare each criterion, including critical failures.</li></ol>
+          <p>If you change the test cases or scoring rubric at the same time as the skill, record that separately. Otherwise, you cannot tell whether the system improved or the measurement moved.</p>
+
+          <h2>Test whether the agent treats equivalent cases differently</h2>
+          <p>To probe a suspected bias, create <strong>matched cases</strong>: keep the relevant facts constant and change one attribute or framing at a time. For example, test whether identical refund requests receive different decisions when the customer name or writing style changes. For a support agent, compare service outcomes such as policy accuracy, unnecessary refusal, escalation, and time to resolution—not just wording.</p>
+          <ol><li>State the suspected behavior and why it matters.</li><li>Create equivalent case pairs and verify that the changed detail is the only relevant difference.</li><li>Run several repetitions when outputs can vary.</li><li>Grade decisions with a fixed rubric; where practical, hide the variant label from human reviewers.</li><li>Compare outcome and error rates, then inspect examples to understand the difference.</li><li>Change the system if needed and rerun both matched cases and ordinary support cases.</li></ol>
+          <p>A difference is a signal to investigate, not proof of its cause. The test itself may contain hidden differences, and a model grader may carry its own bias. Use domain and fairness expertise for consequential decisions, and review samples of machine grades with people.</p>
+
+          <h2>Scale the practice across an enterprise</h2>
+          <p>Large organizations can use shared evaluation infrastructure without forcing every team into one universal rubric. Keep common controls—such as privacy, policy compliance, traceability, and escalation—alongside criteria tailored to each task. Name owners for each test suite and rubric, version changes, and publish results by use case so a company-wide average does not hide a failing workflow.</p>
+          <div class="eval-grid">
+            <section class="eval-panel"><h3>Automate routine checks</h3><ul><li>Run test suites on prompt, skill, model, or tool changes.</li><li>Check structured outputs and required tool actions with code.</li><li>Store scores, traces, and configuration for comparison.</li></ul></section>
+            <section class="eval-panel"><h3>Keep people in the loop</h3><ul><li>Review ambiguous and high-impact cases.</li><li>Calibrate reviewers against shared examples.</li><li>Audit whether automated graders agree with human judgments.</li></ul></section>
+          </div>
+
+          <h2>After launch, keep measuring</h2>
+          <p>Pre-deployment tests find known problems before launch; they cannot cover every future conversation. Start with a limited rollout, route uncertain or high-impact cases to trained people, and monitor sampled interactions for policy errors, unsupported promises, failed tool calls, and uneven outcomes. Protect customer data and restrict access to logs. Give the team a clear way to correct an answer, pause automation, or escalate an issue.</p>
+          <p>When a production issue is confirmed, turn it into a test case. That closes the loop: actual use teaches the evaluation set what it was missing, and the next skill revision has to pass that case as well as the existing suite.</p>
+
+          <div class="eval-end"><h2>A practical first version</h2>
+            <p>You do not need an elaborate platform to begin. Pick one task, write a handful of verified cases, define a short rubric, and save the exact configuration and outputs. Run it after every relevant change. Review failures, revise the skill, and rerun. Expand the suite as you learn.</p>
+            <p>OpenAI’s eval documentation describes running defined inputs against graders; Anthropic’s guide frames an eval as an input plus grading logic and discusses evaluating multi-step agents. Both support this core workflow, while real-world evaluation also needs careful case design, human review, and continued monitoring. See <a href="https://platform.openai.com/docs/guides/evals">OpenAI’s evals guide</a>, <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Anthropic’s guide to agent evals</a>, and Anthropic’s discussion of <a href="https://www.anthropic.com/news/evaluating-ai-systems">challenges in evaluating AI systems</a>.</p>
+            <p><strong>The loop in one line:</strong> define success → create cases → run and grade → inspect failures → improve the skill → rerun → monitor real use.</p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><p>© 2026 Asutosh Dash</p><p>Enterprise AI · Platform Engineering · Technical Leadership</p></div></footer>
+</body>
+</html>
