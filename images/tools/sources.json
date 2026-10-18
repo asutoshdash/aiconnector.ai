@@ -1,0 +1,30 @@
+{
+  "retrieved": "2026-10-18",
+  "note": "Official vendor website or repository assets. Marks belong to their respective owners; displayed for tool identification.",
+  "assets": {
+    "claude-code.png": "https://assets.claude.com/95a868946ac8a31e5ff832e2899f294aa368b836.png",
+    "cursor.svg": "https://cursor.com/marketing-static/favicon-light.svg",
+    "langfuse.png": "https://langfuse.com/apple-touch-icon.png",
+    "promptfoo.svg": "https://www.promptfoo.dev/img/logo-panda.svg",
+    "github-copilot.svg": "https://raw.githubusercontent.com/primer/octicons/main/icons/copilot-24.svg",
+    "github.svg": "https://raw.githubusercontent.com/primer/octicons/main/icons/mark-github-24.svg",
+    "langgraph.svg": "https://cdn.prod.website-files.com/65b8cd72835ceeacd4449a53/6a994264a64b3afcdd880f6b_LangGraph_OSS%20Lockup_light%201.svg",
+    "playwright.svg": "https://playwright.dev/img/playwright-logo.svg",
+    "n8n.png": "https://raw.githubusercontent.com/n8n-io/n8n/master/assets/n8n-logo.png",
+    "llamaindex.png": "https://www.llamaindex.ai/favicon-96x96.png",
+    "codex.png": "https://developers.openai.com/favicon.png",
+    "atlassian.svg": "https://atlassian.github.io/atlassian-mcp-server/images/atlassian_logo_brand_RGB.svg",
+    "cloudflare.ico": "https://www.cloudflare.com/favicon.ico",
+    "context7.svg": "https://context7.com/_next/static/media/context7-logo-light.99ff21c1.svg",
+    "figma.ico": "https://developers.figma.com/img/favicon.ico",
+    "linear.svg": "https://linear.app/static/favicon.svg?v=2",
+    "notion.png": "https://www.notion.com/front-static/logo-ios.png",
+    "sentry.ico": "https://sentry.io/favicon.ico",
+    "supabase.png": "https://supabase.com/favicon/apple-icon-180x180.png",
+    "crewai.png": "https://docs.crewai.com/mintlify-assets/_mintlify/favicons/crewai/4u_yrBmnBvL-de5g/_generated/favicon/android-chrome-192x192.png",
+    "pydantic-ai.png": "https://pydantic.dev/docs/favicon.png",
+    "mastra.ico": "https://mastra.ai/img/favicon.ico",
+    "google-adk.png": "https://adk.dev/assets/agent-development-kit.png",
+    "haystack.ico": "https://docs.haystack.deepset.ai/img/favicon.ico"
+  }
+}
