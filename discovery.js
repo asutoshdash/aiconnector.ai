@@ -21,7 +21,7 @@
   function filter(updateURL = true) {
     const terms = search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
     document.querySelectorAll('[data-category-note]').forEach(note => {
-      note.hidden = Boolean(category.value && note.dataset.categoryNote !== category.value);
+      note.hidden = note.dataset.categoryNote !== category.value;
     });
     let visible = 0;
     cards.forEach(card => {
