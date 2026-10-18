@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="color-scheme" content="light dark">
+<script src="../theme-init.js"></script>
+<meta name="theme-color" content="#07111f" media="(prefers-color-scheme:dark)">
+<meta name="theme-color" content="#f5f8fa" media="(prefers-color-scheme:light)">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI-Powered Process Optimization - aiConnector.ai</title>
@@ -31,30 +35,12 @@
         }
     </style>
   <link rel="stylesheet" href="../reading-theme.css">
+<link rel="stylesheet" href="../site-theme.css">
+<script src="../site-theme.js" defer></script>
 </head>
 <body class="reading-page gradient-bg min-h-screen text-gray-100">
     <!-- Navbar -->
-    <nav class="fixed w-full z-50 bg-opacity-90 bg-gray-900 backdrop-filter backdrop-blur-lg">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <div class="flex items-center">
-                    <a href="index.html">
-                        <img src="../logo.svg" alt="AI Connector Logo" class="h-8">
-                    </a>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="../about.html#perspective" class="hover:text-blue-400 transition-colors duration-200">About</a>
-                        <a href="../about.html#patterns" class="hover:text-blue-400 transition-colors duration-200">Features</a>
-                        <a href="../blogs.html" class="text-blue-400 transition-colors duration-200">Blogs</a>
-                        <a href="../index.html#contact" class="px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
-                            Contact Us
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary navigation"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
 
     <!-- Blog Content -->
     <div class="pt-32 pb-24 px-4">
@@ -81,12 +67,12 @@
                 </div>
 
                 <div class="aspect-w-16 aspect-h-9 my-8">
-                    <iframe 
+                    <iframe
                         class="w-full h-96 rounded-lg shadow-lg"
-                        src="https://www.youtube.com/embed/uF1V2MqX2U0" 
+                        src="https://www.youtube.com/embed/uF1V2MqX2U0"
                         title="Enterprise Process Optimization with AI"
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen>
                     </iframe>
                 </div>

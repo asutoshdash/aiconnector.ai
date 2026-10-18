@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
+<meta name="color-scheme" content="light dark">
+<script src="../theme-init.js"></script>
+<meta name="theme-color" content="#07111f" media="(prefers-color-scheme:dark)">
+<meta name="theme-color" content="#f5f8fa" media="(prefers-color-scheme:light)">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Project Atlas comparison of shortlisted open-source GraphRAG and knowledge-graph projects, plus Stripe and Cerebras production reference architectures.">
@@ -282,8 +286,11 @@
       footer { break-before: avoid; }
     }
   </style>
+<link rel="stylesheet" href="../site-theme.css">
+<script src="../site-theme.js" defer></script>
 </head>
-<body>
+<body class="atlas-page">
+<header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary navigation"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
   <a class="skip-link" href="#content">Skip to report</a>
 
   <header class="hero">
