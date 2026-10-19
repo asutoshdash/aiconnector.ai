@@ -83,3 +83,28 @@ body.reading-page.gradient-bg .prose code { color: var(--accent); }
 @media print {
   body.reading-page .site-header { background: var(--panel); }
 }
+
+/* Older articles share the same reading gutter and responsive media sizing. */
+body.reading-page.gradient-bg > :is(article, div).pt-32 {
+  padding-block: clamp(2rem, 6vw, 4rem) 4rem;
+}
+body.reading-page.gradient-bg #torque-clustering { padding: 0; border: 0; }
+body.reading-page.gradient-bg article > header { max-width: 43rem; margin-inline: auto; }
+body.reading-page.gradient-bg .prose iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+body.reading-page .prose pre { font-size: .875rem; }
+@media (max-width: 42rem) {
+  body.reading-page :is(.turn-hero, .eval-hero, .jev-hero) { padding-block: 2rem; }
+  body.reading-page :is(.turn-hero, .eval-hero, .jev-hero) h1,
+  body.reading-page.gradient-bg article > header h1 {
+    font-size: clamp(2rem, 1rem + 5vw, 3rem);
+    line-height: 1.12;
+  }
+  body.reading-page.gradient-bg article > header { margin-bottom: 2rem; }
+  body.reading-page.gradient-bg .prose .grid { grid-template-columns: minmax(0, 1fr); }
+  body.reading-page .jev-hero { padding-inline: 0; }
+}

@@ -55,3 +55,23 @@ body.atlas-page .hero-copy{color:var(--muted)}
 body.atlas-page .meta-pill{color:var(--ink);background:var(--panel);border-color:var(--line)}
 body.reading-page .prose pre{background:var(--tint);color:var(--ink);overflow-x:auto}
 body.reading-page .prose pre code{color:var(--ink)}
+
+/* Shared mobile layout: keep navigation reachable and content within its column. */
+.global-header, .global-header * { box-sizing: border-box; }
+.global-header-inner { position: relative; }
+.global-nav a { display: inline-flex; align-items: center; min-height: 44px; }
+.global-brand img { height: auto; }
+.theme-toggle svg { flex: none; width: 20px; height: 20px; }
+:where(main, article, section, aside, .prose) { min-width: 0; }
+:where(p, li, dd, a) { overflow-wrap: anywhere; }
+:where(pre, .table-region, .table-scroll, .comparison-wrap, .token-region) { max-width: 100%; }
+
+@media (max-width: 640px) {
+  .global-header-inner { gap: 12px; padding-block: 12px; }
+  .global-brand { max-width: calc(100% - 60px); min-height: 44px; display: flex; align-items: center; }
+  .global-nav { justify-content: space-between; gap: 4px 8px; font-size: .8125rem; }
+  .global-nav .global-submit { padding: 6px 8px; }
+  .global-nav .theme-toggle { position: absolute; right: 0; top: 12px; }
+  .guide-nav a { display: inline-flex; align-items: center; min-height: 44px; }
+  .guide-nav ul { gap: 4px 16px; }
+}
