@@ -48,7 +48,7 @@
 </head>
 <body class="reading-page">
   <a class="skip-link" href="#main-content">Skip to article</a>
-  <header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary navigation"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
+  <header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary navigation"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../books.html">Books</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
   <main id="main-content" tabindex="-1">
     <article>
       <header class="eval-hero"><div class="eval-shell">
@@ -113,7 +113,8 @@
           <p>Pre-deployment tests find known problems before launch; they cannot cover every future conversation. Start with a limited rollout, route uncertain or high-impact cases to trained people, and monitor sampled interactions for policy errors, unsupported promises, failed tool calls, and uneven outcomes. Protect customer data and restrict access to logs. Give the team a clear way to correct an answer, pause automation, or escalate an issue.</p>
           <p>When a production issue is confirmed, turn it into a test case. That closes the loop: actual use teaches the evaluation set what it was missing, and the next skill revision has to pass that case as well as the existing suite.</p>
 
-          <div class="eval-end"><h2>A practical first version</h2>
+          <p>Further reading: explore <a href="../books.html#production">books on AI engineering and reliability</a> for evaluation and production practices.</p>
+<div class="eval-end"><h2>A practical first version</h2>
             <p>You do not need an elaborate platform to begin. Pick one task, write a handful of verified cases, define a short rubric, and save the exact configuration and outputs. Run it after every relevant change. Review failures, revise the skill, and rerun. Expand the suite as you learn.</p>
             <p>OpenAI’s eval documentation describes running defined inputs against graders; Anthropic’s guide frames an eval as an input plus grading logic and discusses evaluating multi-step agents. Both support this core workflow, while real-world evaluation also needs careful case design, human review, and continued monitoring. See <a href="https://platform.openai.com/docs/guides/evals" target="_blank" rel="noopener">OpenAI’s evals guide</a>, <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents" target="_blank" rel="noopener">Anthropic’s guide to agent evals</a>, and Anthropic’s discussion of <a href="https://www.anthropic.com/news/evaluating-ai-systems" target="_blank" rel="noopener">challenges in evaluating AI systems</a>.</p>
             <p><strong>The loop in one line:</strong> define success → create cases → run and grade → inspect failures → improve the skill → rerun → monitor real use.</p>
