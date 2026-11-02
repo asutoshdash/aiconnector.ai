@@ -1,0 +1,50 @@
+[
+  {
+    "book": "ai-engineering",
+    "file": "ai-engineering.webp",
+    "publisher_page": "https://www.oreilly.com/library/view/ai-engineering/9781098166298/",
+    "image_url": "https://www.oreilly.com/covers/urn%3Aorm%3Abook%3A9781098166298/296w/?format=webp",
+    "retrieved": "2026-11-02",
+    "note": "Official cover thumbnail; artwork belongs to the respective rights holders."
+  },
+  {
+    "book": "reliable-machine-learning",
+    "file": "reliable-machine-learning.webp",
+    "publisher_page": "https://www.oreilly.com/library/view/reliable-machine-learning/9781098106218/titlepage01.html",
+    "image_url": "https://www.oreilly.com/covers/urn%3Aorm%3Abook%3A9781098106218/296w/?format=webp",
+    "retrieved": "2026-11-02",
+    "note": "Official cover thumbnail; artwork belongs to the respective rights holders."
+  },
+  {
+    "book": "hands-on-llms",
+    "file": "hands-on-llms.webp",
+    "publisher_page": "https://www.oreilly.com/library/view/hands-on-large-language/9781098150952/",
+    "image_url": "https://www.oreilly.com/covers/urn%3Aorm%3Abook%3A9781098150952/296w/?format=webp",
+    "retrieved": "2026-11-02",
+    "note": "Official cover thumbnail; artwork belongs to the respective rights holders."
+  },
+  {
+    "book": "ai-agents-in-action",
+    "file": "ai-agents-in-action.jpg",
+    "publisher_page": "https://www.manning.com/books/ai-agents-in-action-second-edition",
+    "image_url": "https://images.manning.com/360/480/resize/book/a/1b8d81c-9849-435b-a529-639feb7d3199/Lanham-HI.png",
+    "retrieved": "2026-11-02",
+    "note": "Official cover thumbnail; artwork belongs to the respective rights holders."
+  },
+  {
+    "book": "essential-graphrag",
+    "file": "essential-graphrag.jpg",
+    "publisher_page": "https://www.manning.com/books/essential-graphrag",
+    "image_url": "https://images.manning.com/360/480/resize/book/5/2757cbd-1445-4b7f-ba84-5552e4f6a224/Bratanic-HI.png",
+    "retrieved": "2026-11-02",
+    "note": "Official cover thumbnail; artwork belongs to the respective rights holders."
+  },
+  {
+    "book": "llm-from-scratch",
+    "file": "llm-from-scratch.jpg",
+    "publisher_page": "https://www.manning.com/books/build-a-large-language-model-from-scratch",
+    "image_url": "https://images.manning.com/360/480/resize/book/0/554d3c2-99e0-4445-8966-3fc874fe7d75/Raschka-HI.png",
+    "retrieved": "2026-11-02",
+    "note": "Official cover thumbnail; artwork belongs to the respective rights holders."
+  }
+]
