@@ -1,0 +1,58 @@
+/* Article-specific additions use the shared light and dark theme tokens. */
+.portable-agent .article-contents {
+  margin-block: 1.5rem 2.5rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--panel);
+  font-size: .95rem;
+}
+.portable-agent .article-contents ol { margin: 0; }
+.portable-agent .article-contents li + li { margin-block-start: .3rem; }
+.portable-agent .article-contents a { display: inline-block; padding-block: .15rem; }
+.portable-agent :is(h2, h3) { scroll-margin-block-start: 1rem; }
+.portable-agent code {
+  padding: .1em .3em;
+  border-radius: 4px;
+  background: var(--tint);
+  color: var(--ink);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+}
+.agent-map {
+  margin: 2rem 0;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+  text-align: center;
+}
+.map-inputs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .75rem; }
+.portable-agent .map-inputs p {
+  margin: 0;
+  padding: .65rem .5rem;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  font-size: .9rem;
+}
+.portable-agent .map-arrow { display: block; margin: .35rem 0; color: var(--accent); font-size: 1.4rem; line-height: 1.4; }
+.map-runtime { padding: 1rem; border: 1px solid var(--accent); border-radius: 8px; background: var(--tint); }
+.map-runtime strong, .map-node strong { display: block; font-size: 1rem; }
+.map-runtime > span, .map-node > span:last-child { display: block; margin-block-start: .3rem; color: var(--muted); font-size: .85rem; line-height: 1.6; }
+.map-branches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .8rem; }
+.map-node { min-width: 0; }
+.agent-map figcaption { margin-block-start: 1.4rem; padding-block-start: 1rem; border-top: 1px solid var(--line); text-align: start; color: var(--muted); font-size: .85rem; line-height: 1.6; }
+.portable-agent .table-hint, .portable-agent .source-list { font-size: .95rem; }
+.portable-agent .editorial-table { min-width: 30rem; }
+.portable-agent .editorial-table tbody th { width: 35%; }
+.portable-agent .workflow-steps li + li { margin-block-start: 1rem; }
+@media (max-width: 34rem) {
+  .map-branches { grid-template-columns: minmax(0, 1fr); gap: .3rem; }
+  .map-node { padding-block-end: .5rem; }
+}
+@media print {
+  .article-contents { display: none; }
+  .agent-map, .editorial-callout { break-inside: avoid; }
+  .portable-agent .editorial-table { min-width: 0; }
+  .portable-agent .editorial-table-wrap { overflow: visible; }
+}

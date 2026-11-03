@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script src="../theme-init.js"></script>
+  <title>Beyond Dots and Duet: build your own portable agent | AIConnector.ai</title>
+  <meta name="description" content="Build an always-on AI agent with portable task state, model adapters, durable execution, MCP tools, and approvals. An architecture guide beyond Dots and Claude Duet.">
+  <link rel="canonical" href="https://www.aiconnector.ai/blogs/building-a-provider-independent-agent.html">
+  <meta property="og:title" content="Beyond Dots and Duet: build your own portable agent">
+  <meta property="og:description" content="Keep tasks, memory, tools, and permissions in your application. Make the model provider replaceable—and test that it really is.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.aiconnector.ai/blogs/building-a-provider-independent-agent.html">
+  <meta property="article:published_time" content="2026-11-03">
+  <meta property="article:modified_time" content="2026-11-03">
+  <meta name="twitter:card" content="summary">
+  <meta name="author" content="AIConnector editorial">
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../site-theme.css">
+  <link rel="stylesheet" href="../editorial.css">
+  <link rel="stylesheet" href="portable-agent.css">
+  <script src="../site-theme.js" defer></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Beyond Dots and Duet: build your own portable agent",
+    "description": "An architecture guide to building an always-on AI agent with portable task state, model adapters, durable execution, tools, and approvals.",
+    "datePublished": "2026-11-03",
+    "dateModified": "2026-11-03",
+    "author": {"@type": "Organization", "name": "AIConnector editorial", "url": "https://www.aiconnector.ai/about.html"},
+    "publisher": {"@type": "Organization", "name": "AIConnector.ai", "url": "https://www.aiconnector.ai/"},
+    "mainEntityOfPage": "https://www.aiconnector.ai/blogs/building-a-provider-independent-agent.html",
+    "inLanguage": "en"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to article</a>
+  <header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary navigation"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../books.html">Books</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
+  <main id="main-content" tabindex="-1">
+    <article>
+      <header class="editorial-hero">
+        <div class="editorial-shell">
+          <p class="eyebrow">AGENT ARCHITECTURE · IMPLEMENTATION GUIDE</p>
+          <h1>Beyond Dots and Duet: build your own portable agent</h1>
+          <p class="editorial-lede">Keep tasks, memory, tools, and permissions in your application. Make the model provider replaceable—and test that it really is.</p>
+          <p class="update-meta">AIConnector editorial · <time datetime="2026-11-03">3 November 2026</time> · 10 minute read</p>
+        </div>
+      </header>
+      <div class="editorial-shell editorial-copy portable-agent">
+        <a class="editorial-back" href="../blogs.html">← All field guides</a>
+        <nav class="article-contents" aria-label="In this article">
+          <ol>
+            <li><a href="#ownership">Define what must stay yours</a></li>
+            <li><a href="#architecture">Design the runtime</a></li>
+            <li><a href="#portability">Make providers replaceable</a></li>
+            <li><a href="#workflow">Follow a task through the system</a></li>
+            <li><a href="#build">Build and test the first version</a></li>
+          </ol>
+        </nav>
+
+        <h2 id="starting-point">Two products, one architectural question</h2>
+        <p>OpenAI Dots and Claude Duet make a similar promise: hand an agent a responsibility and let it keep working between conversations. Dots documents background delegation, cloud computers, and coordination with Work and Codex. Duet documents proactive briefings, connected apps, and work on its own cloud computer. These are product capabilities described by their vendors, not a performance comparison. <a href="https://learn.chatgpt.com/docs/dots">OpenAI’s Dots overview</a> · <a href="https://support.claude.com/en/articles/17631495-get-started-with-claude-duet">Anthropic’s Duet guide</a>.</p>
+        <p>For a builder, the useful question is how to offer that kind of continuity while retaining the freedom to change models. The answer starts with ownership: implement the persistent service around the model, including the information and execution records that let work continue.</p>
+        <p>This guide proposes an architecture for that service. It does not describe the private internals of either product or claim feature parity with them. The workflow and acceptance tests are our design recommendations.</p>
+
+        <h2 id="ownership">Define what must stay yours</h2>
+        <p>A provider-independent agent should retain its task history, connected accounts, approval rules, and artifacts when its inference provider changes. Users should not have to reconnect their tools or restate an ongoing responsibility just because the next model call goes elsewhere.</p>
+        <p>That does not make all models interchangeable. A replacement still needs to handle the required inputs and tools, meet quality requirements, and comply with your data-routing policy. Independence means you control that transition.</p>
+        <aside class="editorial-callout"><p><strong>A practical portability contract:</strong> change the model at a saved checkpoint while preserving the task’s objective, evidence, completed actions, and authorization boundaries.</p></aside>
+        <p>Start with application-owned records for users, tasks, schedules, tool operations, approvals, and artifacts. Provider session IDs can be useful execution details; the durable record of the user’s work should remain understandable without them.</p>
+
+        <h2 id="architecture">Design the runtime around durable tasks</h2>
+        <p>The runtime receives a message, timer, or application event. It loads a task, constructs the context for a model call, validates proposed actions, and records what happens. It can then continue, wait for input, or save a future wake-up.</p>
+
+        <figure class="agent-map">
+          <div class="map-inputs"><p>User messages</p><p>Webhooks and timers</p></div>
+          <p class="map-arrow" aria-hidden="true">↓</p>
+          <div class="map-runtime"><strong>Your durable task runtime</strong><span>Load → reason → authorize → execute → save</span></div>
+          <div class="map-branches">
+            <div class="map-node"><span class="map-arrow" aria-hidden="true">↕</span><strong>Model adapters</strong><span>OpenAI, Anthropic, or another compatible model</span></div>
+            <div class="map-node"><span class="map-arrow" aria-hidden="true">↕</span><strong>State and memory</strong><span>Tasks, facts, evidence, approvals, and artifacts</span></div>
+            <div class="map-node"><span class="map-arrow" aria-hidden="true">↕</span><strong>Controlled tools</strong><span>Permission checks, then APIs, MCP, or a sandbox</span></div>
+          </div>
+          <figcaption>The runtime owns coordination. Models propose steps; your service checks permissions, executes tools, and saves results before continuing.</figcaption>
+        </figure>
+
+        <p>Keep the service available continuously, but give each run a bounded amount of work. Wake a task when something relevant changes or a saved timer expires. A model does not need to generate tokens while waiting for a person to approve a draft.</p>
+        <p>Each task needs a status, a deadline or cancellation policy, and limits on time, model usage, and tool calls. A paused task should say what it needs. A completed task should point to the resulting artifact or verified outcome. For the underlying request loop, see <a href="how-agent-turns-work.html">how a turn works in an agent harness</a>.</p>
+
+        <h3>Keep memory separate from execution state</h3>
+        <p>Remembering that a user prefers concise updates is different from knowing that a draft pull request already exists. Store preferences and useful facts with their sources and timestamps. Store execution progress as explicit records: which step ran, what it returned, and what remains unresolved.</p>
+        <p>Also distinguish a recorded intention from an external effect. If a request times out while creating a pull request, the remote service may still have created it. Recover by checking the remote result, using an idempotency key where supported, or reconciling an operation identifier before trying again. A local database transaction cannot make an unrelated remote API call atomic.</p>
+        <p>Temporal’s <a href="https://docs.temporal.io/ai/featured/memory-state-stripe">agent memory and state example</a> explains this distinction through a restart and an external action. Its execution history records progress; the external service remains authoritative about whether the action happened.</p>
+
+        <h2 id="portability">Put model differences behind an adapter</h2>
+        <p>Define the information your runtime sends and receives: messages, tool definitions, validated tool requests, final output, usage, and errors. An adapter translates that contract to the provider’s API. Keep application code dependent on the contract rather than on one vendor’s response object.</p>
+        <p>For TypeScript, AI SDK Core supplies a common model interface and provider integrations. OpenAI’s Agents SDK also documents provider and adapter surfaces for mixed-provider applications. Either can be part of a portable design; inspect the features your application actually uses. <a href="https://ai-sdk.dev/docs/foundations/providers-and-models">AI SDK provider architecture</a> · <a href="https://developers.openai.com/api/docs/guides/agents/models">OpenAI model and provider guidance</a>.</p>
+        <p>Keep a capability check at selection time. Does this model accept the images the task needs? Can it request your tools? How will you validate structured output? What are its context and budget constraints? A shared method name does not answer those questions.</p>
+        <p>Save a portable checkpoint containing the objective, relevant facts, completed operations, artifact references, and next decision. Keep provider-specific reasoning blocks and continuation tokens within their adapter’s supported flow. At a provider change, rebuild the next request from the portable checkpoint; do not assume another provider can consume an unfinished native session.</p>
+        <aside class="editorial-callout"><p><strong>Fallback has a boundary:</strong> retrying a model request is different from repeating a tool action. Resolve pending or uncertain external effects before a replacement model continues the task.</p></aside>
+
+        <h3>Keep tools and authority independent of inference</h3>
+        <p>Give the agent small, explicit operations such as <code>read_issue</code>, <code>run_tests</code>, and <code>create_draft_pr</code>. Keep schemas, credentials, and implementation in your tool layer. Anthropic’s client-tool documentation describes this separation: the model returns a tool request, and application code executes it and sends back the result. <a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Claude tool-use documentation</a>.</p>
+        <p>Use MCP where it helps reuse integrations. Your service can act as an MCP host and expose available tools to the selected model through its adapter. MCP standardizes context and tool exchange; it does not choose your runtime, persistent memory, or model. <a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP architecture and scope</a>.</p>
+        <p>Check authorization in executable application logic before dispatch. Bind approval to the actual action: account, target, arguments, and relevant version. If the proposed recipients or repository change, evaluate the changed operation again. Treat content from issues, documents, and websites as evidence, never as permission to expand access.</p>
+        <p>For a service used by multiple people, carry the user or tenant identity through storage queries and tool execution. Keep tokens out of prompts, isolate workspaces, and enforce access with the connected account. A model switch must preserve those boundaries.</p>
+
+        <h2 id="workflow">Follow one responsibility through the system</h2>
+        <p>Consider this illustrative request: “Watch the checkout project for new bugs. Investigate reports, prepare fixes with test evidence, and ask me before merging.”</p>
+        <ol class="workflow-steps">
+          <li><strong>Save the responsibility.</strong> Record the repository, allowed actions, notification destination, budget, and merge restriction. Resolve missing scope before monitoring begins.</li>
+          <li><strong>Accept an event once.</strong> A new-issue webhook creates or updates the corresponding task. Use the source event’s identity to avoid starting duplicate investigations when delivery is retried.</li>
+          <li><strong>Investigate in a bounded workspace.</strong> Load the issue and relevant code. Ask the selected model for a next step, then run permitted tools in an isolated checkout. Save findings and results.</li>
+          <li><strong>Prepare a reviewable change.</strong> Record the tested revision, patch, validation output, and draft pull request. If the remote request times out, reconcile whether the draft exists before creating another.</li>
+          <li><strong>Pause at the approval boundary.</strong> Present the change and evidence. A later approval resumes the task after checking that the revision and authorization still match. A changed diff requires renewed review.</li>
+        </ol>
+        <p>The user can close the chat throughout this process. The backend owns the task’s lifecycle and sends an update when a result or decision is ready. If the backend restarts, its durable records determine where work resumes.</p>
+
+        <h2 id="build">Choose a small starting stack</h2>
+        <p>For a TypeScript service with responsibilities that span hours or days, we would start with the following arrangement. It is a proposed stack, not a requirement to adopt every component for a short-lived prototype.</p>
+        <p class="table-hint">On smaller screens, scroll the table horizontally.</p>
+        <div class="editorial-table-wrap" tabindex="0" role="region" aria-labelledby="stack-caption">
+          <table class="editorial-table">
+            <caption id="stack-caption">One implementation route and what each part owns</caption>
+            <thead><tr><th scope="col">Component</th><th scope="col">Responsibility</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">TypeScript service + AI SDK Core</th><td>Application API, context construction, and model adapters. Pin and test the provider integrations you use.</td></tr>
+              <tr><th scope="row">Temporal</th><td>Durable workflow progress, timers, and waits. Execute model and network calls as activities with explicit retry policies.</td></tr>
+              <tr><th scope="row">PostgreSQL + object storage</th><td>User and task records, memory, approvals, operation identifiers, and artifact references; larger files live in object storage.</td></tr>
+              <tr><th scope="row">Direct APIs + MCP client</th><td>Tool discovery and execution through your permission checks, using the correct connected account.</td></tr>
+              <tr><th scope="row">Isolated execution worker</th><td>Code or browser work when needed, with scoped credentials, resource limits, and retained results.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Temporal provides <a href="https://docs.temporal.io/design-patterns">documented execution patterns</a> for retries, parallel activities, and long-running work. Define the source of truth for each record: workflow history tracks execution, application storage supplies user-facing records and artifacts, and remote systems own their effects.</p>
+        <p>Start with one model-driven loop and one useful integration. Add another agent only when a task has a clear delegation boundary. See <a href="when-to-use-subagents.html">when to use subagents</a> for a decision framework.</p>
+
+        <h3>Build in stages with observable outcomes</h3>
+        <ol>
+          <li><strong>Complete a bounded task.</strong> Read an issue and produce a sourced investigation. Support two providers against the same fixtures and inspect the actual result.</li>
+          <li><strong>Make it resumable.</strong> Persist progress, add a saved schedule, and restart a worker during execution. Confirm that completed steps remain recorded.</li>
+          <li><strong>Add one controlled write.</strong> Introduce draft creation, exact-action approvals where needed, and recovery from uncertain API outcomes.</li>
+          <li><strong>Prove portability.</strong> Pause after a saved step, change providers, and resume with the same task scope and evidence. Keep the old adapter available until the candidate meets your acceptance criteria.</li>
+        </ol>
+        <p>Browser automation, voice, additional channels, and multiple workers can follow a demonstrated need. The first release should already let a user inspect activity, cancel work, and understand why a task is waiting.</p>
+
+        <h2 id="validation">Test the boundaries, not just the final answer</h2>
+        <p>A fluent response cannot establish that the correct action happened. Use controlled fixtures and failure injection to inspect artifacts, external state, and permission decisions. The following are acceptance tests to implement, not reported results.</p>
+        <div class="editorial-table-wrap" tabindex="0" role="region" aria-labelledby="tests-caption">
+          <table class="editorial-table">
+            <caption id="tests-caption">Failure cases for a portable agent</caption>
+            <thead><tr><th scope="col">Test</th><th scope="col">Required evidence</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Duplicate webhook</th><td>One logical task for the same event, with no repeated external write.</td></tr>
+              <tr><th scope="row">Worker crash after a write</th><td>The resumed task reconciles the remote outcome before retrying.</td></tr>
+              <tr><th scope="row">Provider switch at a checkpoint</th><td>Task facts, artifacts, and approvals remain available; completed operations stay completed.</td></tr>
+              <tr><th scope="row">Changed action after approval</th><td>An approval for the old target or arguments does not authorize the new operation.</td></tr>
+              <tr><th scope="row">Misleading instructions in tool output</th><td>The runtime rejects unauthorized operations even if the model proposes them.</td></tr>
+              <tr><th scope="row">Budget exhaustion or cancellation</th><td>The task stops dispatching new work, records its partial result, and reports any action already in flight.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Compare accepted task outcomes, human corrections, recovery failures, elapsed time, and total usage across providers. Include unsuccessful attempts in the cost. For a repeatable grading process, see <a href="building-an-evaluation-loop.html">building an evaluation loop</a>.</p>
+        <p>The strongest demonstration is a task that survives both a worker restart and a model change while producing the correct result. That tests whether the application truly owns the work.</p>
+
+        <div class="editorial-related">
+          <h2 id="sources">Sources and reading notes</h2>
+          <p>Documentation checked <time datetime="2026-11-03">3 November 2026</time>. Product features can change. The architecture, workflow, stack selection, and test plan are editorial recommendations; this article does not report a deployed implementation or benchmark.</p>
+          <ul class="source-list">
+            <li><a href="https://learn.chatgpt.com/docs/dots">OpenAI: Meet dots</a> — product context.</li>
+            <li><a href="https://support.claude.com/en/articles/17631495-get-started-with-claude-duet">Anthropic: Get started with Claude Duet</a> — product context and documented limits.</li>
+            <li><a href="https://ai-sdk.dev/docs/foundations/providers-and-models">AI SDK: Providers and Models</a> — the model adapter interface.</li>
+            <li><a href="https://developers.openai.com/api/docs/guides/agents/models">OpenAI: Models and providers</a> — SDK provider configuration and feature differences.</li>
+            <li><a href="https://platform.claude.com/docs/en/agents-and-tools/tool-use/overview">Anthropic: Tool use with Claude</a> — application-executed tools.</li>
+            <li><a href="https://modelcontextprotocol.io/docs/learn/architecture">MCP: Architecture overview</a> — protocol scope and participants.</li>
+            <li><a href="https://docs.temporal.io/ai/featured/memory-state-stripe">Temporal: Agent memory and state</a> — recovery and external effects.</li>
+            <li><a href="https://docs.temporal.io/design-patterns">Temporal: Design patterns</a> — execution and retry patterns.</li>
+          </ul>
+          <p><a href="../index.html?category=Agent+frameworks#discover">Compare agent frameworks</a> · <a href="../index.html?category=MCP+connectors#discover">Explore MCP connectors</a></p>
+        </div>
+      </div>
+    </article>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><p>© 2026 AIConnector.ai</p><p>AI tool discovery · Comparisons · Field guides</p></div></footer>
+</body>
+</html>
