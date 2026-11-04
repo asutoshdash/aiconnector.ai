@@ -2,14 +2,83 @@
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark"><script src="../theme-init.js"></script>
-<meta name="description" content="Decide when to use one agent with skills or delegate to subagents. A practical decision table, worked examples, and an evaluation plan for engineering teams.">
+
 <title>When does your agent actually need subagents? | AIConnector.ai</title>
-<link rel="canonical" href="https://www.aiconnector.ai/blogs/when-to-use-subagents.html">
-<meta property="og:title" content="When does your agent actually need subagents?">
-<meta property="og:description" content="A practical guide to shared context, delegation boundaries, and measuring whether an extra agent helps.">
-<meta property="og:type" content="article"><meta property="og:url" content="https://www.aiconnector.ai/blogs/when-to-use-subagents.html">
+
 <meta property="article:published_time" content="2026-11-02">
 <link rel="icon" href="../logo.svg" type="image/svg+xml"><link rel="stylesheet" href="../styles.css"><link rel="stylesheet" href="../site-theme.css"><link rel="stylesheet" href="../editorial.css"><script src="../site-theme.js" defer></script>
+
+<meta name="description" content="Decide when to use one agent with skills or delegate to subagents. A practical decision table, worked examples, and an evaluation plan for engineering teams.">
+<link rel="canonical" href="https://www.aiconnector.ai/blogs/when-to-use-subagents.html">
+<meta property="og:site_name" content="AIConnector.ai">
+<meta property="og:title" content="When does your agent actually need subagents? | AIConnector.ai">
+<meta property="og:description" content="Decide when to use one agent with skills or delegate to subagents. A practical decision table, worked examples, and an evaluation plan for engineering teams.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.aiconnector.ai/blogs/when-to-use-subagents.html">
+<meta property="og:image" content="https://www.aiconnector.ai/images/social/blogs-when-to-use-subagents.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="When does your agent actually need subagents? — AIConnector.ai">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="When does your agent actually need subagents? | AIConnector.ai">
+<meta name="twitter:description" content="Decide when to use one agent with skills or delegate to subagents. A practical decision table, worked examples, and an evaluation plan for engineering teams.">
+<meta name="twitter:image" content="https://www.aiconnector.ai/images/social/blogs-when-to-use-subagents.png">
+<meta name="twitter:image:alt" content="When does your agent actually need subagents? — AIConnector.ai">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://www.aiconnector.ai/blogs/when-to-use-subagents.html#article",
+      "url": "https://www.aiconnector.ai/blogs/when-to-use-subagents.html",
+      "name": "When does your agent actually need subagents? | AIConnector.ai",
+      "description": "Decide when to use one agent with skills or delegate to subagents. A practical decision table, worked examples, and an evaluation plan for engineering teams.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://www.aiconnector.ai/#website"
+      },
+      "headline": "When does your agent actually need subagents?",
+      "mainEntityOfPage": "https://www.aiconnector.ai/blogs/when-to-use-subagents.html",
+      "image": "https://www.aiconnector.ai/images/social/blogs-when-to-use-subagents.png",
+      "publisher": {
+        "@id": "https://www.aiconnector.ai/#organization"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "AIConnector editorial",
+        "url": "https://www.aiconnector.ai/about.html"
+      },
+      "datePublished": "2026-11-02"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.aiconnector.ai/blogs/when-to-use-subagents.html#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.aiconnector.ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Field guides",
+          "item": "https://www.aiconnector.ai/blogs.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "When does your agent actually need subagents?",
+          "item": "https://www.aiconnector.ai/blogs/when-to-use-subagents.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
 </head><body><a class="skip-link" href="#main-content">Skip to article</a>
   <header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary navigation"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../books.html">Books</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
 <main id="main-content" tabindex="-1"><article>
