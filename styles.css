@@ -858,6 +858,31 @@ h1 em {
   border-block-end: 1px solid var(--line);
 }
 
+.article-card-target {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  color: inherit;
+}
+
+.article-card-target:hover {
+  color: inherit;
+}
+
+.article-card:has(.article-card-target):hover {
+  border-color: var(--accent);
+}
+
+.article-card:has(.article-card-target:focus-visible) {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.article-card-target:focus-visible {
+  outline: none;
+}
+
 .article-cover {
   position: relative;
   display: flex;
