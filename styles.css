@@ -791,11 +791,23 @@ h1 em {
 }
 
 .writing-hero {
-  padding-block: clamp(5rem, 10vw, 8rem) 3rem;
+  padding-block: clamp(2.5rem, 6vw, 5rem) 3rem;
 }
 
 .writing-hero h1 {
-  max-width: 12ch;
+  max-width: 24ch;
+  margin-block-end: 1.25rem;
+  font-size: clamp(2rem, 1.25rem + 2.5vw, 3.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.writing-hero .hero-lede {
+  max-width: 68ch;
+  margin: 0;
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+  line-height: 1.65;
 }
 
 .writing-grid {
@@ -810,9 +822,8 @@ h1 em {
 
 .writing-section-heading {
   display: grid;
-  grid-template-columns: minmax(11rem, 0.35fr) minmax(16rem, 0.65fr) minmax(20rem, 1fr);
-  align-items: end;
-  gap: 1.5rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.625rem;
   margin-block-end: 1.4rem;
   padding-block-end: 1.2rem;
   border-block-end: 1px solid var(--line);
@@ -825,17 +836,20 @@ h1 em {
 }
 
 .writing-section-heading h2 {
-  font-size: clamp(1.6rem, 3vw, 2.4rem);
-  letter-spacing: -0.035em;
+  font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
 .writing-section-heading > p:last-child {
-  max-width: 64ch;
-  font-size: 0.9rem;
+  max-width: 72ch;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.65;
 }
 
 .writing-section-heading-secondary {
-  grid-template-columns: minmax(11rem, 0.35fr) 1.65fr;
   margin-block-start: clamp(3rem, 7vw, 5rem);
 }
 
@@ -991,10 +1005,11 @@ h1 em {
   padding: 1.5rem;
 }
 
-.article-card h2 {
+.article-card :is(h2, h3) {
   margin-block-end: 0.7rem;
-  font-size: 1.35rem;
-  letter-spacing: -0.025em;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
 }
 
 .article-card p {
@@ -1144,21 +1159,10 @@ h1 em {
     gap: 0.5rem;
   }
 
-  .writing-section-heading {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .writing-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .writing-section-heading > p:last-child {
-    grid-column: 1 / -1;
-  }
-
-  .writing-section-heading-secondary {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 @media (max-width: 47rem) {
@@ -1247,16 +1251,6 @@ h1 em {
 
   .home-writing-rail > .article-card {
     flex-basis: min(84vw, 23rem);
-  }
-
-  .writing-section-heading,
-  .writing-section-heading-secondary {
-    grid-template-columns: 1fr;
-    gap: 0.35rem;
-  }
-
-  .writing-section-heading > p:last-child {
-    grid-column: auto;
   }
 
   .work-card,
@@ -1362,7 +1356,6 @@ h1 em {
 
 @media (max-width: 47rem) {
   .writing-hero { padding-block: 2rem; }
-  .writing-hero h1 { font-size: clamp(2rem, 1rem + 5vw, 3rem); }
   .work-card, .work-card-large { min-height: auto; }
   .article-cover { height: auto; min-height: 14rem; gap: 1.5rem; }
   .article-card img { height: auto; aspect-ratio: 16 / 9; }
