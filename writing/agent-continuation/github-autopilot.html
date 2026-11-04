@@ -108,6 +108,7 @@
       </ol>
     </nav>
 
+    <article id="article" aria-labelledby="page-title">
     <section class="hero detail-hero" aria-labelledby="page-title">
       <div class="hero-copy">
         <p class="eyebrow">Task-completion continuation</p>
@@ -123,7 +124,7 @@
     </section>
 
     <div class="detail-layout">
-      <article class="article-content">
+      <div class="article-content">
         <section id="definition" aria-labelledby="definition-title">
           <h2 id="definition-title">What Autopilot controls</h2>
           <p>In a normal interactive session, Copilot eventually returns control to you for the next instruction. Autopilot changes that outer conversation flow: it can start successive model interactions on its own while working through the same task.</p>
@@ -224,16 +225,16 @@ copilot
         <section id="sources" aria-labelledby="sources-title">
           <h2 id="sources-title">First-party sources</h2>
           <div class="source-grid">
-            <article class="source-card">
+            <div class="source-card">
               <h3>Autopilot concepts</h3>
               <p>Behavior, permissions, stop conditions, and typical workflow.</p>
               <a href="https://docs.github.com/en/copilot/concepts/agents/copilot-cli/autopilot" target="_blank" rel="noreferrer noopener">Read GitHub Docs <span class="visually-hidden">(opens in a new tab)</span> ↗</a>
-            </article>
-            <article class="source-card">
+            </div>
+            <div class="source-card">
               <h3>CLI command reference</h3>
               <p>Flags, mode shortcuts, and continuation limits.</p>
               <a href="https://docs.github.com/en/copilot/reference/copilot-cli-reference/cli-command-reference" target="_blank" rel="noreferrer noopener">Read the reference <span class="visually-hidden">(opens in a new tab)</span> ↗</a>
-            </article>
+            </div>
           </div>
         </section>
 
@@ -241,7 +242,7 @@ copilot
           <a class="next-page" href="index.html"><span>Back</span><strong>Compare all three</strong></a>
           <a class="next-page" href="claude-loop.html"><span>Next concept</span><strong>Claude Code Loop →</strong></a>
         </nav>
-      </article>
+      </div>
 
       <aside class="toc" aria-labelledby="toc-title">
         <h2 id="toc-title">On this page</h2>
@@ -261,6 +262,7 @@ copilot
       <span class="status">Verified against GitHub documentation</span>
       <time datetime="2026-08-05">05 Aug 2026</time>
     </div>
+  </article>
   <section class="blog-comments" aria-labelledby="comments-heading">
   <h2 id="comments-heading">Join the discussion</h2>
   <p>Share a question, correction, or something you learned. Sign in with GitHub to comment.</p>

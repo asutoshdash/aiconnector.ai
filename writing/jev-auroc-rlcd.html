@@ -108,15 +108,16 @@
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary navigation"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../books.html">Books</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
   <main id="main-content">
-    <section class="jev-hero">
+    <article id="article" aria-labelledby="article-title">
+    <header class="jev-hero">
       <div class="jev-shell">
         <p class="micro-label">AI research · Plain-language guide</p>
-        <h1>What are Jev, AUROC, and RLCD?</h1>
+        <h1 id="article-title">What are Jev, AUROC, and RLCD?</h1>
         <p>A simple guide to a paper about using one AI model to check another AI model’s responses—and what its results do and don’t tell us.</p>
         <p class="jev-meta">By Asutosh Dash · Based on “Just Ask Jev” · September 2026</p>
       </div>
-    </section>
-    <article class="jev-shell jev-article">
+    </header>
+    <div class="jev-shell jev-article">
       <a class="jev-back" href="../blogs.html">← Back to Writing</a>
       <p>Imagine an AI answers a user’s request. Did it give dangerous advice? Did it simply agree with a mistaken claim? Did it make something up? Researchers need ways to check for these kinds of failures. In the paper <a href="https://arxiv.org/abs/2609.29429" target="_blank" rel="noopener noreferrer">“Just Ask Jev”</a>, they test whether Jev, a decision-focused AI model, can help.</p>
 
@@ -147,6 +148,7 @@
       <p>The study suggests Jev could be a low-cost tool for screening responses or reviewing benchmarks. It does not show that Jev is a complete, universally reliable safety monitor. The evaluation covers one Jev version, English benchmarks, and relatively small target models. Its scores and thresholds should be checked on the data where they will actually be used.</p>
       <p><strong>In short:</strong> Jev produces the scores, AUROC measures how well it ranks examples, and RLCD is the name for the training approach intended to make its probabilities useful. The goal of RLCD is public; its exact internal recipe is not.</p>
       <p class="jev-meta">Source: Ruoqi Guo et al., “Just Ask Jev: Reinforcement Learning for Calibrated Decisions as a Zero-Shot Detector of AI Alignment Failures,” arXiv:2609.29429 (September 2026; under review for ICLR 2027). <a href="https://arxiv.org/abs/2609.29429" target="_blank" rel="noopener noreferrer">Read the paper</a>.</p>
+    </div>
     </article>
   <section class="blog-comments" aria-labelledby="comments-heading">
   <h2 id="comments-heading">Join the discussion</h2>

@@ -108,6 +108,7 @@
       </ol>
     </nav>
 
+    <article id="article" aria-labelledby="page-title">
     <section class="hero detail-hero" aria-labelledby="page-title">
       <div class="hero-copy">
         <p class="eyebrow">Cadence-driven recurrence</p>
@@ -123,7 +124,7 @@
     </section>
 
     <div class="detail-layout">
-      <article class="article-content">
+      <div class="article-content">
         <section id="definition" aria-labelledby="definition-title">
           <h2 id="definition-title">What Loop controls</h2>
           <p><code>/loop</code> is a bundled Claude Code skill for in-session scheduling. It registers a recurring prompt, waits, and enqueues that prompt again when the next iteration is due. Each iteration runs between turns rather than interrupting a response already in progress.</p>
@@ -262,16 +263,16 @@ If it succeeded, report the release version and stop.</code></pre>
         <section id="sources" aria-labelledby="sources-title">
           <h2 id="sources-title">First-party sources</h2>
           <div class="source-grid">
-            <article class="source-card">
+            <div class="source-card">
               <h3>Scheduled tasks</h3>
               <p>Loop syntax, cadence, expiry, cancellation, permissions, and scheduling options.</p>
               <a href="https://code.claude.com/docs/en/scheduled-tasks" target="_blank" rel="noreferrer noopener">Read Claude Code Docs <span class="visually-hidden">(opens in a new tab)</span> ↗</a>
-            </article>
-            <article class="source-card">
+            </div>
+            <div class="source-card">
               <h3>Commands</h3>
               <p>Reference entry for the bundled <code>/loop</code> skill.</p>
               <a href="https://code.claude.com/docs/en/commands" target="_blank" rel="noreferrer noopener">Read the command reference <span class="visually-hidden">(opens in a new tab)</span> ↗</a>
-            </article>
+            </div>
           </div>
         </section>
 
@@ -279,7 +280,7 @@ If it succeeded, report the release version and stop.</code></pre>
           <a class="next-page" href="github-autopilot.html"><span>Previous concept</span><strong>← GitHub Autopilot</strong></a>
           <a class="next-page" href="codex-goal.html"><span>Next concept</span><strong>Codex Goal →</strong></a>
         </nav>
-      </article>
+      </div>
 
       <aside class="toc" aria-labelledby="toc-title">
         <h2 id="toc-title">On this page</h2>
@@ -300,6 +301,7 @@ If it succeeded, report the release version and stop.</code></pre>
       <span class="status">Verified against Anthropic documentation</span>
       <time datetime="2026-08-05">05 Aug 2026</time>
     </div>
+  </article>
   <section class="blog-comments" aria-labelledby="comments-heading">
   <h2 id="comments-heading">Join the discussion</h2>
   <p>Share a question, correction, or something you learned. Sign in with GitHub to comment.</p>

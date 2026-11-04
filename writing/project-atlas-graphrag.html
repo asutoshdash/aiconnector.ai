@@ -361,10 +361,12 @@
 <header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary navigation"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../books.html">Books</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
   <a class="skip-link" href="#content">Skip to report</a>
 
+  <main id="content" tabindex="-1">
+  <article id="article" aria-labelledby="article-title">
   <header class="hero">
     <div class="hero-inner">
       <p class="eyebrow">Project Atlas · Technical Landscape</p>
-      <h1>GraphRAG feature &amp; pricing matrix</h1>
+      <h1 id="article-title">GraphRAG feature &amp; pricing matrix</h1>
       <p class="hero-copy">A README-based comparison of eight shortlisted open-source graph knowledge systems, complemented by Stripe and Cerebras production reference architectures.</p>
       <div class="meta-row">
         <span class="meta-pill">Snapshot: 11 August 2026</span>
@@ -375,7 +377,7 @@
     </div>
   </header>
 
-  <main id="content" class="page-shell" tabindex="-1">
+  <div class="page-shell">
     <nav class="toc" aria-label="Report sections">
       <strong>Jump to</strong>
       <ul role="list">
@@ -452,10 +454,10 @@
       </div>
 
       <div class="insights">
-        <article class="insight"><h3>Whole-corpus specialist</h3><p>Microsoft global search uses community reports in a map-reduce query. It is distinctive—and resource intensive.</p></article>
-        <article class="insight"><h3>Temporal specialist</h3><p>Graphiti uniquely models fact-validity windows and preserves superseded facts as history.</p></article>
-        <article class="insight"><h3>Semantic-control specialist</h3><p>KAG/OpenSPG provides the strongest schema, normalization and rule model, with the highest up-front modeling work.</p></article>
-        <article class="insight"><h3>Full-stack specialist</h3><p>TrustGraph supplies orchestration, storage, ingestion, retrieval, MCP and UI—along with the largest operations surface.</p></article>
+        <div class="insight"><h3>Whole-corpus specialist</h3><p>Microsoft global search uses community reports in a map-reduce query. It is distinctive—and resource intensive.</p></div>
+        <div class="insight"><h3>Temporal specialist</h3><p>Graphiti uniquely models fact-validity windows and preserves superseded facts as history.</p></div>
+        <div class="insight"><h3>Semantic-control specialist</h3><p>KAG/OpenSPG provides the strongest schema, normalization and rule model, with the highest up-front modeling work.</p></div>
+        <div class="insight"><h3>Full-stack specialist</h3><p>TrustGraph supplies orchestration, storage, ingestion, retrieval, MCP and UI—along with the largest operations surface.</p></div>
       </div>
     </section>
 
@@ -516,9 +518,9 @@
       </div>
 
       <div class="insights">
-        <article class="insight"><h3>Stripe: control-plane reference</h3><p>Narrow MCP tools, scoped credentials and human confirmation establish a strong boundary around knowledge and actions.</p></article>
-        <article class="insight"><h3>Cerebras: retrieval reference</h3><p>Incremental ingestion, source-specific processing, hybrid ranking and evidence packaging create a strong non-graph baseline.</p></article>
-        <article class="insight"><h3>Tree-sitter's role</h3><p>Tree-sitter preserves code structure before embedding or graph extraction; it is an ingestion technique, not a graph engine.</p></article>
+        <div class="insight"><h3>Stripe: control-plane reference</h3><p>Narrow MCP tools, scoped credentials and human confirmation establish a strong boundary around knowledge and actions.</p></div>
+        <div class="insight"><h3>Cerebras: retrieval reference</h3><p>Incremental ingestion, source-specific processing, hybrid ranking and evidence packaging create a strong non-graph baseline.</p></div>
+        <div class="insight"><h3>Tree-sitter's role</h3><p>Tree-sitter preserves code structure before embedding or graph extraction; it is an ingestion technique, not a graph engine.</p></div>
       </div>
     </section>
 
@@ -603,17 +605,20 @@
       </div>
     </section>
 
-    <section class="blog-comments" aria-labelledby="comments-heading">
+
+<footer>
+      Project Atlas · Employer-neutral technical learning material · <a href="../blogs.html">All writing</a>
+    </footer>
+<section class="shell"><h2>Further reading</h2><p>Explore <a href="../books.html#essential-graphrag">Essential GraphRAG on our Books shelf</a> for graph-based retrieval concepts and implementation.</p></section>
+  </div>
+  </article>
+  <section class="blog-comments" aria-labelledby="comments-heading">
   <h2 id="comments-heading">Join the discussion</h2>
   <p>Share a question, correction, or something you learned. Sign in with GitHub to comment.</p>
   <div class="giscus"></div>
   <p class="comments-fallback">Comments powered by Giscus. You can also <a href="https://github.com/asutoshdash/aiconnector-comments/discussions">browse the discussions on GitHub</a>.</p>
   <noscript><p>Enable JavaScript to view and leave comments here.</p></noscript>
 </section>
-<footer>
-      Project Atlas · Employer-neutral technical learning material · <a href="../blogs.html">All writing</a>
-    </footer>
-<section class="shell"><h2>Further reading</h2><p>Explore <a href="../books.html#essential-graphrag">Essential GraphRAG on our Books shelf</a> for graph-based retrieval concepts and implementation.</p></section>
   </main>
 </body>
 </html>

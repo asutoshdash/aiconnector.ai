@@ -95,6 +95,7 @@
       </nav>
 
   <main id="content" class="page-shell" tabindex="-1">
+    <article id="article" aria-labelledby="page-title">
     <section class="hero" aria-labelledby="page-title">
       <div class="hero-copy">
         <p class="eyebrow">A field guide to agent persistence</p>
@@ -226,26 +227,26 @@
       </div>
 
       <div class="decision-grid">
-        <article class="decision-card">
+        <div class="decision-card">
           <h3>“Stop when the implementation is done.”</h3>
           <p>Use Autopilot when the task is bounded, the plan is detailed, and GitHub Copilot can decide when its work is complete.</p>
           <a href="github-autopilot.html">See the Autopilot workflow →</a>
-        </article>
-        <article class="decision-card">
+        </div>
+        <div class="decision-card">
           <h3>“Check again in five minutes.”</h3>
           <p>Use Claude <code>/loop</code> when elapsed time—not unfinished reasoning—is what should trigger another check.</p>
           <a href="claude-loop.html">See the Loop workflow →</a>
-        </article>
-        <article class="decision-card">
+        </div>
+        <div class="decision-card">
           <h3>“Stop when this testable condition is true.”</h3>
           <p>Use Codex <code>/goal</code> when success is explicit and the agent should keep iterating and validating across turns.</p>
           <a href="codex-goal.html">See the Goal workflow →</a>
-        </article>
-        <article class="decision-card">
+        </div>
+        <div class="decision-card">
           <h3>“Keep an eye on this for weeks.”</h3>
           <p>Use a durable scheduler or cloud automation. An open local session is the wrong reliability boundary for long-lived monitoring.</p>
           <a href="claude-loop.html#not-a-daemon">Understand session-scoped loops →</a>
-        </article>
+        </div>
       </div>
     </section>
 
@@ -258,6 +259,7 @@
       <span class="status">Verified against first-party documentation</span>
       <time datetime="2026-08-05">05 Aug 2026</time>
     </div>
+  </article>
   <section class="blog-comments" aria-labelledby="comments-heading">
   <h2 id="comments-heading">Join the discussion</h2>
   <p>Share a question, correction, or something you learned. Sign in with GitHub to comment.</p>

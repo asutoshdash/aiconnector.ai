@@ -85,7 +85,7 @@ body.reading-page.gradient-bg .prose code { color: var(--accent); }
 }
 
 /* Older articles share the same reading gutter and responsive media sizing. */
-body.reading-page.gradient-bg > :is(article, div).pt-32 {
+body.reading-page.gradient-bg > :is(main, article, div).pt-32 {
   padding-block: clamp(2rem, 6vw, 4rem) 4rem;
 }
 body.reading-page.gradient-bg #torque-clustering { padding: 0; border: 0; }
