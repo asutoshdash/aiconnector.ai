@@ -104,6 +104,8 @@
   ]
 }
 </script>
+<link rel="stylesheet" href="../blog-comments.css">
+<script src="../blog-comments.js" defer></script>
 </head>
 <body class="reading-page gradient-bg min-h-screen text-gray-100">
     <!-- Navbar -->
@@ -219,7 +221,14 @@ optimizer.optimize_workflow(
     </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 py-12 px-4">
+    <section class="blog-comments" aria-labelledby="comments-heading">
+  <h2 id="comments-heading">Join the discussion</h2>
+  <p>Share a question, correction, or something you learned. Sign in with GitHub to comment.</p>
+  <div class="giscus"></div>
+  <p class="comments-fallback">Comments powered by Giscus. You can also <a href="https://github.com/asutoshdash/aiconnector-comments/discussions">browse the discussions on GitHub</a>.</p>
+  <noscript><p>Enable JavaScript to view and leave comments here.</p></noscript>
+</section>
+<footer class="bg-gray-900 py-12 px-4">
         <div class="max-w-7xl mx-auto text-center">
             <p class="text-gray-400">&copy; 2025 aiConnector.ai. All rights reserved.</p>
         </div>

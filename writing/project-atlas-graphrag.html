@@ -354,6 +354,8 @@
   ]
 }
 </script>
+<link rel="stylesheet" href="../blog-comments.css">
+<script src="../blog-comments.js" defer></script>
 </head>
 <body class="atlas-page">
 <header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary navigation"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../books.html">Books</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
@@ -601,7 +603,14 @@
       </div>
     </section>
 
-    <footer>
+    <section class="blog-comments" aria-labelledby="comments-heading">
+  <h2 id="comments-heading">Join the discussion</h2>
+  <p>Share a question, correction, or something you learned. Sign in with GitHub to comment.</p>
+  <div class="giscus"></div>
+  <p class="comments-fallback">Comments powered by Giscus. You can also <a href="https://github.com/asutoshdash/aiconnector-comments/discussions">browse the discussions on GitHub</a>.</p>
+  <noscript><p>Enable JavaScript to view and leave comments here.</p></noscript>
+</section>
+<footer>
       Project Atlas · Employer-neutral technical learning material · <a href="../blogs.html">All writing</a>
     </footer>
 <section class="shell"><h2>Further reading</h2><p>Explore <a href="../books.html#essential-graphrag">Essential GraphRAG on our Books shelf</a> for graph-based retrieval concepts and implementation.</p></section>
