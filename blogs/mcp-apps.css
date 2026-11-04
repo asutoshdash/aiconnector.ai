@@ -1,0 +1,13 @@
+.mcp-flow {
+  margin: 2rem 0;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+.mcp-flow figcaption { font-weight: 700; line-height: 1.5; }
+.mcp-flow ol { margin: 1.25rem 0; padding-inline-start: 1.5rem; }
+.mcp-flow li { padding: .75rem; background: var(--tint); border-radius: 6px; }
+.mcp-flow strong, .mcp-flow span { display: block; }
+.mcp-flow span, .mcp-flow p { color: var(--muted); font-size: .95rem; }
+.editorial-copy code { overflow-wrap: anywhere; font-size: .9em; }
