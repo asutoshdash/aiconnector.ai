@@ -111,3 +111,7 @@
 .workflow-center { border: 0; box-shadow: inset 0 0 0 1px #6a87df, 0 0 85px #3454e84d; }
 .launch-news { border: 0; box-shadow: inset 0 0 0 1px #344768; }
 .node-connect .node-icons { gap: 4px; }
+
+/* Featured AlloyDB illustration keeps its composition at every card width. */
+.launch-story.alloydb-story { grid-template-columns: minmax(0, 1fr); }
+.alloydb-thumbnail { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; background: #07111f; }
