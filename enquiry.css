@@ -22,7 +22,7 @@
 
 .connect-launcher, .connect-dialog, .connect-dialog * { box-sizing: border-box; }
 .connect-launcher {
-  position: fixed; right: max(1.25rem, env(safe-area-inset-right)); bottom: max(1.25rem, env(safe-area-inset-bottom));
+  position: fixed; right: max(1.25rem, env(safe-area-inset-right)); bottom: calc(max(1.25rem, env(safe-area-inset-bottom)) + var(--comparison-bar-height, 0px));
   z-index: 30; display: inline-flex; align-items: center; gap: .6rem;
   min-height: 48px; padding: .75rem 1.1rem; border: 1px solid var(--accent); border-radius: 999px;
   background: var(--accent); color: var(--button-ink); box-shadow: 0 4px 20px #0002;
@@ -64,7 +64,7 @@
 /* Leave room to reach footer links beneath the floating launcher. */
 body:has(.connect-launcher) { padding-bottom: 5rem; }
 @media (max-width: 600px) {
-  .connect-launcher { right: max(.75rem, env(safe-area-inset-right)); bottom: max(.75rem, env(safe-area-inset-bottom)); }
+  .connect-launcher { right: max(.75rem, env(safe-area-inset-right)); bottom: calc(max(.75rem, env(safe-area-inset-bottom)) + var(--comparison-bar-height, 0px)); }
   .connect-dialog { inset: auto 0 0; width: 100%; max-height: 90vh; max-height: 90dvh; border-radius: 1.25rem 1.25rem 0 0; }
   .connect-heading { padding: 1rem; }
   .connect-content { padding: 1rem 1rem max(1.5rem, env(safe-area-inset-bottom)); }

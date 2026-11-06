@@ -3,9 +3,13 @@
   const form = document.querySelector('.filters');
   const search = document.querySelector('#search');
   const category = document.querySelector('#category');
+  const field = document.querySelector('#field');
   const count = document.querySelector('#result-count');
   const selected = new Set();
   const bar = document.querySelector('.compare-bar');
+  new ResizeObserver(() => {
+    document.documentElement.style.setProperty('--comparison-bar-height', `${bar.getBoundingClientRect().height}px`);
+  }).observe(bar);
   const open = document.querySelector('#open-compare');
   const dialog = document.querySelector('#comparison');
   let timer;
@@ -13,6 +17,8 @@
   function readURL() {
     const params = new URLSearchParams(location.search);
     search.value = params.get('q') || '';
+    const requestedField = params.get('field') || '';
+    field.value = [...field.options].some(option => option.value === requestedField) ? requestedField : '';
     const legacyCategory = params.get('category') || '';
     const requested = legacyCategory === 'MCP integrations' ? 'MCP connectors' : legacyCategory;
     category.value = [...category.options].some(option => option.value === requested) ? requested : '';
@@ -26,7 +32,7 @@
     let visible = 0;
     cards.forEach(card => {
       const text = card.textContent.toLowerCase();
-      card.hidden = !terms.every(term => text.includes(term)) || Boolean(category.value && card.dataset.category !== category.value);
+      card.hidden = !terms.every(term => text.includes(term)) || Boolean(category.value && card.dataset.category !== category.value) || Boolean(field.value && !card.dataset.fields.split('|').includes(field.value));
       if (!card.hidden) visible++;
     });
     clearTimeout(timer);
@@ -38,6 +44,8 @@
       else url.searchParams.delete('q');
       if (category.value) url.searchParams.set('category', category.value);
       else url.searchParams.delete('category');
+      if (field.value) url.searchParams.set('field', field.value);
+      else url.searchParams.delete('field');
       history.replaceState(null, '', url);
     }
   }
@@ -56,8 +64,9 @@
   document.querySelectorAll('.compare-choice').forEach(label => { label.hidden = false; });
   search.addEventListener('input', () => filter());
   category.addEventListener('change', () => filter());
+  field.addEventListener('change', () => filter());
   form.addEventListener('submit', event => { event.preventDefault(); filter(); });
-  form.addEventListener('reset', () => { search.value = ''; category.value = ''; filter(); });
+  form.addEventListener('reset', () => { search.value = ''; category.value = ''; field.value = ''; filter(); });
   document.querySelector('#empty-reset').addEventListener('click', () => { form.reset(); search.focus(); });
   window.addEventListener('popstate', () => { readURL(); filter(false); });
   document.querySelector('.tool-grid').addEventListener('change', event => {
@@ -78,7 +87,7 @@
     const table = document.querySelector('#comparison-table');
     table.replaceChildren();
     const caption = table.createCaption();
-    caption.textContent = 'Official-source summaries · Checked 18 Oct 2026 · Not hands-on tested';
+    caption.textContent = 'Official-source summaries · Review dates shown per tool · Not hands-on tested';
     const header = table.createTHead().insertRow();
     for (const name of ['Attribute', ...tools.map(card => card.querySelector('h3').textContent)]) {
       const th = document.createElement('th'); th.scope = 'col'; th.textContent = name; header.append(th);
@@ -86,6 +95,8 @@
     const body = table.createTBody();
     const rows = [
       ['Category', card => card.dataset.category],
+      ['Fields', card => card.dataset.fields.split('|').join(', ')],
+      ['Source reviewed', card => card.dataset.reviewed || 'See listing'],
       ['Format', card => card.dataset.format],
       ['Use case', card => card.querySelector('.tool-use span').textContent],
       ['Getting started', card => card.dataset.setup],
