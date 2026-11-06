@@ -4,6 +4,7 @@
   const search = document.querySelector('#search');
   const category = document.querySelector('#category');
   const field = document.querySelector('#field');
+  const fieldLinks = [...document.querySelectorAll('.field-links a')];
   const count = document.querySelector('#result-count');
   const selected = new Set();
   const bar = document.querySelector('.compare-bar');
@@ -25,6 +26,11 @@
   }
 
   function filter(updateURL = true) {
+    fieldLinks.forEach(link => {
+      const active = new URL(link.href).searchParams.get('field') === field.value;
+      if (active) link.setAttribute('aria-current', 'true');
+      else link.removeAttribute('aria-current');
+    });
     const terms = search.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
     document.querySelectorAll('[data-category-note]').forEach(note => {
       note.hidden = note.dataset.categoryNote !== category.value;
@@ -65,6 +71,14 @@
   search.addEventListener('input', () => filter());
   category.addEventListener('change', () => filter());
   field.addEventListener('change', () => filter());
+  fieldLinks.forEach(link => {
+    link.addEventListener('click', event => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      field.value = new URL(link.href).searchParams.get('field') || '';
+      filter();
+    });
+  });
   form.addEventListener('submit', event => { event.preventDefault(); filter(); });
   form.addEventListener('reset', () => { search.value = ''; category.value = ''; field.value = ''; filter(); });
   document.querySelector('#empty-reset').addEventListener('click', () => { form.reset(); search.focus(); });
