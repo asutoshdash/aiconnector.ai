@@ -1,0 +1,12 @@
+{
+  "name": "divine-fire-1c46",
+  "main": "index.mjs",
+  "compatibility_date": "2026-11-06",
+  "workers_dev": true,
+  "vars": {
+    "ALLOWED_ORIGINS": "https://aiconnector.ai,https://www.aiconnector.ai",
+    "TURNSTILE_HOSTNAMES": "aiconnector.ai,www.aiconnector.ai"
+  }
+  // Before CLI deployment, add the existing D1 database ID under d1_databases,
+  // with binding "ENQUIRIES". See README.md. Never put TURNSTILE_SECRET here.
+}

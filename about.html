@@ -13,6 +13,8 @@
   <title>About AIConnector.ai | AI tools for engineering teams</title>
 
 <link rel="stylesheet" href="site-theme.css">
+<link rel="stylesheet" href="enquiry.css">
+<script src="enquiry.js" defer></script>
 <script src="site-theme.js" defer></script>
 
 <meta name="description" content="AIConnector.ai helps developers and engineering teams discover and compare AI tools, understand trade-offs, and learn how AI systems work.">
@@ -141,10 +143,24 @@
 
     <section class="section contact-section" id="contact">
       <div class="shell contact-card">
-        <p class="eyebrow"><span></span> Help improve AIConnector.ai</p>
-        <h2>Suggest a tool, share a correction, or get in touch.</h2>
-        <p>Send an official URL and a short explanation of what we should review. Tool builders can also contact us about clearly labeled sponsorship opportunities.</p>
-        <div class="hero-actions"><a class="button button-primary" href="mailto:asutoshd@aiconnector.ai">Contact AIConnector.ai</a><a class="button button-secondary" href="index.html#submit">Submit a tool</a></div>
+        <p class="eyebrow"><span></span> Learn. Build. Transform.</p>
+        <h2>Put agentic AI into practice.</h2>
+        <p>Connect with Asutosh to build your own skills or help your organisation adopt agentic AI. Start with knowledge, explore a real use case, and build a practical proof of concept.</p>
+        <form id="enquiry-form" class="enquiry-form" action="https://divine-fire-1c46.pasutosh.workers.dev/enquiries" method="post">
+          <p class="enquiry-note">All fields are required unless marked optional.</p>
+          <div><label for="enquiry-name">Your name</label><input id="enquiry-name" name="name" autocomplete="name" maxlength="120" required></div>
+          <div><label for="enquiry-email">Email address</label><input id="enquiry-email" name="email" type="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="254" required></div>
+          <div><label for="enquiry-organisation">Organisation <span>(optional)</span></label><input id="enquiry-organisation" name="organisation" autocomplete="organization" maxlength="200"></div>
+          <fieldset><legend>What would you like help with?</legend><div class="enquiry-options"><label><input type="radio" name="interest" value="learning_agentic_ai" required> Learning agentic AI</label><label><input type="radio" name="interest" value="applying_my_knowledge" required> Applying my knowledge</label><label><input type="radio" name="interest" value="organisation_transformation" required> Transforming my organisation</label><label><input type="radio" name="interest" value="building_a_poc" required> Building a proof of concept</label><label><input type="radio" name="interest" value="other" required> Something else</label></div></fieldset>
+          <div><label for="enquiry-message">What would you like to achieve?</label><p id="enquiry-help" class="enquiry-note">Tell me about the skills you want to build, a workflow you want to improve, or a POC you have in mind. Please leave out confidential information.</p><textarea id="enquiry-message" name="message" rows="5" minlength="1" maxlength="5000" aria-describedby="enquiry-help" required></textarea></div>
+          <label class="enquiry-consent"><input type="checkbox" name="consent" value="yes" required><span>I agree to have my details stored so Asutosh can respond to this enquiry. They will not be published on the site. To request deletion, email <a href="mailto:asutoshd@aiconnector.ai">asutoshd@aiconnector.ai</a>.</span></label>
+          <div id="enquiry-turnstile"></div>
+          <p id="enquiry-verification" class="enquiry-note" role="status">Loading verification…</p>
+          <button class="button button-primary" type="submit" disabled>Send enquiry</button>
+          <p id="enquiry-status" role="status" tabindex="-1"></p>
+          <noscript><p>This form needs JavaScript for verification. You can also <a href="mailto:asutoshd@aiconnector.ai">contact Asutosh by email</a>.</p></noscript>
+        </form>
+        <p class="enquiry-note">Prefer email, or have a tool suggestion? <a href="mailto:asutoshd@aiconnector.ai">Contact Asutosh directly</a> or <a href="index.html#submit">submit a tool</a>.</p>
       </div>
     </section>
   </main>
