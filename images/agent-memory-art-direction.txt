@@ -1,0 +1,6 @@
+Hero generated using the built-in imagegen tool.
+
+Prompt:
+Use case: stylized-concept. Asset type: wide editorial hero illustration for an AIConnector.ai article titled Agent memory: what survives the next session? Create a sophisticated tactile 3D editorial illustration: loose translucent glass cards and tiny luminous data fragments on the left, passing through an elegant central circular sorting structure, resolving into a compact organized set of softly glowing stacked glass memory tiles on the right, with a delicate path continuing onward. A visual metaphor for experience becoming useful retained knowledge. Deep midnight navy backdrop, restrained mint teal and soft lavender highlights matching a technology editorial website, subtle grain, beautiful soft studio light, architectural precision, lots of breathing room. Wide landscape 16:9 composition. No text, no letters, no logos, no brain, no humanoid robot, no watermark. Premium restrained magazine art, not a busy sci-fi poster.
+
+Workflow diagram: original SVG, authored directly for precise labels and scalable rendering.

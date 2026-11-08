@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="color-scheme" content="light dark">
+<script src="../theme-init.js"></script>
+<meta name="theme-color" content="#07111f" media="(prefers-color-scheme:dark)">
+<meta name="theme-color" content="#f5f8fa" media="(prefers-color-scheme:light)">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <title>Agent Memory, Dreaming, and the Next Session | AIConnector.ai</title>
+  <meta name="author" content="Asutosh Dash">
+  <style>
+    .eval-hero { position:relative; overflow:hidden; padding-block:clamp(4.5rem,9vw,7.5rem) clamp(3rem,7vw,5rem); border-block-end:1px solid var(--line); background:radial-gradient(circle at 86% 12%,rgb(172 156 255 / 15%),transparent 27rem),radial-gradient(circle at 10% 88%,rgb(100 230 197 / 9%),transparent 24rem),var(--surface-soft); }
+    .eval-shell { width:min(calc(100% - 2rem),58rem); margin-inline:auto; }
+    .eval-hero h1 { max-width:17ch; margin-block-end:1.35rem; font-size:clamp(2.6rem,7vw,5.7rem); line-height:.98; letter-spacing:-.055em; }
+    .eval-lede { max-width:62ch; margin-block-end:1.5rem; color:var(--muted-strong); font-size:clamp(1.05rem,2.3vw,1.3rem); }
+    .eval-meta { display:flex; flex-wrap:wrap; gap:.55rem; color:var(--muted); font-size:.82rem; }
+    .eval-meta span:not(:last-child)::after { margin-inline-start:.55rem; color:var(--accent); content:"·"; }
+    .eval-main { padding-block:2rem clamp(5rem,10vw,8rem); }
+    .eval-back { display:inline-flex; margin-block-end:1.5rem; color:var(--accent); font-size:.86rem; font-weight:760; }
+    .eval-copy { color:var(--muted-strong); font-size:1.04rem; line-height:1.78; }
+    .eval-copy > p:first-child { color:var(--ink); font-size:clamp(1.15rem,2.3vw,1.35rem); line-height:1.65; }
+    .eval-copy h2 { margin-block:clamp(3.4rem,8vw,5.5rem) 1rem; color:var(--ink); font-size:clamp(1.75rem,4vw,2.65rem); line-height:1.12; letter-spacing:-.035em; }
+    .eval-copy h3 { margin-block:2rem .65rem; color:var(--accent); font-size:1.15rem; }
+    .eval-copy p { margin-block-end:1.45rem; }
+    .eval-copy strong { color:var(--ink); }
+    .eval-copy ol,.eval-copy ul { margin-block:0 1.7rem; padding-inline-start:1.35rem; }
+    .eval-copy li + li { margin-block-start:.55rem; }
+    .eval-callout { margin-block:2rem; padding:1.25rem 1.4rem; border:1px solid var(--line-strong); border-inline-start:.35rem solid var(--accent); border-radius:0 var(--radius-sm) var(--radius-sm) 0; background:var(--accent-soft); }
+    .eval-callout p { margin:0; }
+    .eval-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; margin-block:2rem; }
+    .eval-panel { padding:1.35rem; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface-soft); }
+    .eval-panel h3 { margin-block-start:0; }
+    .eval-panel ul { margin-block-end:0; }
+    .eval-end { margin-block-start:4rem; padding-block-start:2rem; border-block-start:1px solid var(--line); }
+    .eval-copy a { color:var(--accent); text-underline-offset:.18em; }
+    @media (max-width:42rem) { .eval-hero { padding-block-start:3.5rem; } .eval-hero h1 { font-size:clamp(2.45rem,14vw,4rem); } .eval-meta { display:block; } .eval-meta span { display:block; } .eval-meta span:not(:last-child)::after { content:none; } .eval-grid { grid-template-columns:1fr; } }
+    @media print { .eval-hero { padding-block:2rem; background:#fff; } .eval-main { padding-block:1rem; } .eval-back,.site-footer { display:none; } .eval-callout,.eval-panel { box-shadow:none; } }
+    .memory-table-wrap { overflow-x:auto; margin-block:2rem; }
+    .memory-table { width:100%; border-collapse:collapse; font-size:.93rem; }
+    .memory-table caption { text-align:left; color:var(--ink); font-weight:700; margin-block-end:.8rem; }
+    .memory-table th,.memory-table td { text-align:left; vertical-align:top; padding:.85rem; border:1px solid var(--line); min-width:9rem; }
+    .memory-table thead { background:var(--surface-soft); color:var(--ink); }
+    .memory-figure { margin:2.5rem 0; }
+    .memory-figure img { display:block; width:100%; height:auto; border-radius:var(--radius-sm); border:1px solid var(--line); }
+    .memory-figure figcaption { margin-block-start:.75rem; color:var(--muted); font-size:.87rem; line-height:1.6; }
+    .memory-hero-art { margin-block:2rem 0; }
+    .memory-contents { margin-block:2rem; padding:1.25rem 1.5rem; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface-soft); }
+    .memory-contents ul { margin-block:.65rem 0; }
+    .memory-definitions dt { margin-block-start:1.2rem; font-weight:750; color:var(--ink); }
+    .memory-definitions dd { margin:.25rem 0 0; }
+    .memory-code { max-width:100%; overflow-x:auto; padding:1.25rem; border:1px solid var(--line); border-radius:var(--radius-sm); background:var(--surface-soft); color:var(--ink); font-size:.86rem; line-height:1.65; }
+    .memory-code code { color:inherit; background:none; padding:0; }
+    .eval-copy h2[id] { scroll-margin-top:7rem; }
+  </style>
+  <link rel="stylesheet" href="../reading-theme.css">
+<link rel="stylesheet" href="../site-theme.css">
+<script src="../site-theme.js" defer></script>
+<link rel="stylesheet" href="../enquiry.css">
+<script src="../enquiry.js" defer></script>
+
+<meta name="description" content="Understand agent memory, dreaming, and retrieval through a worked example, a memory record, and an evaluation plan.">
+<link rel="canonical" href="https://www.aiconnector.ai/blogs/agent-memory-and-dreaming.html">
+<meta property="og:site_name" content="AIConnector.ai">
+<meta property="og:title" content="Agent Memory, Dreaming, and the Next Session | AIConnector.ai">
+<meta property="og:description" content="Understand agent memory, dreaming, and retrieval through a worked example, a memory record, and an evaluation plan.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.aiconnector.ai/blogs/agent-memory-and-dreaming.html">
+<meta property="og:image" content="https://www.aiconnector.ai/images/social/blogs-agent-memory-and-dreaming.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Agent Memory, Dreaming, and the Next Session — AIConnector.ai">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Agent Memory, Dreaming, and the Next Session | AIConnector.ai">
+<meta name="twitter:description" content="Understand agent memory, dreaming, and retrieval through a worked example, a memory record, and an evaluation plan.">
+<meta name="twitter:image" content="https://www.aiconnector.ai/images/social/blogs-agent-memory-and-dreaming.png">
+<meta name="twitter:image:alt" content="Agent Memory, Dreaming, and the Next Session — AIConnector.ai">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://www.aiconnector.ai/blogs/agent-memory-and-dreaming.html#article",
+      "url": "https://www.aiconnector.ai/blogs/agent-memory-and-dreaming.html",
+      "name": "Agent Memory, Dreaming, and the Next Session | AIConnector.ai",
+      "description": "Understand agent memory, dreaming, and retrieval through a worked example, a memory record, and an evaluation plan.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://www.aiconnector.ai/#website"
+      },
+      "headline": "Agent memory: what survives the next session?",
+      "mainEntityOfPage": "https://www.aiconnector.ai/blogs/agent-memory-and-dreaming.html",
+      "image": "https://www.aiconnector.ai/images/social/blogs-agent-memory-and-dreaming.png",
+      "publisher": {
+        "@id": "https://www.aiconnector.ai/#organization"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Asutosh Dash",
+        "url": "https://www.aiconnector.ai/about.html"
+      },
+      "datePublished": "2026-11-08"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.aiconnector.ai/blogs/agent-memory-and-dreaming.html#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.aiconnector.ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Field guides",
+          "item": "https://www.aiconnector.ai/blogs.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Agent Memory, Dreaming, and the Next Session",
+          "item": "https://www.aiconnector.ai/blogs/agent-memory-and-dreaming.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="../blog-comments.css">
+<script src="../blog-comments.js" defer></script>
+</head>
+<body class="reading-page">
+  <a class="skip-link" href="#main-content">Skip to article</a>
+  <header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary navigation"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../books.html">Books</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
+  <main id="main-content" tabindex="-1">
+    <article id="article" aria-labelledby="article-title">
+      <header class="eval-hero"><div class="eval-shell">
+        <p class="eyebrow"><span></span> Agent architecture · Memory systems</p>
+        <h1 id="article-title">Agent memory: what survives the next session?</h1>
+        <p class="eval-lede">From working context to durable knowledge: follow one lesson through capture, verification, retrieval, and evaluation—with a practical record you can adapt.</p>
+        <div class="eval-meta"><span>By Asutosh Dash</span><span><time datetime="2026-11-08">8 November 2026</time></span><span>12 minute read</span><span>Practical field guide</span></div>
+      </div></header>
+      <div class="eval-shell eval-main">
+        <a class="eval-back" href="../blogs.html">← All writing</a>
+        <figure class="memory-figure memory-hero-art"><img src="../images/agent-memory-hero.png" width="1672" height="941" fetchpriority="high" alt="Scattered glass cards pass through a circular structure and become an organized stack of memory tiles."><figcaption>From scattered experience to retained knowledge. AI-generated editorial illustration.</figcaption></figure>
+        <div class="eval-copy">
+<p>A coding agent solves a difficult bug on Friday. On Monday, a fresh session repeats the same investigation. Saving the conversation would preserve the history, but the next agent still needs to find the relevant lesson, understand when it applies, and check whether the code has changed.</p>
+<p>That is the practical challenge of agent memory: deciding what experience should influence future work. Recent writing from Anthropic, Google, OpenAI, and Letta offers useful perspectives. The terminology overlaps, but the mechanisms differ. Understanding those differences helps us design a system we can inspect and improve.</p>
+
+<nav class="memory-contents" aria-label="Article contents"><strong>In this guide</strong><ul><li><a href="#memory-basics">The memory vocabulary</a></li><li><a href="#provider-patterns">What the provider examples show</a></li><li><a href="#worked-example">One lesson, from discovery to reuse</a></li><li><a href="#retrieval">How memories reach the model</a></li><li><a href="#evaluation">How to test whether memory helps</a></li></ul></nav>
+<h2 id="memory-basics">First, separate storage from working context</h2>
+<p>For the external-memory systems discussed here, the model can use a stored lesson only when the application makes it available in a model call—for example, by inserting it into the prompt or returning it through a tool. Writing a file does not, by itself, make a future session aware of its contents.</p>
+<dl class="memory-definitions">
+<dt>Working context</dt><dd>The information supplied for the current model call: instructions, selected messages, tool results, and retrieved material. Its size is bounded by the model’s context window.</dd>
+<dt>Session history</dt><dd>The record of an interaction. An application may preserve more history than it sends in any single call, selecting or compacting it as the conversation grows.</dd>
+<dt>Durable memory</dt><dd>Information retained across sessions. It can live in ordinary files, database rows, or another store. Persistence describes its lifetime, not its accuracy.</dd>
+<dt>Retrieval</dt><dd>The process of finding stored information relevant to a task. Retrieval connects the durable store to the agent’s working context.</dd>
+</dl>
+<p>A second distinction concerns <em>what</em> is remembered. Semantic memory holds facts or preferences; episodic memory holds experiences; procedural memory holds instructions or methods. These categories, also used in <a href="https://github.com/langchain-ai/docs/blob/main/src/oss/concepts/memory.mdx">LangChain’s memory documentation</a>, describe the information’s role, not three mandatory databases. In our coding example, a failed test run is an episode, a verified fact about the fixture is semantic knowledge, and a diagnostic checklist is procedural guidance.</p>
+<aside class="eval-callout"><p><strong>Where does RAG fit?</strong> Retrieval-augmented generation supplies retrieved material to a model. Agent memory can use that mechanism to recall past experience. A system that retrieves product manuals is using RAG, but it does not necessarily write or maintain memories of its own work.</p></aside>
+<h2 id="provider-patterns">What the provider examples show</h2>
+<h3>Anthropic: organize experience between sessions</h3>
+<p>In <a href="https://www.anthropic.com/research/components-of-agent-memory">The components of agent memory</a>, published on 6 November 2026, Anthropic describes retained knowledge stored outside model weights. Its hierarchy contains searchable transcripts, notes, representations such as wikis, and context loaded into new sessions.</p>
+<p>“Dreaming” uses background computation to revisit that material: check notes against transcripts, develop representations, and decide what deserves space in future context. The injected layer should stay small. This is maintenance of external knowledge, rather than retraining the underlying model.</p>
+<p>The post also describes limits: wikis may add little over search, notes can become stale, and maintenance costs compute.</p>
+
+<h3>Sleep-time compute: spend effort before the next request</h3>
+<p><a href="https://www.letta.com/blog/sleep-time-compute/">Letta’s sleep-time compute work</a>, developed with UC Berkeley researchers, explores using downtime to process available context ahead of future interactions. An agent can prepare knowledge while the user is away, then reuse that prepared context when work resumes. Anthropic explicitly credits this work in its discussion.</p>
+<p>This moves preparation ahead of the request. Its value depends on whether that work helps later; background computation still needs a budget.</p>
+
+<h3>Google: distinguish external memory from learning in weights</h3>
+<p>Google offers two relevant examples. <a href="https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank">Memory Bank</a> provides external, persistent memory for agents, including extraction, consolidation, and retrieval. This belongs in the application architecture: the service manages information that an agent can access across interactions.</p>
+<p>Google Research’s <a href="https://www.research.google/blog/the-sleep-framework-a-new-way-for-llms-to-retain-knowledge-in-continual-learning/">sleep framework</a>, published on 27 October 2026, works at a different level. It studies continual learning through alternating active and sleep phases. During sleep, the system updates numerical weights in pre-allocated memory components and uses generated practice examples. Its consolidation and dreaming stages aim to integrate knowledge and improve reasoning while limiting forgetting.</p>
+<p>The shared sleep metaphor therefore covers different operations. Editing an external note changes what an application retrieves. Updating weights changes the model’s learned parameters. A team building on a hosted model API can control its own memory store; that does not give it access to the model’s internal training cycle.</p>
+
+<h3>OpenAI: separate continuing a run from improving future runs</h3>
+<p>OpenAI’s <a href="https://developers.openai.com/cookbook/examples/agents_sdk/building_reliable_agents_memory_compaction">memory and compaction cookbook</a> draws a useful distinction. Compaction reduces the active conversation while preserving working state for later turns. Memory carries reusable lessons into future runs.</p>
+<p>In its evidence-review example, memory stores workflow guidance, while case findings belong in a reviewed artifact. This illustrates why “the agent remembered it” is insufficient evidence for a conclusion. It is also an application pattern, not proof that every OpenAI product uses the same background architecture.</p>
+
+<h2>Where hill climbing fits</h2>
+<p>Here, <strong>hill climbing</strong> means local search: propose a nearby candidate, evaluate it, and keep an improvement. For an agent workflow, the candidate might be a revised prompt, a skill instruction, or a code patch. The evaluation supplies the score that guides the search.</p>
+<p>Memory consolidation answers another question: what should the agent retain and how should it organize that information? It does not inherently supply an objective function or guarantee that a change improves performance. These mechanisms can be combined.</p>
+<div class="memory-table-wrap" tabindex="0" role="region" aria-label="Comparison of hill climbing and memory consolidation">
+<table class="memory-table"><caption>Two complementary jobs in an agent system</caption><thead><tr><th scope="col">Question</th><th scope="col">Hill climbing</th><th scope="col">Memory consolidation</th></tr></thead><tbody>
+<tr><th scope="row">What changes?</th><td>A candidate solution or configuration.</td><td>Retained information and its organization.</td></tr>
+<tr><th scope="row">What guides the change?</th><td>An evaluation score.</td><td>Evidence, relevance, and a retention policy.</td></tr>
+<tr><th scope="row">What can go wrong?</th><td>Local optima or optimizing an incomplete score.</td><td>Unsupported conclusions, lost detail, or stale rules.</td></tr>
+<tr><th scope="row">How do they work together?</th><td>Tests a proposed improvement.</td><td>Preserves the evidence and lessons for later work.</td></tr>
+</tbody></table></div>
+<p>A basic greedy search can get stuck at a local optimum. That does not mean every evaluation loop is irreversible, uses flat files, or must accumulate context. Those are separate design choices. Likewise, a background memory pass can repeat an earlier error if it treats a confident summary as verified evidence.</p>
+
+<h2 id="worked-example">One lesson, from discovery to reuse</h2>
+<p>Consider a hypothetical coding agent debugging <code>checkout.integration</code> in a project called Storefront. The test times out while waiting for a seeded customer. The following events, identifiers, and results are illustrative; they are not measurements from a deployed system.</p>
+<h3>1. Capture an observation without inventing its cause</h3>
+<p>On Friday, increasing the timeout makes one run pass. Save the failing trace, the changed configuration, and the passing result. The candidate note should say: “A longer timeout coincided with a passing run; cause unconfirmed.” It should not conclude that every checkout test needs a longer timeout.</p>
+<h3>2. Check the candidate against evidence</h3>
+<p>During review, the agent notices that the original trace shows the fixture becoming ready after the test began. That supports a hypothesis about readiness. To test it, the agent restores the original timeout, adds an explicit readiness check, and repeats the test under the recorded configuration. Suppose those runs pass. The lesson can now describe a supported fix for that setup, while retaining the links needed to inspect the evidence.</p>
+<aside class="eval-callout"><p><strong>Consolidation is more than shortening a transcript.</strong> Here it changes the status of a claim, narrows its scope, and connects it to verification. A shorter version of the original unsupported claim would still be wrong.</p></aside>
+<h3>3. Save a record the next session can evaluate</h3>
+<p>This illustrative JSON record uses application-defined fields. It is a suggested schema, not a provider API or a universal standard:</p>
+<pre class="memory-code" tabindex="0" aria-label="Example durable memory record"><code>{
+  "id": "checkout-fixture-readiness",
+  "version": 2,
+  "scope": {
+    "project": "storefront",
+    "test": "checkout.integration",
+    "fixture_version": "v3"
+  },
+  "lesson": "Check fixture readiness before changing timeouts.",
+  "status": "verified_for_recorded_setup",
+  "evidence": [
+    "runs/example-041/trace.json",
+    "patches/example-readiness-fix.diff",
+    "runs/example-042/repeat-results.json"
+  ],
+  "last_checked": "2026-11-08",
+  "recheck_when": [
+    "fixture implementation changes",
+    "the same symptom has different trace evidence"
+  ],
+  "supersedes": "checkout-fixture-readiness@1"
+}</code></pre>
+<p><strong>Scope</strong> prevents a project-specific fix from becoming universal advice. <strong>Evidence</strong> allows the consumer to audit it. <strong>Status</strong> expresses what was actually checked; a confidence score alone cannot establish truth. <strong>Last checked</strong> and <strong>recheck conditions</strong> identify when validation may be needed again. <strong>Version</strong> and <strong>supersedes</strong> preserve the correction history without keeping the old hypothesis active.</p>
+<p>These fields only help if application code and the agent’s workflow use them. A <code>recheck_when</code> field does not automatically detect a code change. The application must compare versions or ask the agent to inspect the current fixture before relying on the lesson.</p>
+<h3>4. Reuse it in a new session</h3>
+<p>On Monday, another checkout timeout occurs. The application retrieves this note within Storefront’s scope. It supplies the lesson, its applicability conditions, and evidence references. The agent checks the current fixture version and trace before choosing a fix. The useful memory is a diagnostic lead with supporting evidence, rather than an instruction to repeat Friday’s patch.</p>
+<h3>5. Handle the day the lesson stops applying</h3>
+<p>Later, fixture v4 introduces a readiness guarantee. A new timeout is caused by a slow payment stub. If the old note is injected without its scope, the agent may waste time adding redundant readiness checks. The application should flag the version mismatch and exclude the note from active guidance, or retrieve it explicitly as historical evidence. A reviewed replacement can supersede it.</p>
+<p>When two notes disagree, keep the disagreement visible until evidence resolves it. Newer does not automatically mean more accurate. If records must be deleted, also remove their retrieval-index entries and cached copies under the application’s retention policy.</p>
+
+<h2 id="retrieval">How a stored memory reaches the model</h2>
+<p>For this example, I would implement retrieval as five explicit decisions. This is a proposed design that can be built with files or a database; no particular framework is required.</p>
+<ol>
+<li><strong>Establish access and scope.</strong> Use the authenticated user and selected project to restrict the search space. Enforce access before exposing memory content to the model.</li>
+<li><strong>Find candidates.</strong> Search for the test name, symptom, and relevant component. Exact identifiers and natural-language descriptions may need different retrieval methods.</li>
+<li><strong>Check applicability.</strong> Exclude superseded records from active guidance; compare versions, verification status, and recheck conditions. Uncertain records can be returned as hypotheses when explicitly labeled.</li>
+<li><strong>Select within a context budget.</strong> Rank relevant candidates, remove duplicates, and include only what fits the task. Keep qualifiers and source references attached when shortening a record.</li>
+<li><strong>Deliver and verify.</strong> Return selected records through a tool or a memory section in the prompt. For a consequential decision, inspect the linked evidence or current environment before acting.</li>
+</ol>
+<div class="memory-table-wrap" tabindex="0" role="region" aria-label="Memory retrieval options"><table class="memory-table"><caption>Choose retrieval based on the queries you need to answer</caption><thead><tr><th scope="col">Starting option</th><th scope="col">Useful for</th><th scope="col">Tradeoff to test</th></tr></thead><tbody>
+<tr><th scope="row">Files and direct lookup</th><td>A small collection with known project or test identifiers.</td><td>Simple to inspect; naming and organization must stay useful as it grows.</td></tr>
+<tr><th scope="row">Keyword search</th><td>Error strings, function names, and exact terminology.</td><td>May miss relevant notes phrased differently.</td></tr>
+<tr><th scope="row">Semantic search</th><td>Finding related descriptions despite different wording.</td><td>Similarity can surface a plausible but inapplicable record.</td></tr>
+<tr><th scope="row">Hybrid search and reranking</th><td>Collections needing both precise identifiers and conceptual matches.</td><td>Adds indexing, ranking, and evaluation work.</td></tr>
+</tbody></table></div>
+<p>Anthropic’s <a href="https://www.anthropic.com/research/contextual-retrieval">contextual retrieval research</a> explores combining embedding retrieval, keyword retrieval with BM25, and reranking. These are retrieval techniques; none by itself proves that a memory is true, current, or authorized for the user.</p>
+<p>Begin with the smallest method that finds the evidence reliably. Upgrade when missed or irrelevant retrievals show a concrete need. A vector database stores and searches representations; it does not decide what the agent should believe.</p>
+
+<h2>A small memory workflow you can evaluate</h2>
+<figure class="memory-figure"><img src="../images/agent-memory-workflow.svg" width="960" height="720" loading="lazy" alt="Four stages: capture evidence, review lessons, retain scoped knowledge, and retrieve it for the next task. Future results feed back into review."><figcaption>A proposed application workflow: preserve the evidence, qualify the lesson, and evaluate its effect on future work.</figcaption></figure>
+<p>For an initial implementation, I would keep the design explicit and easy to inspect. The following is a proposed workflow, not a claim that all providers implement these steps:</p>
+<ol>
+<li><strong>Capture evidence.</strong> Save relevant tool results and outcomes with a task identifier and timestamp.</li>
+<li><strong>Record a candidate lesson.</strong> Include its scope, source, and whether it is observed, inferred, or verified.</li>
+<li><strong>Review after a useful milestone.</strong> Check conflicting notes against evidence. Leave unresolved disagreements visible.</li>
+<li><strong>Publish a versioned memory update.</strong> Preserve a way to inspect and reverse the change.</li>
+<li><strong>Retrieve for a specific task.</strong> Supply the lesson with enough context to judge its applicability.</li>
+<li><strong>Measure the next session.</strong> Compare outcomes with a baseline that can search the original evidence.</li>
+</ol>
+<p>Use separate memory scopes for different users and projects. A lesson from one repository may be wrong in another. Retention and deletion should be deliberate, and retrieved text should remain evidence rather than acquiring authority to override the application’s instructions.</p>
+<h2 id="evaluation">Test whether memory improves the next session</h2>
+<p>Build memories from an earlier set of tasks, then evaluate on later tasks that the memory-building process has not seen. Freeze that memory snapshot for the comparison. Otherwise, the agent may appear to learn when it is simply recalling the evaluation answer.</p>
+<div class="memory-table-wrap" tabindex="0" role="region" aria-label="Memory evaluation experiment"><table class="memory-table"><caption>A proposed experiment—not reported benchmark results</caption><thead><tr><th scope="col">Condition</th><th scope="col">What the agent receives</th><th scope="col">What it tests</th></tr></thead><tbody>
+<tr><th scope="row">A: No past experience</th><td>Current task, current project, and ordinary tools.</td><td>Whether it can solve the problem from current evidence alone.</td></tr>
+<tr><th scope="row">B: Searchable history</th><td>The same setup, plus search over earlier traces.</td><td>The value of access to prior evidence.</td></tr>
+<tr><th scope="row">C: Curated memory</th><td>The same setup as B, plus scoped, reviewed lessons.</td><td>The additional value of consolidation over history search.</td></tr>
+</tbody></table></div>
+<p>Run all three conditions on a recurring fixture problem, a payment-stub timeout with a similar description, a task in another repository, and a task after the fixture version changes. The memory system should help with the first case without pushing the old fix onto the others.</p>
+<p>Hold the model, current project state, tools, grading criteria, and task budget constant. Reset between cases, and repeat runs where outputs vary. If you also want to test adaptation during a sequence of tasks, run that as a separate experiment with an explicit update policy.</p>
+<ul><li><strong>Task success:</strong> did the patch pass the relevant tests without introducing a regression?</li><li><strong>Retrieval quality:</strong> was the applicable lesson found, and were unrelated or obsolete notes kept out of active guidance?</li><li><strong>Behavior:</strong> did the agent verify the lesson’s applicability, or blindly repeat a previous fix?</li><li><strong>Efficiency:</strong> how many tool calls and tokens were used, and how long did the task take?</li><li><strong>Total cost:</strong> include memory creation, review, indexing, storage, and retrieval—not just the final model call.</li></ul>
+<p>If C is faster than B but no more accurate, the benefit is efficiency. If C repeats a stale fix more often, consolidation is harming reliability. If the right memory was retrieved but ignored, the issue is how the agent uses context, not necessarily the search index. Inspect traces to distinguish these failures before adding more infrastructure.</p>
+<p>A useful memory system earns its place through better future behavior. Start with one recurring failure, retain the evidence needed to understand it, and check whether the next session handles it better.</p>
+<div class="eval-end"><h2>Continue reading</h2><p>Build the measurement side with <a href="building-an-evaluation-loop.html">an evaluation loop for your AI agent</a>, or explore how context reaches the model in <a href="how-agent-turns-work.html">how agent turns work</a>. The provider comparisons above link directly to their source material; the coding example and proposed workflow are illustrative.</p></div>
+
+        </div>
+      </div>
+    </article>
+  <section class="blog-comments" aria-labelledby="comments-heading">
+  <h2 id="comments-heading">Join the discussion</h2>
+  <p>Share a question, correction, or something you learned. Sign in with GitHub to comment.</p>
+  <div class="giscus"></div>
+  <p class="comments-fallback">Comments powered by Giscus. You can also <a href="https://github.com/asutoshdash/aiconnector-comments/discussions">browse the discussions on GitHub</a>.</p>
+  <noscript><p>Enable JavaScript to view and leave comments here.</p></noscript>
+</section>
+</main>
+  <footer class="site-footer"><div class="shell footer-inner"><p>© 2026 AIConnector.ai</p><p>AI tool discovery · Comparisons · Field guides</p></div></footer>
+</body>
+</html>

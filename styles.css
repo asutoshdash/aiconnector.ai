@@ -1360,3 +1360,8 @@ h1 em {
   .article-cover { height: auto; min-height: 14rem; gap: 1.5rem; }
   .article-card img { height: auto; aspect-ratio: 16 / 9; }
 }
+
+/* Editorial artwork for the agent memory field guide. */
+.memory-cover { padding:0; background:#111c30; }
+.memory-cover img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.memory-cover::before { display:none; }
