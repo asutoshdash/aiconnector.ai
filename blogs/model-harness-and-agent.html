@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="color-scheme" content="light dark">
+<script src="../theme-init.js"></script>
+<meta name="theme-color" content="#07111f" media="(prefers-color-scheme:dark)">
+<meta name="theme-color" content="#f5f8fa" media="(prefers-color-scheme:light)">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <title>Model, harness, agent: what are we actually talking about? | AIConnector.ai</title>
+  <meta name="author" content="Asutosh Dash">
+  <style>
+    .turn-hero {
+      position: relative;
+      overflow: hidden;
+      padding-block: clamp(4.5rem, 9vw, 7.5rem) clamp(3rem, 7vw, 5rem);
+      border-block-end: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 86% 12%, rgb(172 156 255 / 15%), transparent 27rem),
+        radial-gradient(circle at 10% 88%, rgb(100 230 197 / 9%), transparent 24rem),
+        var(--surface-soft);
+    }
+
+    .turn-shell {
+      width: min(calc(100% - 2rem), 58rem);
+      margin-inline: auto;
+    }
+
+    .turn-hero h1 {
+      max-width: 15ch;
+      margin-block-end: 1.35rem;
+      font-size: clamp(2.6rem, 7vw, 5.7rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .turn-lede {
+      max-width: 62ch;
+      margin-block-end: 1.5rem;
+      color: var(--muted-strong);
+      font-size: clamp(1.05rem, 2.3vw, 1.3rem);
+    }
+
+    .turn-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .turn-meta span:not(:last-child)::after {
+      margin-inline-start: 0.55rem;
+      color: var(--accent);
+      content: "·";
+    }
+
+    .turn-main {
+      padding-block: 2rem clamp(5rem, 10vw, 8rem);
+    }
+
+    .turn-back {
+      display: inline-flex;
+      margin-block-end: 1.5rem;
+      color: var(--accent);
+      font-size: 0.86rem;
+      font-weight: 760;
+    }
+
+    .turn-figure {
+      margin: 0 0 clamp(3rem, 7vw, 5rem);
+    }
+
+    .turn-figure img {
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .turn-figure figcaption {
+      margin-block-start: 0.7rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-align: center;
+    }
+
+    .turn-copy {
+      color: var(--muted-strong);
+      font-size: 1.04rem;
+      line-height: 1.78;
+    }
+
+    .turn-copy > p:first-child {
+      color: var(--ink);
+      font-size: clamp(1.15rem, 2.3vw, 1.35rem);
+      line-height: 1.65;
+    }
+
+    .turn-copy h2 {
+      margin-block: clamp(3.4rem, 8vw, 5.5rem) 1rem;
+      color: var(--ink);
+      font-size: clamp(1.75rem, 4vw, 2.65rem);
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .turn-copy h3 {
+      margin-block: 2rem 0.65rem;
+      color: var(--accent);
+      font-size: 1.15rem;
+    }
+
+    .turn-copy p {
+      margin-block-end: 1.45rem;
+    }
+
+    .turn-copy strong {
+      color: var(--ink);
+    }
+
+    .turn-copy ol,
+    .turn-copy ul {
+      margin-block: 0 1.7rem;
+      padding-inline-start: 1.35rem;
+    }
+
+    .turn-copy li + li {
+      margin-block-start: 0.55rem;
+    }
+
+    .turn-callout {
+      margin-block: 2rem;
+      padding: 1.25rem 1.4rem;
+      border: 1px solid var(--line-strong);
+      border-inline-start: 0.35rem solid var(--accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      background: var(--accent-soft);
+    }
+
+    .turn-callout p {
+      margin: 0;
+    }
+
+    .token-region {
+      max-width: 100%;
+      margin-block: 2rem;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface-soft);
+      scrollbar-gutter: stable;
+    }
+
+    .token-table {
+      width: 100%;
+      min-width: 42rem;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .token-table caption {
+      padding: 0.9rem 1rem;
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-align: start;
+    }
+
+    .token-table th,
+    .token-table td {
+      padding: 0.85rem 1rem;
+      border-block-start: 1px solid var(--line);
+      text-align: start;
+      vertical-align: top;
+    }
+
+    .token-table thead th {
+      color: var(--ink);
+      background: var(--surface-raised);
+      font-size: 0.76rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .token-table tbody th {
+      color: var(--accent);
+    }
+
+    .compaction-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-block: 2rem;
+    }
+
+    .compaction-panel {
+      padding: 1.35rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: var(--surface-soft);
+    }
+
+    .compaction-panel h3 {
+      margin-block-start: 0;
+    }
+
+    .compaction-panel ul {
+      margin-block-end: 0;
+    }
+
+    .turn-end {
+      margin-block-start: 4rem;
+      padding-block-start: 2rem;
+      border-block-start: 1px solid var(--line);
+    }
+
+    @media (max-width: 42rem) {
+      .turn-hero {
+        padding-block-start: 3.5rem;
+      }
+
+      .turn-hero h1 {
+        font-size: clamp(2.45rem, 14vw, 4rem);
+      }
+
+      .turn-meta {
+        display: block;
+      }
+
+      .turn-meta span {
+        display: block;
+      }
+
+      .turn-meta span:not(:last-child)::after {
+        content: none;
+      }
+
+      .compaction-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      .turn-hero {
+        padding-block: 2rem;
+        background: #fff;
+      }
+
+      .turn-main {
+        padding-block: 1rem;
+      }
+
+      .turn-back,
+      .site-footer {
+        display: none;
+      }
+
+      .turn-figure img,
+      .turn-callout,
+      .compaction-panel,
+      .token-region {
+        box-shadow: none;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="../reading-theme.css">
+<link rel="stylesheet" href="../site-theme.css">
+<script src="../site-theme.js" defer></script>
+<link rel="stylesheet" href="../enquiry.css">
+<script src="../enquiry.js" defer></script>
+
+<meta name="description" content="A dinner-table debate about Cursor reveals three different layers of AI software: the model, the agent harness, and the agent that gets work done.">
+<link rel="canonical" href="https://www.aiconnector.ai/blogs/model-harness-and-agent.html">
+<meta property="og:site_name" content="AIConnector.ai">
+<meta property="og:title" content="Model, harness, agent: what are we actually talking about? | AIConnector.ai">
+<meta property="og:description" content="A dinner-table debate about Cursor reveals three different layers of AI software: the model, the agent harness, and the agent that gets work done.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://www.aiconnector.ai/blogs/model-harness-and-agent.html">
+<meta property="og:image" content="https://www.aiconnector.ai/images/social/blogs-model-harness-and-agent.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Model, harness, agent — three layers of AI software">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Model, harness, agent: what are we actually talking about? | AIConnector.ai">
+<meta name="twitter:description" content="A dinner-table debate about Cursor reveals three different layers of AI software: the model, the agent harness, and the agent that gets work done.">
+<meta name="twitter:image" content="https://www.aiconnector.ai/images/social/blogs-model-harness-and-agent.png">
+<meta name="twitter:image:alt" content="Model, harness, agent — three layers of AI software">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Article",
+      "@id": "https://www.aiconnector.ai/blogs/model-harness-and-agent.html#article",
+      "url": "https://www.aiconnector.ai/blogs/model-harness-and-agent.html",
+      "name": "Model, harness, agent: what are we actually talking about? | AIConnector.ai",
+      "description": "A dinner-table debate about Cursor reveals three different layers of AI software: the model, the agent harness, and the agent that gets work done.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://www.aiconnector.ai/#website"
+      },
+      "headline": "Model, harness, agent: what are we actually talking about?",
+      "mainEntityOfPage": "https://www.aiconnector.ai/blogs/model-harness-and-agent.html",
+      "image": "https://www.aiconnector.ai/images/social/blogs-model-harness-and-agent.png",
+      "publisher": {
+        "@id": "https://www.aiconnector.ai/#organization"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Asutosh Dash",
+        "url": "https://www.aiconnector.ai/about.html"
+      },
+      "datePublished": "2026-11-12"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.aiconnector.ai/blogs/model-harness-and-agent.html#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.aiconnector.ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Field guides",
+          "item": "https://www.aiconnector.ai/blogs.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Model, harness, agent: what are we actually talking about?",
+          "item": "https://www.aiconnector.ai/blogs/model-harness-and-agent.html"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<link rel="stylesheet" href="../blog-comments.css">
+<script src="../blog-comments.js" defer></script>
+</head>
+<body class="reading-page">
+  <a class="skip-link" href="#main-content">Skip to article</a>
+  <header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary navigation"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../books.html">Books</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
+
+  <main id="main-content" tabindex="-1">
+    <article id="article" aria-labelledby="article-title">
+      <header class="turn-hero">
+        <div class="turn-shell">
+          <p class="eyebrow"><span></span> AI foundations · Agent architecture</p>
+          <h1 id="article-title">Model, harness, agent: what are we actually talking about?</h1>
+          <p class="turn-lede">The model supplies capability. The harness makes action possible. The agent is the system using both to pursue a goal. Where does Cursor fit?</p>
+          <div class="turn-meta"><span>By Asutosh Dash</span>
+            <span><time datetime="2026-11-12">12 November 2026</time></span>
+            <span>6 minute read</span>
+            <span>Provider-neutral explainer</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="turn-shell turn-main">
+        <a class="turn-back" href="../blogs.html">← All writing</a>
+
+        <div class="turn-copy">
+          <p>At a dinner party recently, I was talking with an engineer who works in the software department of a large shoe manufacturing brand. We got into a debate about Cursor. He described it as an agent. I argued that it was an agent harness.</p>
+          <p>That exchange stayed with me because it exposed a real ambiguity. We use “model,” “harness,” and “agent” as if they describe competing products. Usually, they describe different layers of the same system.</p>
+          <p>My distinction was useful, but my correction was too absolute. <strong>Cursor provides a harness and a built-in coding agent.</strong> Saying “Cursor is an agent” can describe the experience someone uses. Saying “Cursor provides an agent harness” describes part of the architecture behind it. Cursor’s own <a href="https://cursor.com/learn/working-with-agents">learning guide</a> describes both.</p>
+
+          <h2>Three terms, three questions</h2>
+          <section class="token-region" aria-label="Model, harness, and agent comparison" tabindex="0">
+            <table class="token-table">
+              <caption>A working vocabulary for modern LLM-based systems</caption>
+              <thead><tr><th scope="col">Layer</th><th scope="col">What it does</th><th scope="col">Question it answers</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Model</th><td>Processes context and generates an answer or proposed action.</td><td>What should happen next?</td></tr>
+                <tr><th scope="row">Harness</th><td>Assembles context, executes permitted tool calls, and manages the loop.</td><td>How can that action happen?</td></tr>
+                <tr><th scope="row">Agent</th><td>Uses the model and runtime to pursue a goal, responding to results.</td><td>What work is the system trying to complete?</td></tr>
+              </tbody>
+            </table>
+          </section>
+          <p>These are working definitions, not a universal standard. Some teams include the selected model when they describe a harness; others reserve “harness” for the software around it. Here, I use the second meaning so we can examine each responsibility separately.</p>
+
+          <h2>The model: capability on a call</h2>
+          <p>A language model is a trained computational system. Given context, it can generate text, code, or structured output. In a tool-enabled application, that output may request an action: search a repository, read a file, or run a test.</p>
+          <p>But generating a request to run a command and executing that command are different operations. The model can propose an edit. Something outside the model must apply it to a real file.</p>
+          <p>Imagine asking: “Why does our inventory service show the wrong available quantity?” A model given the relevant code might explain a likely bug and propose a patch. Its answer can be useful even if no software has been changed. To investigate the repository and validate the fix, the surrounding application needs to provide more capabilities.</p>
+
+          <h2>The harness: the machinery around the model</h2>
+          <p>An agent harness is the runtime software that connects model calls to a working environment. A coding harness commonly handles:</p>
+          <ul>
+            <li><strong>Context:</strong> instructions, conversation history, relevant files, and tool results.</li>
+            <li><strong>Tools:</strong> searching, reading and editing files, running commands, or accessing other services.</li>
+            <li><strong>Control:</strong> calling the model again after a tool result, tracking progress, and deciding when execution must stop.</li>
+            <li><strong>Boundaries:</strong> permissions, approval checks, execution limits, and isolation where provided.</li>
+          </ul>
+          <p>Capabilities vary. Persistent memory, browser access, and multiple agents are optional features, not requirements for every harness.</p>
+          <p>This layer is substantial engineering. A powerful model given incomplete search results, unreliable tools, or a missing test environment can struggle. The same model with well-chosen context and reliable feedback may perform much better. Cursor describes model-specific tool and prompt tuning, plus evaluation of harness changes, in its <a href="https://cursor.com/blog/continually-improving-agent-harness">engineering account of its harness</a>.</p>
+          <p>That is why I would drop the word “just” from “just a harness.” The harness helps determine what the system can actually accomplish.</p>
+
+          <h2>The agent: the system pursuing a goal</h2>
+          <p>For this article, an agent is a system in which the model can choose meaningful next steps toward a goal, use available tools through the runtime, and adjust its approach based on the results.</p>
+          <p>An agent can be paused, configured, or waiting for approval and still be an agent. An <em>agent run</em> is a particular execution of that system on a task.</p>
+          <aside class="turn-callout"><p><strong>A useful shorthand:</strong> an agent combines a model, a harness, and task-specific instructions and context. Its behavior emerges from their interaction with the environment.</p></aside>
+          <p>It does not need consciousness, unrestricted access, or the ability to operate for days without supervision. A system that investigates a bug and stops before applying a sensitive change can still exhibit agentic behavior.</p>
+
+          <h2>Follow one bug through all three layers</h2>
+          <p>Consider a fictional task inspired by the industry my dinner companion works in: “Our inventory API sometimes reports negative available stock. Find the cause, fix it, and verify the change.” This is an illustration, not a claim about his employer’s systems.</p>
+          <ol>
+            <li><strong>The harness prepares the request.</strong> It supplies the task, project instructions, and available tools to the model.</li>
+            <li><strong>The model chooses an investigation.</strong> It requests a search for the code that calculates available stock.</li>
+            <li><strong>The harness runs the permitted search.</strong> The results become context for the next model call.</li>
+            <li><strong>The model proposes a fix.</strong> Suppose it finds that a reservation is subtracted twice. It requests a targeted edit and a regression test.</li>
+            <li><strong>The harness applies the allowed changes and runs the test.</strong> It returns actual output, including any failure.</li>
+            <li><strong>The model responds to the evidence.</strong> It may revise the fix, investigate another path, ask for clarification, or report what passed and what remains unverified.</li>
+          </ol>
+          <p>The model contributes decisions. The harness enables and constrains actions. The overall system’s pursuit of the task is the agent behavior. Passing one test is evidence about the fix, not proof that every inventory scenario is correct.</p>
+          <p>For a closer look inside this cycle, see <a href="how-agent-turns-work.html">how a turn works in an agent harness</a>.</p>
+
+          <h2>A tool call alone does not settle the question</h2>
+          <p>Suppose an application always follows the same path: fetch stock levels, send them to a model for a summary, and display the answer. That is a useful AI workflow. The presence of a model and a tool does not automatically make it an agent under the definition used here.</p>
+          <p>The distinction becomes clearer when the model can decide whether to inspect reservations, compare warehouse records, or ask for a missing identifier based on what it discovers. Anthropic’s <a href="https://www.anthropic.com/research/building-effective-agents">Building effective agents</a> distinguishes predefined workflows from systems where the model dynamically directs the process and tool use.</p>
+          <p>Real applications often mix both. A fixed approval workflow might contain an agent that investigates exceptions. The useful question is how much discretion the model has at each step.</p>
+
+          <h2>So, was my dinner companion wrong?</h2>
+          <p>His description was reasonable at the product level. Mine highlighted an architectural layer. The mistake was treating those descriptions as mutually exclusive.</p>
+          <p>A more precise sentence would have been: <strong>“Cursor is an AI development product with a built-in coding agent; its harness connects the selected model to tools, context, and an execution loop.”</strong></p>
+          <p>A brand name can cover several things. The editor interface, runtime, selected model, and agent experience do not become the same component simply because they appear in one application.</p>
+
+          <h2>What engineering teams should ask instead</h2>
+          <p>When someone demonstrates an “AI agent,” move from the label to concrete behavior:</p>
+          <ul>
+            <li><strong>Which model is making decisions?</strong> Can it be changed, and does the runtime adapt to it?</li>
+            <li><strong>What can the system actually access and change?</strong> Look at tools and enforced permissions.</li>
+            <li><strong>Who chooses the next step?</strong> Distinguish fixed application logic from model-directed decisions.</li>
+            <li><strong>What happens after a failure?</strong> Can the system observe the result and revise its approach?</li>
+            <li><strong>What counts as completion?</strong> Ask for verification evidence, limits, and unresolved work.</li>
+          </ul>
+          <p>Those answers tell you more than an agent badge. They also help diagnose failures: was the decision wrong, was necessary context missing, did a tool fail, or was the goal ambiguous?</p>
+          <p>The next time this comes up over dinner, I will start with the layers. The model generates decisions. The harness connects them to action. The agent combines those pieces to pursue a task. Understanding their relationship is more useful than winning an argument over a product label.</p>
+          <p><small>Sources checked 12 November 2026. Terminology varies across vendors; the definitions here are an architectural lens for LLM-based agents.</small></p>
+        </div>
+      </div>
+    </article>
+  <section class="blog-comments" aria-labelledby="comments-heading">
+  <h2 id="comments-heading">Join the discussion</h2>
+  <p>Share a question, correction, or something you learned. Sign in with GitHub to comment.</p>
+  <div class="giscus"></div>
+  <p class="comments-fallback">Comments powered by Giscus. You can also <a href="https://github.com/asutoshdash/aiconnector-comments/discussions">browse the discussions on GitHub</a>.</p>
+  <noscript><p>Enable JavaScript to view and leave comments here.</p></noscript>
+</section>
+</main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner"><p>© 2026 AIConnector.ai</p><p>AI tool discovery · Comparisons · Field guides</p></div>
+  </footer>
+</body>
+</html>
