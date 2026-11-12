@@ -71,7 +71,8 @@
     }
 
     .turn-figure {
-      margin: 0 0 clamp(3rem, 7vw, 5rem);
+      width: min(calc(100% - 2rem), 84rem);
+      margin: 0 auto clamp(3rem, 7vw, 5rem);
     }
 
     .turn-figure img {
@@ -361,21 +362,21 @@
           <p class="turn-lede">The model supplies capability. The harness makes action possible. The agent is the system using both to pursue a goal. Where does Cursor fit?</p>
           <div class="turn-meta"><span>By Asutosh Dash</span>
             <span><time datetime="2026-11-12">12 November 2026</time></span>
-            <span>6 minute read</span>
+            <span>8 minute read</span>
             <span>Provider-neutral explainer</span>
           </div>
         </div>
       </header>
 
-      <div class="turn-shell turn-main">
-        <a class="turn-back" href="../blogs.html">← All writing</a>
+      <div class="turn-main">
+        <div class="turn-shell"><a class="turn-back" href="../blogs.html">← All writing</a></div>
 
         <figure class="turn-figure">
-          <img src="../images/model-harness-agent-dinner.png" width="1672" height="941" alt="Two engineers having a friendly discussion across a warmly lit dinner table, with a notebook showing three connected shapes" fetchpriority="high">
-          <figcaption>A dinner-table debate about the layers of AI software. AI-generated illustration; fictional people.</figcaption>
+          <img src="../images/model-harness-agent-dinner-comic.png" width="1672" height="941" alt="Dinner-party comic. One engineer says, “Cursor is an agent.” The other replies, “I think it’s an agent harness!”" fetchpriority="high">
+          <figcaption>“Cursor is an agent.” “I think it’s an agent harness!” A dinner-table debate about AI software. AI-generated illustration; fictional people.</figcaption>
         </figure>
 
-        <div class="turn-copy">
+        <div class="turn-shell turn-copy">
           <p>At a dinner party recently, I was talking with an engineer who works in the software department of a large shoe manufacturing brand. We got into a debate about Cursor. He described it as an agent. I argued that it was an agent harness.</p>
           <p>That exchange stayed with me because it exposed a real ambiguity. We use “model,” “harness,” and “agent” as if they describe competing products. Usually, they describe different layers of the same system.</p>
           <p>My distinction was useful, but my correction was too absolute. <strong>Cursor provides a harness and a built-in coding agent.</strong> Saying “Cursor is an agent” can describe the experience someone uses. Saying “Cursor provides an agent harness” describes part of the architecture behind it. Cursor’s own <a href="https://cursor.com/learn/working-with-agents">learning guide</a> describes both.</p>
@@ -384,11 +385,11 @@
           <section class="token-region" aria-label="Model, harness, and agent comparison" tabindex="0">
             <table class="token-table">
               <caption>A working vocabulary for modern LLM-based systems</caption>
-              <thead><tr><th scope="col">Layer</th><th scope="col">What it does</th><th scope="col">Question it answers</th></tr></thead>
+              <thead><tr><th scope="col">Layer</th><th scope="col">What it does</th><th scope="col">Concrete examples</th></tr></thead>
               <tbody>
-                <tr><th scope="row">Model</th><td>Processes context and generates an answer or proposed action.</td><td>What should happen next?</td></tr>
-                <tr><th scope="row">Harness</th><td>Assembles context, executes permitted tool calls, and manages the loop.</td><td>How can that action happen?</td></tr>
-                <tr><th scope="row">Agent</th><td>Uses the model and runtime to pursue a goal, responding to results.</td><td>What work is the system trying to complete?</td></tr>
+                <tr><th scope="row">Model</th><td>Processes context and generates an answer or proposed action.</td><td>Claude Sonnet 4.5; Gemini 2.5 Pro.</td></tr>
+                <tr><th scope="row">Harness</th><td>Assembles context, executes permitted tool calls, and manages the loop.</td><td>Cursor’s runtime; the Claude Code runtime exposed through the Claude Agent SDK.</td></tr>
+                <tr><th scope="row">Agent</th><td>Uses the model and runtime to pursue a goal, responding to results.</td><td>Cursor Agent investigating a bug; a custom inventory agent investigating stock discrepancies.</td></tr>
               </tbody>
             </table>
           </section>
@@ -396,6 +397,7 @@
 
           <h2>The model: capability on a call</h2>
           <p>A language model is a trained computational system. Given context, it can generate text, code, or structured output. In a tool-enabled application, that output may request an action: search a repository, read a file, or run a test.</p>
+          <p><strong>Examples of models:</strong> <a href="https://www.anthropic.com/news/claude-sonnet-4-5">Claude Sonnet 4.5</a> from Anthropic and <a href="https://ai.google.dev/gemini-api/docs/models/gemini-2.5-pro">Gemini 2.5 Pro</a> from Google are named model releases. These illustrate the category, rather than recommending a current version. A model can power a chat application, a fixed workflow, or an agent.</p>
           <p>But generating a request to run a command and executing that command are different operations. The model can propose an edit. Something outside the model must apply it to a real file.</p>
           <p>Imagine asking: “Why does our inventory service show the wrong available quantity?” A model given the relevant code might explain a likely bug and propose a patch. Its answer can be useful even if no software has been changed. To investigate the repository and validate the fix, the surrounding application needs to provide more capabilities.</p>
 
@@ -407,15 +409,19 @@
             <li><strong>Control:</strong> calling the model again after a tool result, tracking progress, and deciding when execution must stop.</li>
             <li><strong>Boundaries:</strong> permissions, approval checks, execution limits, and isolation where provided.</li>
           </ul>
+          <p><strong>Examples of harnesses:</strong> Cursor’s harness connects a selected model to repository search, file editing, and command execution. The <a href="https://code.claude.com/docs/en/agent-sdk/overview">Claude Agent SDK</a> exposes the tools, agent loop, and context management that power Claude Code, letting developers use that runtime in their own applications. The SDK is the developer-facing way to use the harness; it is not itself a model.</p>
           <p>Capabilities vary. Persistent memory, browser access, and multiple agents are optional features, not requirements for every harness.</p>
           <p>This layer is substantial engineering. A powerful model given incomplete search results, unreliable tools, or a missing test environment can struggle. The same model with well-chosen context and reliable feedback may perform much better. Cursor describes model-specific tool and prompt tuning, plus evaluation of harness changes, in its <a href="https://cursor.com/blog/continually-improving-agent-harness">engineering account of its harness</a>.</p>
           <p>That is why I would drop the word “just” from “just a harness.” The harness helps determine what the system can actually accomplish.</p>
 
           <h2>The agent: the system pursuing a goal</h2>
           <p>For this article, an agent is a system in which the model can choose meaningful next steps toward a goal, use available tools through the runtime, and adjust its approach based on the results.</p>
+          <p><strong>Examples of agents:</strong> <a href="https://cursor.com/docs/agent/overview">Cursor Agent</a> is a coding agent: given a bug-fix task, it can inspect code, make edits, and run commands. A custom inventory-investigation agent is another possible example: it might inspect stock and reservation records, choose follow-up queries, and report a discrepancy with supporting evidence. The inventory agent is an illustrative design, not a named commercial product.</p>
           <p>An agent can be paused, configured, or waiting for approval and still be an agent. An <em>agent run</em> is a particular execution of that system on a task.</p>
           <aside class="turn-callout"><p><strong>A useful shorthand:</strong> an agent combines a model, a harness, and task-specific instructions and context. Its behavior emerges from their interaction with the environment.</p></aside>
           <p>It does not need consciousness, unrestricted access, or the ability to operate for days without supervision. A system that investigates a bug and stops before applying a sensitive change can still exhibit agentic behavior.</p>
+
+          <aside class="turn-callout"><p><strong>One concrete combination:</strong> Claude Sonnet 4.5 is the model; the runtime provided through the Claude Agent SDK is the harness; your configured inventory investigator is the agent. A particular investigation into negative stock is an agent run.</p></aside>
 
           <h2>Follow one bug through all three layers</h2>
           <p>Consider a fictional task inspired by the industry my dinner companion works in: “Our inventory API sometimes reports negative available stock. Find the cause, fix it, and verify the change.” This is an illustration, not a claim about his employer’s systems.</p>
