@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <script src="../theme-init.js"></script>
+  <title>How Coding Agents Wait for PR Review Without Polling | AIConnector.ai</title>
+
+  <meta property="article:published_time" content="2026-11-19">
+  <meta property="article:modified_time" content="2026-11-19">
+  <meta name="author" content="AIConnector editorial">
+
+  <link rel="icon" href="../logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../site-theme.css">
+  <link rel="stylesheet" href="../editorial.css">
+  <script src="../site-theme.js" defer></script>
+  <link rel="stylesheet" href="../enquiry.css">
+  <script src="../enquiry.js" defer></script>
+
+  <meta name="description" content="A practical field guide to using GitHub Event Streams for PR review waits, with safe checkpoints, current-state checks, and reconnect recovery.">
+  <link rel="canonical" href="https://www.aiconnector.ai/blogs/how-coding-agents-wait-for-pr-review-without-polling.html">
+  <meta property="og:site_name" content="AIConnector.ai">
+  <meta property="og:title" content="How Coding Agents Wait for PR Review Without Polling | AIConnector.ai">
+  <meta property="og:description" content="Use GitHub Event Streams to wake coding agents for PR changes without confusing an event with permission to act.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://www.aiconnector.ai/blogs/how-coding-agents-wait-for-pr-review-without-polling.html">
+  <meta property="og:image" content="https://www.aiconnector.ai/images/social/blogs-how-coding-agents-wait-for-pr-review-without-polling.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Two software engineers discuss a pull request together">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How Coding Agents Wait for PR Review Without Polling | AIConnector.ai">
+  <meta name="twitter:description" content="Use GitHub Event Streams to wake coding agents for PR changes without confusing an event with permission to act.">
+  <meta name="twitter:image" content="https://www.aiconnector.ai/images/social/blogs-how-coding-agents-wait-for-pr-review-without-polling.png">
+  <meta name="twitter:image:alt" content="Two software engineers discuss a pull request together">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "How Coding Agents Wait for PR Review Without Polling",
+        "description": "A practical field guide to using GitHub Event Streams for PR review waits, with safe checkpoints, current-state checks, and reconnect recovery.",
+        "datePublished": "2026-11-19",
+        "dateModified": "2026-11-19",
+        "author": {
+          "@type": "Organization",
+          "name": "AIConnector editorial",
+          "url": "https://www.aiconnector.ai/about.html"
+        },
+        "publisher": { "@id": "https://www.aiconnector.ai/#organization" },
+        "mainEntityOfPage": "https://www.aiconnector.ai/blogs/how-coding-agents-wait-for-pr-review-without-polling.html",
+        "inLanguage": "en",
+        "@id": "https://www.aiconnector.ai/blogs/how-coding-agents-wait-for-pr-review-without-polling.html#article",
+        "url": "https://www.aiconnector.ai/blogs/how-coding-agents-wait-for-pr-review-without-polling.html",
+        "name": "How Coding Agents Wait for PR Review Without Polling | AIConnector.ai",
+        "isPartOf": { "@id": "https://www.aiconnector.ai/#website" },
+        "image": "https://www.aiconnector.ai/images/social/blogs-how-coding-agents-wait-for-pr-review-without-polling.png"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://www.aiconnector.ai/blogs/how-coding-agents-wait-for-pr-review-without-polling.html#breadcrumb",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.aiconnector.ai/" },
+          { "@type": "ListItem", "position": 2, "name": "Field guides", "item": "https://www.aiconnector.ai/blogs.html" },
+          { "@type": "ListItem", "position": 3, "name": "How Coding Agents Wait for PR Review Without Polling", "item": "https://www.aiconnector.ai/blogs/how-coding-agents-wait-for-pr-review-without-polling.html" }
+        ]
+      }
+    ]
+  }
+  </script>
+  <link rel="stylesheet" href="../blog-comments.css">
+  <script src="../blog-comments.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to article</a>
+  <header class="global-header"><div class="global-header-inner"><a class="global-brand" href="../index.html" aria-label="AIConnector home"><img src="../logo.svg" width="230" height="40" alt="AIConnector.ai"></a><nav class="global-nav" aria-label="Primary"><a href="../index.html#discover">Discover</a><a href="../blogs.html" aria-current="location">Field guides</a><a href="../books.html">Books</a><a href="../about.html">About</a><a class="global-submit" href="../index.html#submit">Submit a tool</a><button type="button" class="theme-toggle" id="theme-toggle" hidden>Switch theme</button></nav></div></header>
+
+  <main id="main-content" tabindex="-1">
+    <article id="article" aria-labelledby="article-title">
+      <header class="editorial-hero">
+        <div class="editorial-shell">
+          <p class="eyebrow">AGENT CONTINUATION · PRACTICAL FIELD GUIDE</p>
+          <h1 id="article-title">How Coding Agents Wait for PR Review Without Polling</h1>
+          <p class="editorial-lede">An event can wake the agent. Only current state, policy, and explicit authority can tell it what to do next.</p>
+          <p class="update-meta">AIConnector editorial · <time datetime="2026-11-19">19 November 2026</time> · 7 minute read</p>
+        </div>
+      </header>
+
+      <div class="editorial-shell editorial-copy">
+        <a class="editorial-back" href="../blogs.html">← All field guides</a>
+
+        <figure class="storytelling-figure">
+          <picture>
+            <source srcset="../images/coding-agents-pr-review-human.webp" type="image/webp">
+            <img src="../images/coding-agents-pr-review-human.png" width="1672" height="941" fetchpriority="high" alt="Two software engineering colleagues discuss a pull request together at a laptop">
+          </picture>
+          <figcaption>A review event can bring an agent back to the work. Human judgement still defines what the approval means.</figcaption>
+        </figure>
+
+        <nav class="article-contents" aria-label="In this article">
+          <ol>
+            <li><a href="#why-now">Why this matters now</a></li>
+            <li><a href="#replace-clock">Replace the clock, not the state check</a></li>
+            <li><a href="#checkpoint">Save a checkpoint after attaching</a></li>
+            <li><a href="#commit-race">Handle the commit A and B race</a></li>
+            <li><a href="#simulate">Try it without preview access</a></li>
+            <li><a href="#recovery">Recover from duplicates and disconnects</a></li>
+          </ol>
+        </nav>
+
+        <p>On 18 November 2026, GitHub added <code>gh event listen</code> to GitHub CLI v2.105.0. A coding agent can now wait for pull request reviews, head changes, state changes, merge conflicts, and completed check suites instead of repeatedly asking GitHub whether anything changed.</p>
+
+        <aside class="editorial-callout"><p><strong>The key distinction:</strong> an event tells the agent when to wake up. It does not tell the agent what it is allowed to do.</p></aside>
+
+        <h2 id="why-now">1. Why this matters now</h2>
+        <p>The new <code>gh event</code> commands are in preview. They work on GitHub.com for accounts with access to the Event Streams preview. A listener emits each event as a single line of CloudEvent JSON on stdout while status messages go to stderr. By default, it exits after the first event; <code>--count</code>, <code>--follow</code>, and <code>--timeout</code> support longer waits.</p>
+        <p>The events are intentionally thin. Their <code>data.api_url</code> points to the review, pull request, or check suite that changed. The event is a prompt to fetch the object and reconcile current state, not a complete decision record.</p>
+
+        <h2 id="replace-clock">2. Replace the clock, not the state check</h2>
+        <p>A polling agent often uses the same snapshot for two different jobs: deciding when to wake up and deciding what it may do next.</p>
+
+        <figure class="code-figure">
+          <figcaption id="polling-caption">The polling loop</figcaption>
+          <pre role="region" aria-labelledby="polling-caption" tabindex="0"><code>while true; do
+  gh pr view "$PR_URL" --json state,reviewDecision,headRefOid
+  sleep 60
+done</code></pre>
+        </figure>
+
+        <p>The first job is wasteful. The second is necessary. Event Streams separate them:</p>
+
+        <figure class="code-figure">
+          <figcaption id="event-listener-caption">Wait for the pull request changes that matter</figcaption>
+          <pre role="region" aria-labelledby="event-listener-caption" tabindex="0"><code>gh event listen \
+  --resource "$PR_URL" \
+  --event com.github.pull_request.review.submitted.v1 \
+  --event com.github.pull_request.head.changed.v1 \
+  --event com.github.pull_request.state.changed.v1 \
+  --event com.github.pull_request.check_suite.status.changed.v1 \
+  --timeout 30m</code></pre>
+        </figure>
+
+        <p>The agent can sleep until something relevant happens. Once awake, it must read current state again.</p>
+
+        <h2 id="checkpoint">3. Save a checkpoint after the listener attaches</h2>
+        <p>Earlier events are not replayed. GitHub therefore recommends reading the current pull request after the listener attaches, even if the agent read it immediately beforehand. That ordering closes the gap in which a change could occur after the baseline read but before the stream is ready.</p>
+        <ol>
+          <li>Start the listener.</li>
+          <li>Wait for its attachment status on stderr.</li>
+          <li>Read the current head commit, PR state, review decision, draft status, merge status, and checks.</li>
+          <li>Save that snapshot as a checkpoint.</li>
+          <li>Block for the next event.</li>
+        </ol>
+
+        <figure class="code-figure">
+          <figcaption id="checkpoint-caption">A minimal checkpoint</figcaption>
+          <pre role="region" aria-labelledby="checkpoint-caption" tabindex="0"><code>{
+  "pr_url": "https://github.com/acme/widgets/pull/42",
+  "observed_head": "aaaaaaaa",
+  "review_decision": "REVIEW_REQUIRED",
+  "state": "OPEN",
+  "is_draft": false,
+  "saved_at": "2026-11-19T09:30:00Z"
+}</code></pre>
+        </figure>
+
+        <p>The checkpoint is evidence of what the agent knew when it went to sleep. It is not permission to act later.</p>
+
+        <h2 id="commit-race">4. Approval of commit A does not approve commit B</h2>
+        <p>Suppose a reviewer approves commit A. The review event wakes the agent, but another actor pushes commit B before the agent processes the event.</p>
+        <p>The review object can identify commit A while the pull request now points to commit B. Repository rules may retain, dismiss, or otherwise reinterpret that approval. The agent should not try to reproduce branch-protection logic from memory. It should fetch the object named by the event and then read the current pull request state.</p>
+
+        <figure class="code-figure">
+          <figcaption id="race-caption">The state the agent must reconcile</figcaption>
+          <pre role="region" aria-labelledby="race-caption" tabindex="0"><code>checkpoint head:  A
+review event:      APPROVED on A
+current PR head:   B
+
+result: wake up, reconcile, and stop short of any action
+        that assumed A is still current</code></pre>
+        </figure>
+
+        <p>A robust wake-up handler should parse the event, fetch the changed object, read the pull request and its checks again, compare that snapshot with the checkpoint, and only then evaluate repository policy and the agent’s authority.</p>
+
+        <div class="editorial-table-wrap" role="region" aria-labelledby="wake-table-caption" tabindex="0">
+          <table class="editorial-table">
+            <caption id="wake-table-caption">How to interpret common wake-up states</caption>
+            <thead><tr><th scope="col">Observation</th><th scope="col">Safe interpretation</th><th scope="col">Next step</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Approval is for A; head is A</th><td>The event and current revision agree.</td><td>Evaluate current checks, policy, and authority.</td></tr>
+              <tr><th scope="row">Approval is for A; head is B</th><td>The event describes an older revision.</td><td>Re-evaluate B and request fresh review if required.</td></tr>
+              <tr><th scope="row">Event ID was already handled</th><td>Delivery was duplicated.</td><td>Confirm current state, then no-op.</td></tr>
+              <tr><th scope="row">Listener reconnected or timed out</th><td>Events may have been missed.</td><td>Take a fresh baseline before waiting again.</td></tr>
+              <tr><th scope="row">One check suite says success</th><td>One suite completed successfully.</td><td>Read all current PR checks.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="simulate">5. Try the race without preview access</h2>
+        <p>This small simulation writes a checkpoint for commit A, injects an approval event for A, and presents commit B as the current pull request head. It needs Bash and <code>jq</code>, but no Event Streams access.</p>
+
+        <figure class="code-figure">
+          <figcaption id="simulation-caption">Simulate a review event arriving before a new push is reconciled</figcaption>
+          <pre role="region" aria-labelledby="simulation-caption" tabindex="0"><code>#!/usr/bin/env bash
+set -euo pipefail
+
+workdir=$(mktemp -d)
+trap 'rm -rf "$workdir"' EXIT
+
+printf '%s\n' \
+  '{"observed_head":"aaaaaaaa","review_decision":"REVIEW_REQUIRED"}' \
+  &gt; "$workdir/checkpoint.json"
+
+# A normalized stand-in for the event plus its fetched review object.
+printf '%s\n' \
+  '{"id":"demo-review-1","review":{"state":"APPROVED","commit_id":"aaaaaaaa"}}' \
+  &gt; "$workdir/event.json"
+
+# A push landed before the agent processed the event.
+printf '%s\n' \
+  '{"headRefOid":"bbbbbbbb","reviewDecision":"REVIEW_REQUIRED"}' \
+  &gt; "$workdir/current-pr.json"
+
+reviewed=$(jq -r '.review.commit_id' "$workdir/event.json")
+current=$(jq -r '.headRefOid' "$workdir/current-pr.json")
+event_id=$(jq -r '.id' "$workdir/event.json")
+
+if [[ "$reviewed" != "$current" ]]; then
+  printf 'event %s woke the agent\n' "$event_id"
+  printf 'reviewed commit: %s\ncurrent commit:  %s\n' "$reviewed" "$current"
+  printf 'decision: stop and evaluate the current revision\n'
+  exit 0
+fi
+
+printf 'same revision; evaluate current checks, policy, and authority\n'</code></pre>
+        </figure>
+
+        <p>The production adapter changes the source of the wake-up signal, not the reconciliation rule. Replace the injected event with <code>gh event listen</code>, fetch <code>data.api_url</code>, and obtain the current snapshot with <code>gh pr view</code> and <code>gh pr checks</code>.</p>
+
+        <h2 id="recovery">6. Make duplicate events and dropped connections boring</h2>
+        <p>Store processed CloudEvent IDs with the last reconciled head commit, and make the handler safe to run twice. If the same event arrives again and current state has not changed, the correct result is a no-op.</p>
+        <p>If the stream breaks, the CLI reconnects, but events that happened during the gap are not delivered. Reconnection is therefore a reason to take a fresh snapshot. The agent does not need to reconstruct every missed event; it needs to reconcile the state that exists now.</p>
+
+        <p class="system-path" aria-label="Safe event handling sequence"><span>Attach</span><b aria-hidden="true">→</b><span>Snapshot</span><b aria-hidden="true">→</b><span>Wait</span><b aria-hidden="true">→</b><span>Wake</span><b aria-hidden="true">→</b><span>Snapshot</span><b aria-hidden="true">→</b><span>Decide</span></p>
+
+        <aside class="editorial-callout"><p><strong>The practical takeaway:</strong> events schedule attention; current state and explicit authority govern action.</p></aside>
+
+        <p><code>gh event listen</code> removes the need for agents to keep asking whether anything changed. It does not make an event a command, an approval timeless, or a successful check suite equivalent to a merge decision. That makes Event Streams a natural follow-up to the field guide on <a href="../writing/agent-continuation/index.html">when agents continue or stop</a>, rather than another release recap.</p>
+
+        <div class="editorial-related">
+          <h2 id="further-reading">First-party sources</h2>
+          <p>Documentation checked <time datetime="2026-11-19">19 November 2026</time>.</p>
+          <ul class="source-list">
+            <li><a href="https://github.blog/changelog/2026-11-18-wait-for-pull-request-events-with-github-cli/">GitHub Changelog: Wait for pull request events with GitHub CLI</a></li>
+            <li><a href="https://cli.github.com/manual/gh_event_listen">GitHub CLI manual: <code>gh event listen</code></a></li>
+            <li><a href="https://cli.github.com/manual/gh_event">GitHub CLI manual: <code>gh event</code></a></li>
+          </ul>
+          <p><a href="../writing/agent-continuation/index.html">Compare agent continuation patterns</a> · <a href="trusting-ai-agent-tool-calls.html">Build safer agent tool calls</a></p>
+        </div>
+      </div>
+    </article>
+
+    <section class="blog-comments" aria-labelledby="comments-heading">
+      <h2 id="comments-heading">Join the discussion</h2>
+      <p>Share a question, correction, or something you learned. Sign in with GitHub to comment.</p>
+      <div class="giscus"></div>
+      <p class="comments-fallback">Comments powered by Giscus. You can also <a href="https://github.com/asutoshdash/aiconnector-comments/discussions">browse the discussions on GitHub</a>.</p>
+      <noscript><p>Enable JavaScript to view and leave comments here.</p></noscript>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="shell footer-inner"><p>© 2026 AIConnector.ai</p><p>AI tool discovery · Comparisons · Field guides</p></div></footer>
+</body>
+</html>
